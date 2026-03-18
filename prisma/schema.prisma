@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Source {
+  id        Int       @id @default(autoincrement())
+  name      String
+  url       String    @unique
+  category  String?
+  createdAt DateTime  @default(now())
+  articles  Article[]
+}
+
+model Article {
+  id          Int       @id @default(autoincrement())
+  guid        String    @unique
+  title       String
+  link        String
+  description String?
+  thumbnail   String?
+  publishedAt DateTime?
+  readTimeMin Int?
+  isRead      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  sourceId    Int
+  source      Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@index([sourceId])
+  @@index([publishedAt])
+  @@index([isRead])
+}

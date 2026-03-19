@@ -31,12 +31,13 @@ No third-party registries. Registry safety gate: not applicable.
 
 ## Spacing Scale
 
-8-point scale. All values are multiples of 4.
+8-point scale. All values are multiples of 4, plus one deliberate in-between value.
 
 | Token | Value | Tailwind | Usage |
 |-------|-------|----------|-------|
 | xs | 4px | `gap-1`, `p-1` | Icon gaps, tight inline padding |
 | sm | 8px | `gap-2`, `p-2` | Compact controls, badge padding |
+| sm+ | 12px | `py-3` | FeedToolbar top/bottom padding (deliberate in-between value) |
 | md | 16px | `gap-4`, `p-4` | Default element spacing, toolbar gaps |
 | lg | 24px | `gap-6`, `p-6` | Section padding, card inner padding |
 | xl | 32px | `gap-8`, `p-8` | Layout column gaps |
@@ -57,12 +58,12 @@ Two fonts. Four roles. Two weights.
 | Role | Font | Size | Weight | Line Height | Usage |
 |------|------|------|--------|-------------|-------|
 | Body | Geist Sans | 14px | 400 | 1.5 | Article metadata, filter labels, secondary text |
-| UI Label | Geist Sans | 14px | 500 | 1.4 | Button labels, nav links, badge text, status bar |
+| UI Label | Geist Sans | 14px | 600 | 1.4 | Button labels, nav links, badge text, status bar |
 | Heading | Geist Sans | 16px | 600 | 1.4 | Column headers, section titles, toolbar groupings |
 | Mono | Geist Mono | 13px | 400 | 1.5 | Code references, URL display (if any) |
 
 Notes:
-- Two weights in active use: 400 (regular) and 600 (semibold). Weight 500 used only for interactive labels where 600 would be too heavy.
+- Exactly two weights in use: 400 (regular) and 600 (semibold).
 - Article title in feed rows: 14px, weight 400, line-height 1.5 — same as Body. Bold variant (weight 600) for unread articles is left to Claude's discretion.
 - Minimum font size: 13px (Geist Mono only). No UI text below 13px.
 - Source: CONTEXT.md (Geist Sans/Mono decision); sizes derived from existing component code (`text-sm` = 14px, `text-xs` = 12px in badge — badge is the sole 12px exception documented below).
@@ -160,7 +161,7 @@ Use 3 skeleton rows during the first page load and between page appends. Each sk
 
 ### Filter Tabs (Read Filter)
 
-The existing raw `<button>` filter tabs (All / Unread / Read) must be migrated to `Button` component with `variant="ghost"` for inactive and `variant="outline"` for active. Active tab also gets `font-medium` text weight.
+The existing raw `<button>` filter tabs (All / Unread / Read) must be migrated to `Button` component with `variant="ghost"` for inactive and `variant="outline"` for active. Active tab also gets `font-semibold` text weight.
 
 ### Focus Management
 
@@ -191,6 +192,10 @@ No em dashes in any copy. Use commas or periods instead.
 ---
 
 ## Layout Contract
+
+### Primary Visual Anchor
+
+The article title column in FeedTable commands first attention: it is the widest column, rendered at body size with weight 600 on unread items, and is the direct target of search highlight styling.
 
 ### Page Structure
 
@@ -233,7 +238,7 @@ Replace all `max-w-6xl mx-auto px-4` usages with `.section-container`.
 
 ### FeedToolbar Layout
 
-Horizontal row. Left side: search input. Right side: source select, category select, read filter tabs. Gap between groups: `gap-2` (8px). Toolbar top/bottom padding: `py-3` (12px).
+Horizontal row. Left side: search input. Right side: source select, category select, read filter tabs. Gap between groups: `gap-2` (8px). Toolbar top/bottom padding: `py-3` (12px — deliberate in-between value, see Spacing Scale).
 
 ---
 

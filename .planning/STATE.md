@@ -65,7 +65,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+1. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui, 10 files)
 
 ### Blockers/Concerns
 

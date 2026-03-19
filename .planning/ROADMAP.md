@@ -47,7 +47,11 @@ Plans:
   3. Each article displays an importance score (1-10) that reflects its significance relative to the current news cycle
   4. The enrichment cron job runs independently of the RSS fetch cron — triggering one does not trigger the other
   5. Articles already enriched are not re-processed on subsequent cron runs
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Schema migration, AI dependencies, enrichment logic (Zod schema, batch AI call, DB save)
+- [ ] 02-02-PLAN.md — Enrichment cron route, vercel.json cron config, Vitest setup, unit tests
 
 ### Phase 3: Daily Briefing
 **Goal**: Users open the briefing page and immediately understand the most important AI news of the day without reading a single full article
@@ -87,7 +91,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-19 |
-| 2. AI Enrichment | 0/TBD | Not started | - |
+| 2. AI Enrichment | 0/2 | Planned | - |
 | 3. Daily Briefing | 0/TBD | Not started | - |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

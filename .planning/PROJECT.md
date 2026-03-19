@@ -27,7 +27,7 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] AI-powered daily briefing page (scannable, visual, no walls of text)
+- ✓ AI-powered daily briefing page (scannable, visual, no walls of text) — Validated in Phase 3: Daily Briefing
 - [ ] Chat interface for querying collected news ("what happened with OpenAI this week?")
 - [ ] Chat supports both quick lookups and deeper analysis conversations
 - [ ] ADHD-friendly design throughout (bite-sized content, visual hierarchy, scannable layouts)
@@ -88,4 +88,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-19 after Phase 1 (Foundation) and Phase 2 (AI Enrichment) completion*
+*Last updated: 2026-03-19 after Phase 3 (Daily Briefing) completion*

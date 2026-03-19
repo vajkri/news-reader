@@ -24,21 +24,6 @@
 |---------|-------------|
 | `npm run lint` | Run ESLint (next/core-web-vitals + typescript rules) |
 
-## Serena MCP Server
-
-| Command | Description |
-|---------|-------------|
-| `npm run serena` | Start the Serena MCP server (streamable-http, port 56667) |
-
-## System Utilities (macOS/Darwin)
-
-| Command | Description |
-|---------|-------------|
-| `git` | Version control |
-| `ls` / `find` / `grep` | File listing and searching |
-| `open .` | Open current directory in Finder |
-| `pbcopy` / `pbpaste` | Clipboard operations |
-
 ## shadcn/ui
 
 | Command | Description |

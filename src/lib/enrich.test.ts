@@ -175,7 +175,7 @@ describe('constants', () => {
     expect(SEED_TOPICS.length).toBe(7);
   });
 
-  it('BATCH_LIMIT equals 20', () => {
-    expect(BATCH_LIMIT).toBe(20);
+  it('BATCH_LIMIT equals 30', () => {
+    expect(BATCH_LIMIT).toBe(30);
   });
 });

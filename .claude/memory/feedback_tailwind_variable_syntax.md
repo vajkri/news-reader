@@ -9,3 +9,5 @@ Use the Tailwind v4 parenthetical shorthand for CSS custom properties instead of
 **Why:** Cleaner, more readable, and idiomatic Tailwind v4.
 
 **How to apply:** Write `border-(--border)` instead of `border-[var(--border)]`. Applies to all utility classes referencing CSS variables: `bg-(--background)`, `text-(--foreground)`, etc.
+
+**Opacity caveat:** Tailwind's `/50` opacity modifier does NOT work with CSS custom properties (either syntax). Tailwind needs decomposed color channels. Use `color-mix(in srgb, var(--muted) 50%, transparent)` in arbitrary value brackets instead.

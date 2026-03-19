@@ -30,9 +30,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Daily Briefing
 
-- [ ] **BRIEF-01**: User can view a daily briefing page showing the top 5-10 most important articles
-- [ ] **BRIEF-02**: Briefing displays AI summaries in an ADHD-friendly card layout (scannable, visual)
-- [ ] **BRIEF-03**: Briefing is grouped by topic with clear visual hierarchy
+- [x] **BRIEF-01**: User can view a daily briefing page showing the top 5-10 most important articles
+- [x] **BRIEF-02**: Briefing displays AI summaries in an ADHD-friendly card layout (scannable, visual)
+- [x] **BRIEF-03**: Briefing is grouped by topic with clear visual hierarchy
 
 ### Chat
 
@@ -101,9 +101,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AIPL-02 | Phase 2 | Complete |
 | AIPL-03 | Phase 2 | Complete |
 | AIPL-04 | Phase 2 | Complete |
-| BRIEF-01 | Phase 3 | Pending |
-| BRIEF-02 | Phase 3 | Pending |
-| BRIEF-03 | Phase 3 | Pending |
+| BRIEF-01 | Phase 3 | Complete |
+| BRIEF-02 | Phase 3 | Complete |
+| BRIEF-03 | Phase 3 | Complete |
 | CHAT-01 | Phase 4 | Pending |
 | CHAT-02 | Phase 4 | Pending |
 | CHAT-03 | Phase 4 | Pending |

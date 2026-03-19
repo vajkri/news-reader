@@ -27,3 +27,5 @@ export interface SourceRow {
   createdAt: string;
   _count: { articles: number };
 }
+
+export type { BriefingArticle, TopicGroupData, ImportanceTier } from '@/lib/briefing';

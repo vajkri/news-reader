@@ -61,7 +61,21 @@ Plans:
   1. The briefing page shows the top 5-10 articles ranked by importance score, not chronologically
   2. Each article on the briefing page is presented as a scannable card: headline, AI summary, importance indicator — no walls of text
   3. Articles on the briefing page are grouped by topic with a clear visual section heading per group
-**Plans**: TBD
+**Plans:** 1/2 plans executed
+
+Plans:
+- [ ] 03-01-PLAN.md — Briefing utility module (TDD: topic parsing, tier mapping, grouping logic + tests) and Badge tier variants
+- [ ] 03-02-PLAN.md — Briefing page, BriefingCard/TopicGroup/DateStepper components, nav link, visual verification
+
+### Phase 03.2: Neon Postgres migration + Vercel deployment (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 3
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 03.1 to break down)
 
 ### Phase 4: Chat Interface
 **Goal**: Users can ask natural language questions about collected news and receive accurate, grounded answers drawn from the enriched article corpus
@@ -92,6 +106,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-19 |
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
-| 3. Daily Briefing | 0/TBD | Not started | - |
+| 3. Daily Briefing | 1/2 | In Progress|  |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

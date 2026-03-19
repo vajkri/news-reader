@@ -47,7 +47,7 @@ Plans:
   3. Each article displays an importance score (1-10) that reflects its significance relative to the current news cycle
   4. The enrichment cron job runs independently of the RSS fetch cron — triggering one does not trigger the other
   5. Articles already enriched are not re-processed on subsequent cron runs
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Schema migration, AI dependencies, enrichment logic (Zod schema, batch AI call, DB save)
@@ -91,7 +91,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 1/3 | In Progress|  |
-| 2. AI Enrichment | 0/2 | Planned | - |
+| 2. AI Enrichment | 1/2 | In Progress|  |
 | 3. Daily Briefing | 0/TBD | Not started | - |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

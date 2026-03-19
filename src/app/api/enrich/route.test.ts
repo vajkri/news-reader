@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
@@ -13,6 +13,10 @@ import { GET } from './route';
 describe('GET /api/enrich', () => {
   beforeEach(() => {
     process.env.CRON_SECRET = 'test-secret';
+  });
+
+  afterEach(() => {
+    delete process.env.CRON_SECRET;
   });
 
   it('returns 401 when no Authorization header', async () => {

@@ -19,7 +19,7 @@ vi.mock('@/lib/prisma', () => ({
 }));
 
 vi.mock('@/lib/ai', () => ({
-  AI_MODEL: 'anthropic/claude-haiku-4.5',
+  AI_MODEL: 'google/gemini-2.5-flash-lite',
 }));
 
 import { generateText, Output } from 'ai';
@@ -163,7 +163,7 @@ describe('enrichArticlesBatch', () => {
 
     expect(mockGenerateText).toHaveBeenCalledWith(
       expect.objectContaining({
-        model: 'anthropic/claude-haiku-4.5',
+        model: 'google/gemini-2.5-flash-lite',
         output: expect.anything(),
       })
     );
@@ -175,7 +175,7 @@ describe('constants', () => {
     expect(SEED_TOPICS.length).toBe(7);
   });
 
-  it('BATCH_LIMIT equals 50', () => {
-    expect(BATCH_LIMIT).toBe(50);
+  it('BATCH_LIMIT equals 20', () => {
+    expect(BATCH_LIMIT).toBe(20);
   });
 });

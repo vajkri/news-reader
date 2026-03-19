@@ -90,7 +90,7 @@ All tokens are defined in `src/app/globals.css`.
 
 - **Color tokens** are CSS custom properties in `:root`. Light/dark mode via `prefers-color-scheme`. Variables: `--background`, `--foreground`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-foreground`, `--secondary`, `--accent`, `--card`, `--radius`.
 - **Font variables:** `--font-geist-sans` (Geist Sans, for UI) and `--font-geist-mono` (Geist Mono, for code). Loaded via `next/font/local` in `layout.tsx`.
-- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1800px), `--container-padding` (1.5rem). Used by `.section-container` utility in `@layer components`.
+- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1460px), `--container-padding` (1.5rem). Used by `.section-container` utility in `@layer components`.
 
 ### Container Utility
 

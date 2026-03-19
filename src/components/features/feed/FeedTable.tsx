@@ -226,28 +226,29 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
           </thead>
           <tbody>
             {loading ? (
-              // Skeleton rows
+              // Skeleton rows — padding and column widths match loaded rows
               Array.from({ length: 8 }).map((_, i) => (
                 <tr key={i} className="border-b border-[var(--border)] animate-pulse">
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-2.5" style={{ width: 56 }}>
                     <div className="h-10 w-10 rounded bg-[var(--muted)]" />
                   </td>
-                  <td className="px-3 py-3">
-                    <div className="h-4 w-64 rounded bg-[var(--muted)]" />
+                  <td className="px-3 py-2.5">
+                    <div className="h-4 w-3/4 rounded bg-[var(--muted)] mb-1.5" />
+                    <div className="h-3 w-1/2 rounded bg-[var(--muted)]" />
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-2.5" style={{ width: 100 }}>
                     <div className="h-4 w-20 rounded bg-[var(--muted)]" />
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-2.5" style={{ width: 100 }}>
                     <div className="h-5 w-16 rounded-full bg-[var(--muted)]" />
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-2.5" style={{ width: 80 }}>
                     <div className="h-4 w-12 rounded bg-[var(--muted)]" />
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-2.5" style={{ width: 90 }}>
                     <div className="h-4 w-16 rounded bg-[var(--muted)]" />
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-2.5" style={{ width: 80 }}>
                     <div className="h-7 w-14 rounded bg-[var(--muted)]" />
                   </td>
                 </tr>

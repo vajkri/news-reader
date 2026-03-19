@@ -61,20 +61,6 @@ export function FeedToolbar({
 
   return (
     <div className="flex flex-wrap items-center gap-2 py-3">
-      {/* Search input */}
-      <div className="relative">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--muted-foreground)]" />
-        <Input
-          ref={searchInputRef}
-          type="search"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search articles..."
-          aria-label="Search articles"
-          className="w-48 pl-8 focus-visible:w-64 transition-all"
-        />
-      </div>
-
       {/* Read filter tabs */}
       <div className="flex items-center gap-1">
         {(["all", "unread", "read"] as const).map((val) => (
@@ -127,6 +113,20 @@ export function FeedToolbar({
         <option value="date">Newest first</option>
         <option value="readTime">Read time</option>
       </Select>
+
+      {/* Search input */}
+      <div className="relative">
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--muted-foreground)]" />
+        <Input
+          ref={searchInputRef}
+          type="search"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search articles..."
+          aria-label="Search articles"
+          className="w-48 pl-8 focus-visible:w-64 transition-all"
+        />
+      </div>
 
       <div className="ml-auto">
         <Button

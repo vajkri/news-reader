@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { startOfDay, endOfDay, parseISO, isValid } from "date-fns";
 import { groupArticlesByTopic } from "@/lib/briefing";
@@ -14,10 +15,8 @@ export default async function BriefingPage({
 }) {
   const params = await searchParams;
   const dateParam = params.date;
-  const selectedDate =
-    dateParam && isValid(parseISO(dateParam))
-      ? parseISO(dateParam)
-      : new Date();
+  const parsed = dateParam ? parseISO(dateParam) : null;
+  const selectedDate = parsed && isValid(parsed) ? parsed : new Date();
   const windowStart = startOfDay(selectedDate);
   const windowEnd = endOfDay(selectedDate);
 
@@ -59,7 +58,9 @@ export default async function BriefingPage({
         <h1 className="text-base font-semibold text-[var(--foreground)]">
           Daily Briefing
         </h1>
-        <DateStepper />
+        <Suspense fallback={<div className="h-8 w-[120px]" />}>
+          <DateStepper />
+        </Suspense>
       </div>
 
       {topicGroups.length === 0 ? (

@@ -40,7 +40,7 @@ export function BriefingCard({ article }: { article: BriefingArticle }) {
         href={article.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="block rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 hover:bg-[var(--muted)]/50 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none"
+        className="block rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 hover:bg-[color-mix(in_srgb,var(--muted)_50%,transparent)] transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none"
       >
         <div className="flex gap-4">
           <div className="w-20 h-20 flex-shrink-0">

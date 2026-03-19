@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SourceForm } from "@/components/sources/SourceForm";
-import { SourceList } from "@/components/sources/SourceList";
+import { SourceForm } from "@/components/features/sources/SourceForm";
+import { SourceList } from "@/components/features/sources/SourceList";
 import { SourceRow } from "@/types";
 
 export default function SourcesPage() {

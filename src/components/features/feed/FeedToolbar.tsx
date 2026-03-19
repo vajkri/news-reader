@@ -39,19 +39,18 @@ export function FeedToolbar({
   return (
     <div className="flex flex-wrap items-center gap-2 py-3">
       {/* Read filter tabs */}
-      <div className="flex rounded-md border border-[var(--border)] overflow-hidden">
+      <div className="flex items-center gap-1">
         {(["all", "unread", "read"] as const).map((val) => (
-          <button
+          <Button
             key={val}
+            variant={readFilter === val ? "default" : "ghost"}
+            size="sm"
             onClick={() => onReadFilterChange(val)}
-            className={`px-3 py-1.5 text-xs capitalize transition-colors ${
-              readFilter === val
-                ? "bg-[var(--primary)] text-[var(--primary-foreground)]"
-                : "hover:bg-[var(--accent)] text-[var(--muted-foreground)]"
-            }`}
+            aria-pressed={readFilter === val}
+            className={`text-xs capitalize ${readFilter === val ? "font-semibold" : ""}`}
           >
             {val}
-          </button>
+          </Button>
         ))}
       </div>
 

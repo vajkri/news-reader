@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FeedTable } from "@/components/feed/FeedTable";
+import { FeedTable } from "@/components/features/feed/FeedTable";
 import { SourceRow } from "@/types";
 
 export default function HomePage() {

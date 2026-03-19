@@ -19,6 +19,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **FOUND-01**: Article listing supports pagination beyond 100 articles
 - [ ] **FOUND-02**: User can search articles by keyword across the full corpus
 - [ ] **FOUND-03**: Cron job endpoint validates CRON_SECRET header before executing
+- [ ] **FOUND-04**: Proper caching strategy implemented (static assets, API responses, ISR/revalidation where appropriate)
 
 ### AI Pipeline
 
@@ -88,32 +89,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEV-01 | — | Pending |
-| DEV-02 | — | Pending |
-| DEV-03 | — | Pending |
-| DEV-04 | — | Pending |
-| FOUND-01 | — | Pending |
-| FOUND-02 | — | Pending |
-| FOUND-03 | — | Pending |
-| AIPL-01 | — | Pending |
-| AIPL-02 | — | Pending |
-| AIPL-03 | — | Pending |
-| AIPL-04 | — | Pending |
-| BRIEF-01 | — | Pending |
-| BRIEF-02 | — | Pending |
-| BRIEF-03 | — | Pending |
-| CHAT-01 | — | Pending |
-| CHAT-02 | — | Pending |
-| CHAT-03 | — | Pending |
-| CHAT-04 | — | Pending |
-| UX-01 | — | Pending |
-| UX-02 | — | Pending |
+| DEV-01 | Phase 1 | Pending |
+| DEV-02 | Phase 1 | Pending |
+| DEV-03 | Phase 1 | Pending |
+| DEV-04 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| AIPL-01 | Phase 2 | Pending |
+| AIPL-02 | Phase 2 | Pending |
+| AIPL-03 | Phase 2 | Pending |
+| AIPL-04 | Phase 2 | Pending |
+| BRIEF-01 | Phase 3 | Pending |
+| BRIEF-02 | Phase 3 | Pending |
+| BRIEF-03 | Phase 3 | Pending |
+| CHAT-01 | Phase 4 | Pending |
+| CHAT-02 | Phase 4 | Pending |
+| CHAT-03 | Phase 4 | Pending |
+| CHAT-04 | Phase 4 | Pending |
+| UX-01 | Phase 5 | Pending |
+| UX-02 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 20 total
-- Mapped to phases: 0
-- Unmapped: 20 ⚠️
+- v1 requirements: 21 total
+- Mapped to phases: 21
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-19*
-*Last updated: 2026-03-19 after initial definition*
+*Last updated: 2026-03-19 after roadmap creation*

@@ -13,7 +13,7 @@ Starting from a working RSS feed reader, this milestone transforms the raw artic
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation** - Secure the codebase, fix corpus limits, configure dev environment
-- [ ] **Phase 2: AI Enrichment** - Automatically summarize, classify, and score every article
+- [x] **Phase 2: AI Enrichment** - Automatically summarize, classify, and score every article (completed 2026-03-19)
 - [ ] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest
 - [ ] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language
 - [ ] **Phase 5: UX Polish** - Apply ADHD-friendly design consistently across all views
@@ -47,7 +47,7 @@ Plans:
   3. Each article displays an importance score (1-10) that reflects its significance relative to the current news cycle
   4. The enrichment cron job runs independently of the RSS fetch cron — triggering one does not trigger the other
   5. Articles already enriched are not re-processed on subsequent cron runs
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Schema migration, AI dependencies, enrichment logic (Zod schema, batch AI call, DB save)
@@ -91,7 +91,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 1/3 | In Progress|  |
-| 2. AI Enrichment | 1/2 | In Progress|  |
+| 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
 | 3. Daily Briefing | 0/TBD | Not started | - |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

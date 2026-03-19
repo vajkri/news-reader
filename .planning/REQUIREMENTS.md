@@ -26,7 +26,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AIPL-01**: Each article is automatically summarized into a 2-3 sentence AI summary
 - [x] **AIPL-02**: Each article is classified by topic (model releases, developer tools, industry moves, etc.)
 - [x] **AIPL-03**: Each article receives an importance score (1-10) based on significance
-- [ ] **AIPL-04**: AI enrichment runs as a separate cron job, decoupled from RSS fetch
+- [x] **AIPL-04**: AI enrichment runs as a separate cron job, decoupled from RSS fetch
 
 ### Daily Briefing
 
@@ -100,7 +100,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AIPL-01 | Phase 2 | Complete |
 | AIPL-02 | Phase 2 | Complete |
 | AIPL-03 | Phase 2 | Complete |
-| AIPL-04 | Phase 2 | Pending |
+| AIPL-04 | Phase 2 | Complete |
 | BRIEF-01 | Phase 3 | Pending |
 | BRIEF-02 | Phase 3 | Pending |
 | BRIEF-03 | Phase 3 | Pending |

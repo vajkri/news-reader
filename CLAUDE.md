@@ -114,7 +114,9 @@ All components importable from `@/components/ui`.
 - **`Button`** — 4 variants (`default/outline/ghost/destructive`), 4 sizes (`default` h-9 / `sm` h-7 / `lg` h-11 / `icon` h-8 w-8). Already uses `focus-visible`.
 - **`Input`** — h-9, focus-visible ring using `--primary`. Use `focus-visible:` not bare `focus:`.
 - **`Select`** — Native select with ChevronDown icon.
-- **`Badge`** — 3 variants (`default` / `secondary` / `outline`). Uses `text-xs` (12px — the only 12px exception).
+- **`Badge`** — 6 variants (`default` / `secondary` / `outline` / `critical` / `important` / `notable`). Uses `text-xs` (12px — the only 12px exception).
+
+Never use raw `<button>` elements. Always use the `Button` component, adding variants as needed.
 
 ### Typography Scale
 

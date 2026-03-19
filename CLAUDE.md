@@ -65,7 +65,7 @@ Serena provides semantic code intelligence (symbol search, reference finding, sy
 
 - Config: `.serena/project.yml` (project_name: NewsReader, languages: typescript + bash)
 - Start: `npm run serena` (starts MCP server on port 56667)
-- MCP entry: `.claude/settings.json` maps `serena` to `http://localhost:56667/mcp`
+- MCP endpoint: `http://localhost:56667/mcp` (configure in your MCP client to point here)
 - Memories: `.serena/memories/` (onboarding completed, project structure indexed)
 
 ## Coding Conventions

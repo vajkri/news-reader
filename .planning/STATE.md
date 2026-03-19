@@ -56,6 +56,10 @@ Plan: 2 of 2 (all plans complete)
 
 ## Accumulated Context
 
+### Roadmap Evolution
+
+- Phase 03.2 inserted after Phase 03: Neon Postgres migration + Vercel deployment (URGENT)
+
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.

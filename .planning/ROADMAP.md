@@ -67,6 +67,16 @@ Plans:
 - [ ] 03-01-PLAN.md — Briefing utility module (TDD: topic parsing, tier mapping, grouping logic + tests) and Badge tier variants
 - [ ] 03-02-PLAN.md — Briefing page, BriefingCard/TopicGroup/DateStepper components, nav link, visual verification
 
+### Phase 03.2: Neon Postgres migration + Vercel deployment (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 3
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 03.1 to break down)
+
 ### Phase 4: Chat Interface
 **Goal**: Users can ask natural language questions about collected news and receive accurate, grounded answers drawn from the enriched article corpus
 **Depends on**: Phase 2

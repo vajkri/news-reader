@@ -21,19 +21,34 @@ export default async function BriefingPage({
   const windowStart = startOfDay(selectedDate);
   const windowEnd = endOfDay(selectedDate);
 
-  const articles = await prisma.article.findMany({
-    where: {
-      enrichedAt: { not: null },
-      importanceScore: { gte: 4 },
-      AND: [
-        { publishedAt: { not: null } },
-        { publishedAt: { gte: windowStart, lte: windowEnd } },
-      ],
-    },
+  const dateFilter = {
+    enrichedAt: { not: null },
+    AND: [
+      { publishedAt: { not: null } },
+      { publishedAt: { gte: windowStart, lte: windowEnd } },
+    ],
+  };
+  const includeSource = { source: { select: { name: true, category: true } } };
+
+  // All critical (9-10) and important (7-8) articles always show
+  const priorityArticles = await prisma.article.findMany({
+    where: { ...dateFilter, importanceScore: { gte: 7 } },
     orderBy: { importanceScore: "desc" },
-    take: 10,
-    include: { source: { select: { name: true, category: true } } },
+    include: includeSource,
   });
+
+  // Fill remaining slots with notable (4-6) up to 20 total
+  const notableSlots = Math.max(0, 20 - priorityArticles.length);
+  const notableArticles = notableSlots > 0
+    ? await prisma.article.findMany({
+        where: { ...dateFilter, importanceScore: { gte: 4, lte: 6 } },
+        orderBy: { importanceScore: "desc" },
+        take: notableSlots,
+        include: includeSource,
+      })
+    : [];
+
+  const articles = [...priorityArticles, ...notableArticles];
 
   const serialized = JSON.parse(JSON.stringify(articles)) as ArticleRow[];
   const topicGroups = groupArticlesByTopic(serialized);

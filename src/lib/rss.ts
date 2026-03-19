@@ -18,7 +18,12 @@ const parser = new Parser<Record<string, unknown>, CustomItem>({
       ["itunes:image", "itunes:image"],
     ],
   },
-  timeout: 10000,
+  timeout: 15000,
+  maxRedirects: 5,
+  headers: {
+    "User-Agent": "NewsReader/1.0 (RSS aggregator)",
+    Accept: "application/rss+xml, application/xml, text/xml, */*",
+  },
 });
 
 export interface ParsedArticle {

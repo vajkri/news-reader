@@ -39,7 +39,6 @@ export async function POST() {
               readTimeMin: article.readTimeMin,
               sourceId: source.id,
             })),
-            skipDuplicates: true as never,
           });
           added += newArticles.length;
         }

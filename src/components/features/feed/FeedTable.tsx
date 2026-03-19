@@ -56,11 +56,6 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
     loadArticles();
   }, [loadArticles]);
 
-  // Auto-fetch on first mount
-  useEffect(() => {
-    handleFetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleFetch = async () => {
     if (isFetching) return;

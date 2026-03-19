@@ -26,6 +26,10 @@ model Article {
   publishedAt DateTime?
   readTimeMin Int?
   isRead      Boolean   @default(false)
+  summary         String?
+  topics          String?
+  importanceScore Int?
+  enrichedAt      DateTime?
   createdAt   DateTime  @default(now())
   sourceId    Int
   source      Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
@@ -33,4 +37,5 @@ model Article {
   @@index([sourceId])
   @@index([publishedAt])
   @@index([isRead])
+  @@index([enrichedAt])
 }

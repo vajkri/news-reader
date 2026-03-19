@@ -20,6 +20,8 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - ✓ Cron-based automatic feed updates — existing
 - ✓ Article listing and browsing interface — existing
 - ✓ Next.js web application with responsive layout — existing
+- ✓ AI summarization of individual articles — Validated in Phase 2: AI Enrichment
+- ✓ AI classification and prioritization of articles by topic and importance — Validated in Phase 2: AI Enrichment
 
 ### Active
 
@@ -28,8 +30,6 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - [ ] AI-powered daily briefing page (scannable, visual, no walls of text)
 - [ ] Chat interface for querying collected news ("what happened with OpenAI this week?")
 - [ ] Chat supports both quick lookups and deeper analysis conversations
-- [ ] AI classification and prioritization of articles by topic and importance
-- [ ] AI summarization of individual articles
 - [ ] ADHD-friendly design throughout (bite-sized content, visual hierarchy, scannable layouts)
 
 ### Validated in Phase 1: Foundation
@@ -88,4 +88,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-19 after Phase 1 (Foundation) completion*
+*Last updated: 2026-03-19 after Phase 1 (Foundation) and Phase 2 (AI Enrichment) completion*

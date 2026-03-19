@@ -36,6 +36,12 @@ export default function RootLayout({
                   Feed
                 </Link>
                 <Link
+                  href="/briefing"
+                  className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+                >
+                  Briefing
+                </Link>
+                <Link
                   href="/sources"
                   className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
                 >

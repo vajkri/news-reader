@@ -12,6 +12,8 @@
   --accent: #f4f4f5;
   --card: #ffffff;
   --radius: 0.5rem;
+  --highlight: #fef9c3;
+  --highlight-foreground: #451a03;
   --container-width: 100dvw;
   --container-max-width: 1460px;
   --container-padding: 1.5rem;
@@ -36,6 +38,8 @@
     --secondary: #27272a;
     --accent: #27272a;
     --card: #09090b;
+    --highlight: rgba(250, 204, 21, 0.18);
+    --highlight-foreground: #fef08a;
   }
 }
 

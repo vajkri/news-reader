@@ -51,11 +51,6 @@ export function DateStepper() {
       >
         <ChevronRight className="h-4 w-4" />
       </Button>
-      {!isToday(currentDate) && (
-        <Button variant="ghost" size="sm" onClick={() => goTo(new Date())}>
-          Today
-        </Button>
-      )}
     </div>
   );
 }

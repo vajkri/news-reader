@@ -3,6 +3,10 @@
     {
       "path": "/api/fetch",
       "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/enrich",
+      "schedule": "0 * * * *"
     }
   ]
 }

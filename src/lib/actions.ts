@@ -1,18 +1,19 @@
-import { NextResponse } from "next/server";
+"use server";
+
 import { prisma } from "@/lib/prisma";
 import { fetchFeed } from "@/lib/rss";
 
-export async function POST(request: Request): Promise<Response> {
-  const secret = process.env.CRON_SECRET;
-  const authHeader = request.headers.get("authorization");
-  if (!secret || authHeader !== `Bearer ${secret}`) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+interface FetchResult {
+  fetched: number;
+  added: number;
+  errors: string[];
+}
 
+export async function fetchFeeds(): Promise<FetchResult> {
   const sources = await prisma.source.findMany();
 
   if (sources.length === 0) {
-    return NextResponse.json({ fetched: 0, added: 0, errors: [] });
+    return { fetched: 0, added: 0, errors: [] };
   }
 
   let added = 0;
@@ -24,7 +25,6 @@ export async function POST(request: Request): Promise<Response> {
         const articles = await fetchFeed(source.url);
         const guids = articles.map((a) => a.guid);
 
-        // Find which guids already exist
         const existing = await prisma.article.findMany({
           where: { guid: { in: guids } },
           select: { guid: true },
@@ -56,5 +56,5 @@ export async function POST(request: Request): Promise<Response> {
     })
   );
 
-  return NextResponse.json({ fetched: sources.length, added, errors });
+  return { fetched: sources.length, added, errors };
 }

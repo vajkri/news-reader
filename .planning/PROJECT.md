@@ -32,6 +32,15 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - [ ] Chat supports both quick lookups and deeper analysis conversations
 - [ ] ADHD-friendly design throughout (bite-sized content, visual hierarchy, scannable layouts)
 
+### Validated in Phase 1: Foundation
+
+- ✓ Dev environment configured for Claude Code collaboration (CLAUDE.md, memories, Serena MCP, skills)
+- ✓ Cron endpoint secured with CRON_SECRET auth guard (401 on invalid)
+- ✓ Article list pagination via infinite scroll (50 per batch, IntersectionObserver)
+- ✓ Keyword search across article titles and source names (server-side, debounced)
+- ✓ Caching strategy: revalidate=60 on feed page, revalidate=30 on articles API
+- ✓ Components reorganized into features/ directory with barrel exports
+
 ### Deferred (v2)
 
 - [ ] Configurable user interests and topic preferences
@@ -79,4 +88,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-19 after Phase 2: AI Enrichment completion*
+*Last updated: 2026-03-19 after Phase 1 (Foundation) and Phase 2 (AI Enrichment) completion*

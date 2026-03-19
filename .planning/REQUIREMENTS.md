@@ -16,10 +16,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: Article listing supports pagination beyond 100 articles
-- [ ] **FOUND-02**: User can search articles by keyword across the full corpus
+- [x] **FOUND-01**: Article listing supports pagination beyond 100 articles
+- [x] **FOUND-02**: User can search articles by keyword across the full corpus
 - [x] **FOUND-03**: Cron job endpoint validates CRON_SECRET header before executing
-- [ ] **FOUND-04**: Proper caching strategy implemented (static assets, API responses, ISR/revalidation where appropriate)
+- [x] **FOUND-04**: Proper caching strategy implemented (static assets, API responses, ISR/revalidation where appropriate)
 
 ### AI Pipeline
 
@@ -93,10 +93,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEV-02 | Phase 1 | Complete |
 | DEV-03 | Phase 1 | Complete |
 | DEV-04 | Phase 1 | Complete |
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
 | FOUND-03 | Phase 1 | Complete |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Complete |
 | AIPL-01 | Phase 2 | Complete |
 | AIPL-02 | Phase 2 | Complete |
 | AIPL-03 | Phase 2 | Complete |

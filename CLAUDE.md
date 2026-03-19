@@ -74,15 +74,24 @@ Serena provides semantic code intelligence (symbol search, reference finding, sy
 - Strict TypeScript: no `any` types, explicit return types on exports
 - Conventional Commits format: `feat:`, `fix:`, `docs:`, `chore:`
 
+## Accessibility
+
+Target: **WCAG 2.2 AA** conformance. All UI must meet:
+- Text contrast: 4.5:1 minimum (3:1 for large text, 18px+ bold or 24px+)
+- Non-text contrast: 3:1 for UI components and graphical objects
+- Focus indicators: visible `focus-visible` outlines on all interactive elements
+- Always use explicit text colors on colored backgrounds; never rely on inheritance for contrast
+
 ## Design System
 
 ### Design Tokens
 
 All tokens are defined in `src/app/globals.css`.
 
-- **Color tokens** are CSS custom properties in `:root`. Light/dark mode via `prefers-color-scheme`. Variables: `--background`, `--foreground`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-foreground`, `--secondary`, `--accent`, `--card`, `--radius`.
+- **Color tokens** are CSS custom properties in `:root`. Light/dark mode via `prefers-color-scheme`. Variables: `--background`, `--foreground`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-foreground`, `--secondary`, `--accent`, `--card`, `--highlight`, `--highlight-foreground`, `--radius`.
+- **Highlight tokens:** `--highlight` (warm yellow bg) and `--highlight-foreground` (dark text on highlight). Use via `style={{ background: 'var(--highlight)', color: 'var(--highlight-foreground)' }}` on `<mark>` elements. Both modes meet WCAG 2.2 AA contrast.
 - **Font variables:** `--font-geist-sans` (Geist Sans, for UI) and `--font-geist-mono` (Geist Mono, for code). Loaded via `next/font/local` in `layout.tsx`.
-- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1800px), `--container-padding` (1.5rem). Used by `.section-container` utility in `@layer components`.
+- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1460px), `--container-padding` (1.5rem). Used by `.section-container` utility in `@layer components`.
 
 ### Container Utility
 

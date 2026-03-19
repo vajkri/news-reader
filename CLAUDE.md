@@ -74,6 +74,14 @@ Serena provides semantic code intelligence (symbol search, reference finding, sy
 - Strict TypeScript: no `any` types, explicit return types on exports
 - Conventional Commits format: `feat:`, `fix:`, `docs:`, `chore:`
 
+## Accessibility
+
+Target: **WCAG 2.2 AA** conformance. All UI must meet:
+- Text contrast: 4.5:1 minimum (3:1 for large text, 18px+ bold or 24px+)
+- Non-text contrast: 3:1 for UI components and graphical objects
+- Focus indicators: visible `focus-visible` outlines on all interactive elements
+- Always use explicit text colors on colored backgrounds; never rely on inheritance for contrast
+
 ## Design System
 
 ### Design Tokens

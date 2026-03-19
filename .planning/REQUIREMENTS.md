@@ -9,17 +9,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Dev Environment
 
-- [ ] **DEV-01**: CLAUDE.md configured with project conventions, rules, and coding preferences
-- [ ] **DEV-02**: Claude Code memories set up for project context
-- [ ] **DEV-03**: Relevant skills added and configured for the project workflow
-- [ ] **DEV-04**: Serena MCP server integrated for code intelligence
+- [x] **DEV-01**: CLAUDE.md configured with project conventions, rules, and coding preferences
+- [x] **DEV-02**: Claude Code memories set up for project context
+- [x] **DEV-03**: Relevant skills added and configured for the project workflow
+- [x] **DEV-04**: Serena MCP server integrated for code intelligence
 
 ### Foundation
 
-- [ ] **FOUND-01**: Article listing supports pagination beyond 100 articles
-- [ ] **FOUND-02**: User can search articles by keyword across the full corpus
-- [ ] **FOUND-03**: Cron job endpoint validates CRON_SECRET header before executing
-- [ ] **FOUND-04**: Proper caching strategy implemented (static assets, API responses, ISR/revalidation where appropriate)
+- [x] **FOUND-01**: Article listing supports pagination beyond 100 articles
+- [x] **FOUND-02**: User can search articles by keyword across the full corpus
+- [x] **FOUND-03**: Cron job endpoint validates CRON_SECRET header before executing
+- [x] **FOUND-04**: Proper caching strategy implemented (static assets, API responses, ISR/revalidation where appropriate)
 
 ### AI Pipeline
 
@@ -89,14 +89,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEV-01 | Phase 1 | Pending |
-| DEV-02 | Phase 1 | Pending |
-| DEV-03 | Phase 1 | Pending |
-| DEV-04 | Phase 1 | Pending |
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
+| DEV-01 | Phase 1 | Complete |
+| DEV-02 | Phase 1 | Complete |
+| DEV-03 | Phase 1 | Complete |
+| DEV-04 | Phase 1 | Complete |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
+| FOUND-04 | Phase 1 | Complete |
 | AIPL-01 | Phase 2 | Pending |
 | AIPL-02 | Phase 2 | Pending |
 | AIPL-03 | Phase 2 | Pending |

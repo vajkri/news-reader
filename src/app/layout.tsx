@@ -25,10 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
         <header className="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur">
-          <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between">
+          <div className="section-container h-12 flex items-center justify-between">
             <div className="flex items-center gap-6">
               <span className="font-semibold text-sm tracking-tight">News Reader</span>
-              <nav className="flex items-center gap-4">
+              <nav aria-label="Main navigation" className="flex items-center gap-4">
                 <Link
                   href="/"
                   className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"

@@ -4,6 +4,10 @@
       "command": "npx",
       "args": ["-y", "next-devtools-mcp@latest"]
     },
+    "serena": {
+      "type": "http",
+      "url": "http://localhost:56667/mcp"
+    },
     "vercel": {
       "type": "http",
       "url": "https://mcp.vercel.com"

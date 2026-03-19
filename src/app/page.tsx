@@ -1,21 +1,27 @@
-"use client";
+import { prisma } from "@/lib/prisma";
+import { FeedTable } from "@/components/features/feed/FeedTable";
 
-import { useEffect, useState } from "react";
-import { FeedTable } from "@/components/feed/FeedTable";
-import { SourceRow } from "@/types";
+export const revalidate = 60;
 
-export default function HomePage() {
-  const [sources, setSources] = useState<SourceRow[]>([]);
+export default async function HomePage() {
+  const sources = await prisma.source.findMany({
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      category: true,
+      createdAt: true,
+      _count: { select: { articles: true } },
+    },
+    orderBy: { name: "asc" },
+  });
 
-  useEffect(() => {
-    fetch("/api/sources")
-      .then((r) => r.json())
-      .then(setSources);
-  }, []);
+  // Serialize Date objects to strings for client component
+  const serialized = JSON.parse(JSON.stringify(sources));
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <FeedTable sources={sources} />
+    <div className="section-container py-6">
+      <FeedTable sources={serialized} />
     </div>
   );
 }

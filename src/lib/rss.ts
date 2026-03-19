@@ -36,10 +36,14 @@ export interface ParsedArticle {
   readTimeMin: number;
 }
 
-export async function fetchFeed(feedUrl: string): Promise<ParsedArticle[]> {
+export async function fetchFeed(feedUrl: string, { maxAgeMs = 24 * 60 * 60 * 1000 }: { maxAgeMs?: number } = {}): Promise<ParsedArticle[]> {
   const feed = await parser.parseURL(feedUrl);
+  const cutoff = new Date(Date.now() - maxAgeMs);
 
-  return feed.items.map((item) => {
+  return feed.items.filter((item) => {
+    const pubDate = item.pubDate ? new Date(item.pubDate) : item.isoDate ? new Date(item.isoDate) : null;
+    return !pubDate || pubDate >= cutoff;
+  }).map((item) => {
     const guid = item.guid ?? item.link ?? item.title ?? String(Date.now());
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const description = (item as any)["content:encoded"] ?? item.content ?? item.summary ?? null;

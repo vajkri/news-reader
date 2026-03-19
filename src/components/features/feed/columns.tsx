@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
@@ -10,9 +11,25 @@ import { ArticleRow } from "@/types";
 
 interface ColumnsOptions {
   onToggleRead: (id: number, isRead: boolean) => void;
+  searchQuery?: string;
 }
 
-export function buildColumns({ onToggleRead }: ColumnsOptions): ColumnDef<ArticleRow>[] {
+function highlightMatch(text: string, query: string): React.ReactNode {
+  if (!query) return text;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return text;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className="bg-yellow-200 dark:bg-yellow-800 rounded-sm px-0.5">
+        {text.slice(idx, idx + query.length)}
+      </mark>
+      {text.slice(idx + query.length)}
+    </>
+  );
+}
+
+export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): ColumnDef<ArticleRow>[] {
   return [
     {
       id: "thumbnail",
@@ -54,7 +71,7 @@ export function buildColumns({ onToggleRead }: ColumnsOptions): ColumnDef<Articl
               isRead ? "text-[var(--muted-foreground)]" : "text-[var(--foreground)]"
             }`}
           >
-            <span className="line-clamp-2">{title}</span>
+            <span className="line-clamp-2">{highlightMatch(title, searchQuery ?? "")}</span>
             <ExternalLink className="mt-0.5 h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-60 transition-opacity" />
           </a>
         );

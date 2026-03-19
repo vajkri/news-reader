@@ -30,7 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The article list can paginate past 100 articles — user can navigate to page 2, 3, and beyond
   4. User can search for a keyword in the article list and see only matching articles
   5. Caching strategy is in place — static assets cached at edge, API responses use appropriate revalidation
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Dev environment setup, CLAUDE.md rewrite, cron auth, .section-container, Input fix
+- [ ] 01-02-PLAN.md — Component reorganization, layout migration, Server Component conversion, caching
+- [ ] 01-03-PLAN.md — Articles API search, infinite scroll, search UI with keyboard shortcuts and highlighting
 
 ### Phase 2: AI Enrichment
 **Goal**: Every new article automatically receives an AI-generated summary, topic classification, and importance score before it appears in any user-facing view
@@ -81,7 +86,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/3 | Planning complete | - |
 | 2. AI Enrichment | 0/TBD | Not started | - |
 | 3. Daily Briefing | 0/TBD | Not started | - |
 | 4. Chat Interface | 0/TBD | Not started | - |

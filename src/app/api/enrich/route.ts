@@ -5,9 +5,9 @@ import {
   saveEnrichmentResults,
 } from '@/lib/enrich';
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
-const TIME_BUDGET_MS = 250_000; // Stop before maxDuration to save/respond
+const TIME_BUDGET_MS = 50_000; // Stop before maxDuration to save/respond
 
 export async function GET(request: Request): Promise<Response> {
   const authHeader = request.headers.get('authorization');

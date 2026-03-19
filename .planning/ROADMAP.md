@@ -12,7 +12,7 @@ Starting from a working RSS feed reader, this milestone transforms the raw artic
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Secure the codebase, fix corpus limits, configure dev environment
+- [x] **Phase 1: Foundation** - Secure the codebase, fix corpus limits, configure dev environment (completed 2026-03-19)
 - [ ] **Phase 2: AI Enrichment** - Automatically summarize, classify, and score every article
 - [ ] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest
 - [ ] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The article list can paginate past 100 articles — user can navigate to page 2, 3, and beyond
   4. User can search for a keyword in the article list and see only matching articles
   5. Caching strategy is in place — static assets cached at edge, API responses use appropriate revalidation
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 01-01-PLAN.md — Dev environment setup, CLAUDE.md rewrite, cron auth, .section-container, Input fix
@@ -86,7 +86,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/3 | In Progress|  |
+| 1. Foundation | 3/3 | Complete   | 2026-03-19 |
 | 2. AI Enrichment | 0/TBD | Not started | - |
 | 3. Daily Briefing | 0/TBD | Not started | - |
 | 4. Chat Interface | 0/TBD | Not started | - |

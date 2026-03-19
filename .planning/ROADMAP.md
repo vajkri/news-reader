@@ -63,6 +63,16 @@ Plans:
   3. Articles on the briefing page are grouped by topic with a clear visual section heading per group
 **Plans**: TBD
 
+### Phase 03.1: Adjust TL;DR source to use tldr-rss middleman (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 3
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 03.1 to break down)
+
 ### Phase 4: Chat Interface
 **Goal**: Users can ask natural language questions about collected news and receive accurate, grounded answers drawn from the enriched article corpus
 **Depends on**: Phase 2

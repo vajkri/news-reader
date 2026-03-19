@@ -72,7 +72,7 @@ Plans:
 **Goal:** Replace the mislabeled TLDR Tech source (currently pointing to Hacker News) with correct TLDR feeds via the tldr-rss middleman, add TLDR AI and TLDR Design sources, and add a properly named Hacker News source
 **Requirements**: SRC-01, SRC-02, SRC-03
 **Depends on:** Phase 3
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 03.1-01-PLAN.md — Update seed.ts with URL-swap preamble and new TLDR/HN sources, verify DB state
@@ -117,6 +117,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 3/3 | Complete   | 2026-03-19 |
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
 | 3. Daily Briefing | 1/2 | In Progress|  |
-| 03.1 TL;DR Source Fix | 0/1 | Not started | - |
+| 03.1 TL;DR Source Fix | 1/1 | Complete   | 2026-03-19 |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

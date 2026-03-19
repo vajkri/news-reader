@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-stopped_at: Phase 03.1 context gathered
-last_updated: "2026-03-19T20:42:38.717Z"
+status: executing
+stopped_at: "Completed 03.1-01-PLAN.md"
+last_updated: "2026-03-19T22:45:00Z"
 progress:
-  total_phases: 6
+  total_phases: 7
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 03 — daily-briefing
+**Current focus:** Phase 03.1 — adjust-tl-dr-source-to-use-tldr-rss-middleman
 
 ## Current Position
 
-Phase: 03 (daily-briefing) — COMPLETE
-Plan: 2 of 2 (all plans complete)
+Phase: 03.1 (adjust-tl-dr-source-to-use-tldr-rss-middleman) — COMPLETE
+Plan: 1 of 1 (complete)
 
 ## Performance Metrics
 
@@ -81,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 03-daily-briefing]: Badge tier variants use Tailwind palette (not CSS vars): functional tier indicators, not brand colors
 - [Phase 03-daily-briefing]: UI-SPEC visual overrides applied: 20px topic headings, 80x80 thumbnails, gap-6 card spacing, space-y-12 topic group separation
 - [Phase 03-daily-briefing]: Empty state includes View Feed CTA link per UI-SPEC copywriting contract
+- [Phase 03.1]: URL-swap preamble in seed.ts uses findUnique + name guard before upsert loop so Hacker News upsert creates a new row rather than matching the old TLDR Tech record
+- [Phase 03.1]: Dev DB had 4 stale sources from prior experiments; cleaned up manually; seed.ts preamble is correct for fresh databases
 
 ### Pending Todos
 
@@ -98,6 +100,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-19T20:42:38.713Z
-Stopped at: Phase 03.1 context gathered
-Resume file: .planning/phases/03.1-adjust-tl-dr-source-to-use-tldr-rss-middleman/03.1-CONTEXT.md
+Last session: 2026-03-19T22:45:00Z
+Stopped at: Completed 03.1-01-PLAN.md
+Resume file: .planning/phases/03.1-adjust-tl-dr-source-to-use-tldr-rss-middleman/03.1-01-SUMMARY.md

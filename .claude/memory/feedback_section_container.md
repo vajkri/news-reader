@@ -16,4 +16,9 @@ Use a two-div pattern for all section-level elements: outer div owns the backgro
   </div>
 </div>
 ```
-Apply this pattern to: headers, footers, card wrappers, any section with a full-bleed background. Never put `section-container` on the same element as the background. Tokens are in `globals.css :root` (`--container-width`, `--container-max-width`, `--container-padding`).
+Apply this pattern to: headers, footers, card wrappers, any section with a full-bleed background. Never put `section-container` on the same element as the background.
+
+**Tokens in `globals.css :root`:**
+- `--container-width: 100dvw`
+- `--container-max-width: 1800px`
+- `--container-padding: 1.5rem`

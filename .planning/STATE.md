@@ -7,9 +7,9 @@ stopped_at: Phase 3 context gathered
 last_updated: "2026-03-19T17:51:09.878Z"
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 5
-  completed_plans: 3
+  completed_plans: 5
 ---
 
 # Project State
@@ -19,12 +19,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 01 — foundation
+**Current focus:** Phase 02 — ai-enrichment
 
 ## Current Position
 
-Phase: 03 (ai enrichment) — EXECUTING
-Plan: 1 of 3
+Phase: 02 (ai-enrichment) -- COMPLETE
+Plan: 2 of 2 (all plans complete)
+Previous: Phase 01 (foundation) -- COMPLETE (3/3 plans)
 
 ## Performance Metrics
 
@@ -49,6 +50,8 @@ Plan: 1 of 3
 | Phase 01 P01 | 8 | 4 tasks | 6 files |
 | Phase 01-foundation P02 | 5 | 2 tasks | 11 files |
 | Phase 01-foundation P03 | 5 | 3 tasks | 4 files |
+| Phase 02-ai-enrichment P01 | 395 | 2 tasks | 6 files |
+| Phase 02-ai-enrichment P02 | 3 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -64,10 +67,15 @@ Recent decisions affecting current work:
 - [Init]: SQLite production persistence on Vercel needs confirmation before Phase 2 (see research gap)
 - [Phase 01]: CLAUDE.md rewritten for this project: zinc palette, Geist fonts, shadcn/ui Button default/outline/ghost/destructive variants, 60/30/10 color rule
 - [Phase 01]: section-container uses 1800px max-width and 1.5rem padding; cron endpoint secured with CRON_SECRET Bearer auth returning 401
-- [Phase 01-foundation]: Feed page is a Server Component; FeedTable remains use client — server fetches sources via Prisma, serializes dates via JSON round-trip
+- [Phase 01-foundation]: Feed page is a Server Component; FeedTable remains use client; server fetches sources via Prisma, serializes dates via JSON round-trip
 - [Phase 01-foundation]: section-container replaces max-w-6xl mx-auto px-4 across all pages and layout header
 - [Phase 01-foundation P03]: AND array composition for Prisma where prevents category relation + search OR conflict; no mode insensitive on SQLite (unsupported)
 - [Phase 01-foundation P03]: hasMore detection by checking returned page length equals page size (50); auto-fetch on mount removed (cron is authenticated)
+- [Phase 02-ai-enrichment]: maxOutputTokens (not maxTokens) is the correct AI SDK v6 param; auto-fixed during implementation
+- [Phase 02-ai-enrichment]: topics stored as JSON string with no @default to avoid Prisma SQLite migration bug #26571
+- [Phase 02-ai-enrichment]: enrichArticlesBatch uses generateText + Output.array(), not deprecated generateObject
+- [Phase 02-ai-enrichment]: GET method on /api/enrich to match Vercel cron default invocation; maxDuration=60 for AI call headroom
+- [Phase 02-ai-enrichment]: Vitest v4 installed for test infrastructure; vi.mock('server-only') pattern established for server-only module tests
 
 ### Pending Todos
 

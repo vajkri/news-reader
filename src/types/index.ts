@@ -8,6 +8,10 @@ export interface ArticleRow {
   publishedAt: string | null;
   readTimeMin: number | null;
   isRead: boolean;
+  summary: string | null;
+  topics: string | null;
+  importanceScore: number | null;
+  enrichedAt: string | null;
   sourceId: number;
   source: {
     name: string;

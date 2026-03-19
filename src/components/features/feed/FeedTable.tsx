@@ -13,6 +13,7 @@ import { FeedToolbar } from "./FeedToolbar";
 import { buildColumns } from "./columns";
 import { ArticleRow, SourceRow } from "@/types";
 import { Button } from "@/components/ui/button";
+import { fetchFeeds } from "@/lib/actions";
 
 interface FetchResult {
   fetched: number;
@@ -107,10 +108,8 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
     setIsFetching(true);
     setFetchResult(null);
     try {
-      const res = await fetch("/api/fetch", { method: "POST" });
-      const data: FetchResult = await res.json();
+      const data = await fetchFeeds();
       setFetchResult(data);
-      // Reload from page 1 after fetch
       setPage(1);
       await loadPage(1);
     } finally {
@@ -119,15 +118,21 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
   };
 
   const handleToggleRead = useCallback(async (id: number, isRead: boolean) => {
-    // Optimistic update
     setArticles((prev) =>
       prev.map((a) => (a.id === id ? { ...a, isRead } : a))
     );
-    await fetch(`/api/articles/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isRead }),
-    });
+    try {
+      const res = await fetch(`/api/articles/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isRead }),
+      });
+      if (!res.ok) throw new Error();
+    } catch {
+      setArticles((prev) =>
+        prev.map((a) => (a.id === id ? { ...a, isRead: !isRead } : a))
+      );
+    }
   }, []);
 
   const columns = useMemo(
@@ -201,6 +206,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       {/* Table */}
       <div className="rounded-lg border border-[var(--border)] overflow-x-auto" aria-busy={loading}>
         <table className="w-full text-sm">
+          <caption className="sr-only">Article feed</caption>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr

@@ -28,7 +28,7 @@ export default function RootLayout({
           <div className="section-container h-12 flex items-center justify-between">
             <div className="flex items-center gap-6">
               <span className="font-semibold text-sm tracking-tight">News Reader</span>
-              <nav className="flex items-center gap-4">
+              <nav aria-label="Main navigation" className="flex items-center gap-4">
                 <Link
                   href="/"
                   className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"

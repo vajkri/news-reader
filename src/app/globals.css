@@ -12,6 +12,9 @@
   --accent: #f4f4f5;
   --card: #ffffff;
   --radius: 0.5rem;
+  --container-width: 100dvw;
+  --container-max-width: 1800px;
+  --container-padding: 1.5rem;
 }
 
 @theme inline {
@@ -33,6 +36,15 @@
     --secondary: #27272a;
     --accent: #27272a;
     --card: #09090b;
+  }
+}
+
+@layer components {
+  .section-container {
+    width: var(--container-width);
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
   }
 }
 

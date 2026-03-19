@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -12,6 +12,7 @@ import {
 import { FeedToolbar } from "./FeedToolbar";
 import { buildColumns } from "./columns";
 import { ArticleRow, SourceRow } from "@/types";
+import { Button } from "@/components/ui/button";
 
 interface FetchResult {
   fetched: number;
@@ -32,35 +33,74 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
   const [readFilter, setReadFilter] = useState<"all" | "unread" | "read">("all");
   const [sortBy, setSortBy] = useState<"date" | "readTime">("date");
 
+  // Infinite scroll state
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const isLoadingMore = useRef(false);
+
   // TanStack sorting state (for column header clicks, secondary)
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const loadArticles = useCallback(async () => {
-    setLoading(true);
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchQuery), 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const loadPage = useCallback(async (pageNum: number) => {
+    if (pageNum === 1) setLoading(true);
     const params = new URLSearchParams();
     if (sourceFilter) params.set("sourceId", sourceFilter);
     if (categoryFilter) params.set("category", categoryFilter);
     if (readFilter !== "all") params.set("isRead", String(readFilter === "read"));
+    if (debouncedSearch) params.set("search", debouncedSearch);
     params.set("sort", sortBy);
-    params.set("limit", "100");
+    params.set("page", String(pageNum));
+    params.set("limit", "50");
 
     const res = await fetch(`/api/articles?${params}`);
     const data = await res.json();
-    setArticles(data.articles ?? []);
+
+    setArticles((prev) => pageNum === 1 ? (data.articles ?? []) : [...prev, ...(data.articles ?? [])]);
     setTotal(data.total ?? 0);
+    setHasMore((data.articles ?? []).length === 50);
     setLoading(false);
-  }, [sourceFilter, categoryFilter, readFilter, sortBy]);
+    isLoadingMore.current = false;
+  }, [sourceFilter, categoryFilter, readFilter, sortBy, debouncedSearch]);
 
-  // Load on filter/sort change
+  // Reset to page 1 on filter/search change
   useEffect(() => {
-    loadArticles();
-  }, [loadArticles]);
+    setPage(1);
+    loadPage(1);
+  }, [loadPage]);
 
-  // Auto-fetch on first mount
+  // Load next page when page advances
   useEffect(() => {
-    handleFetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (page > 1) {
+      isLoadingMore.current = true;
+      loadPage(page);
+    }
+  }, [page, loadPage]);
+
+  // IntersectionObserver to trigger next page load
+  useEffect(() => {
+    if (!hasMore || loading) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore.current && hasMore) {
+          isLoadingMore.current = true;
+          setPage((p) => p + 1);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    const sentinel = sentinelRef.current;
+    if (sentinel) observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loading]);
 
   const handleFetch = async () => {
     if (isFetching) return;
@@ -70,7 +110,9 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       const res = await fetch("/api/fetch", { method: "POST" });
       const data: FetchResult = await res.json();
       setFetchResult(data);
-      await loadArticles();
+      // Reload from page 1 after fetch
+      setPage(1);
+      await loadPage(1);
     } finally {
       setIsFetching(false);
     }
@@ -89,8 +131,8 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
   }, []);
 
   const columns = useMemo(
-    () => buildColumns({ onToggleRead: handleToggleRead }),
-    [handleToggleRead]
+    () => buildColumns({ onToggleRead: handleToggleRead, searchQuery: debouncedSearch }),
+    [handleToggleRead, debouncedSearch]
   );
 
   const table = useReactTable({
@@ -114,16 +156,31 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
         readFilter={readFilter}
         sortBy={sortBy}
         isFetching={isFetching}
+        searchQuery={searchQuery}
         onSourceChange={setSourceFilter}
         onCategoryChange={setCategoryFilter}
         onReadFilterChange={setReadFilter}
         onSortChange={setSortBy}
         onFetch={handleFetch}
+        onSearchChange={setSearchQuery}
       />
 
       {/* Status bar */}
-      <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)] pb-2">
-        <span>{total} articles</span>
+      <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)] pb-2" aria-live="polite">
+        {loading ? (
+          <span>Loading...</span>
+        ) : debouncedSearch ? (
+          <>
+            <span>Showing {articles.length} results for &quot;{debouncedSearch}&quot;</span>
+            <Button variant="ghost" size="sm" className="text-xs h-6 px-2" aria-label="Clear search" onClick={() => setSearchQuery("")}>
+              Clear
+            </Button>
+          </>
+        ) : hasMore ? (
+          <span>Showing {articles.length} of {total} articles</span>
+        ) : (
+          <span>Showing all {total} articles</span>
+        )}
         {unreadCount > 0 && (
           <span className="text-blue-600 dark:text-blue-400 font-medium">
             {unreadCount} unread
@@ -142,7 +199,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border border-[var(--border)] overflow-x-auto">
+      <div className="rounded-lg border border-[var(--border)] overflow-x-auto" aria-busy={loading}>
         <table className="w-full text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -201,9 +258,21 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
                   colSpan={columns.length}
                   className="px-3 py-16 text-center text-[var(--muted-foreground)]"
                 >
-                  {sources.length === 0
-                    ? "No sources yet — add some RSS feeds to get started."
-                    : "No articles match your filters."}
+                  <div className="flex flex-col items-center gap-1">
+                    {debouncedSearch ? (
+                      <>
+                        <span className="font-medium">No articles found</span>
+                        <span className="text-xs">Try a different keyword or clear the search.</span>
+                      </>
+                    ) : sources.length === 0 ? (
+                      <>
+                        <span className="font-medium">No articles yet</span>
+                        <span className="text-xs">Add a source to start collecting articles.</span>
+                      </>
+                    ) : (
+                      <span>No articles match your filters.</span>
+                    )}
+                  </div>
                 </td>
               </tr>
             ) : (
@@ -228,6 +297,13 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
           </tbody>
         </table>
       </div>
+
+      {/* Infinite scroll sentinel */}
+      {hasMore && !loading && (
+        <div ref={sentinelRef} className="h-10 flex items-center justify-center" aria-hidden="true">
+          <div className="h-4 w-4 border-2 border-[var(--muted-foreground)] border-t-transparent rounded-full animate-spin" aria-label="Loading more articles" />
+        </div>
+      )}
     </div>
   );
 }

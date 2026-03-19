@@ -54,7 +54,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Research flag] SQLite on Vercel may use ephemeral filesystem (better-sqlite3); must confirm Turso migration status before Phase 2 work lands in production
+- [Phase 1 prerequisite] SQLite on Vercel uses ephemeral filesystem (better-sqlite3); must confirm persistence strategy (Turso/LibSQL) during Phase 1 — if DB isn't persistent, no feature work is safe to ship
 - [Research flag] Chat rate limiting (Phase 4): Upstash Ratelimit may require Vercel Pro tier; verify before planning Phase 4
 
 ## Session Continuity

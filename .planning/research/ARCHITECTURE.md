@@ -30,7 +30,7 @@ The target architecture adds three layers on top of the existing RSS reader: an 
 │  │  ┌──────────────┐  ┌────────────────┐  ┌──────────────────┐  │  │
 │  │  │ Enrichment   │  │  Chat/RAG      │  │  Structured      │  │  │
 │  │  │ (generateText│  │  (streamText + │  │  Output          │  │  │
-│  │  │  + schema)   │  │   useChat)     │  │  (generateObject)│  │  │
+│  │  │  + schema)   │  │   useChat)     │  │  (Output.object)│  │  │
 │  │  └──────────────┘  └────────────────┘  └──────────────────┘  │  │
 │  └────────────────────────────────────────────────────────────────┘  │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -55,7 +55,7 @@ The target architecture adds three layers on top of the existing RSS reader: an 
 | Chat Interface | Answers natural-language questions over ingested articles | `useChat` hook → `/api/chat` route → `streamText` with tool-calling; retrieves articles via Prisma queries as context |
 | Briefing Generator | Builds the daily AI briefing page content | Scheduled cron or on-demand Server Action; aggregates recent articles + AI-generated cluster summaries |
 | AI Gateway / Provider Config | Routes all AI calls through single interface; swaps Claude / OpenAI without code changes | `createGateway()` from `ai` package; model string format `"anthropic/claude-sonnet-4.6"`; BYOK via env vars |
-| Auth Layer | Signs users in/out; persists session; gates preference APIs | NextAuth.js v5 (Auth.js) with App Router adapter; JWT sessions for simplicity, DB sessions when revocation needed |
+| Auth Layer (v2) | Signs users in/out; persists session; gates preference APIs | Better Auth with Prisma adapter (Auth.js entered maintenance mode — see STACK.md); JWT sessions for simplicity, DB sessions when revocation needed |
 | User Preferences | Stores topics of interest, notification thresholds, UI settings | Prisma `UserPreferences` model; read in Server Components to personalize queries |
 | Notification Trigger | Fires push notification for high-priority breaking news | API route or cron-called function; checks articles above priority threshold + calls web push library |
 
@@ -74,8 +74,8 @@ src/
 │   │   ├── briefing/
 │   │   │   └── route.ts      # GET: returns or generates daily briefing data
 │   │   └── auth/
-│   │       └── [...nextauth]/
-│   │           └── route.ts  # NextAuth.js handler
+│   │       └── auth/
+│   │           └── [...all]/route.ts  # Better Auth handler (v2)
 │   ├── briefing/
 │   │   └── page.tsx          # Daily briefing page (Server Component)
 │   ├── chat/
@@ -94,7 +94,7 @@ src/
 │   │   ├── enrichment.ts     # enrichArticle() — generateText with schema
 │   │   ├── briefing.ts       # generateBriefing() — cluster + summarize
 │   │   └── schemas.ts        # Zod schemas for all AI structured outputs
-│   ├── auth.ts               # NextAuth.js config (providers, callbacks)
+│   ├── auth.ts               # Better Auth config (v2 — providers, callbacks)
 │   ├── prisma.ts             # existing singleton
 │   ├── rss.ts                # existing
 │   ├── readtime.ts           # existing
@@ -266,7 +266,7 @@ Server Component reads briefing from DB → renders BriefingCard components
 ### Auth + Preferences Flow
 
 ```
-User signs in → NextAuth.js → session JWT
+User signs in → Better Auth → session JWT
     ↓
 Session available in Server Components via auth()
     ↓
@@ -330,7 +330,7 @@ Preferences injected into: article queries (topic filter), chat system prompt, n
 |---------|---------------------|-------|
 | Vercel AI Gateway | `createGateway()` singleton in `lib/ai/gateway.ts`; model strings `"anthropic/claude-haiku-4.5"` etc. | BYOK: add provider API keys to Vercel env vars; no code changes to switch providers |
 | Anthropic Claude (via Gateway) | Default provider; use Haiku for batch enrichment, Sonnet for chat/briefing | Gateway handles auth headers and streaming protocol differences |
-| NextAuth.js v5 (Auth.js) | App Router adapter; `app/api/auth/[...nextauth]/route.ts`; `auth()` in Server Components | JWT sessions recommended for self-hosting simplicity; migrate to DB sessions if "sign out everywhere" is needed |
+| Better Auth (v2) | Prisma adapter; `app/api/auth/[...all]/route.ts`; session in Server Components | JWT sessions recommended for self-hosting simplicity; migrate to DB sessions if "sign out everywhere" is needed. Auth.js entered maintenance mode — see STACK.md |
 
 ### Internal Boundaries
 
@@ -352,7 +352,7 @@ Dependencies flow in this order — each item must exist before the next:
 
 3. **Article enrichment pipeline** (`lib/ai/enrichment.ts` + `/api/enrich`) — Populates AI fields that feed pipeline and briefing display. Can ship before auth; runs as single shared pipeline (no per-user logic yet).
 
-4. **Authentication** (`lib/auth.ts` + NextAuth routes) — Required before user preferences, personalised chat, and notifications.
+4. **Authentication (v2)** (`lib/auth.ts` + Better Auth routes) — Required before user preferences, personalised chat, and notifications.
 
 5. **User preferences** (`UserPreferences` model + settings UI) — Required before personalized article queries.
 
@@ -371,7 +371,7 @@ Dependencies flow in this order — each item must exist before the next:
 - [Prisma — AI SDK + Next.js Chat Integration Guide](https://www.prisma.io/docs/guides/ai-sdk-nextjs) — HIGH confidence
 - [Vercel Academy — Automatic Summarization](https://vercel.com/academy/ai-sdk/automatic-summarization) — HIGH confidence
 - [Vercel Academy — Text Classification](https://vercel.com/academy/ai-sdk/text-classification) — HIGH confidence
-- [NextAuth.js v5 App Router authentication](https://next-auth.js.org) — MEDIUM confidence (rapidly evolving; verify version compatibility with Next.js 16 before implementing)
+- [Better Auth](https://www.better-auth.com) — HIGH confidence (recommended replacement for Auth.js v5; first-class Prisma adapter; see STACK.md for rationale)
 - [Next.js Background Jobs — Inngest vs Trigger.dev vs Vercel Cron](https://www.hashbuilds.com/articles/next-js-background-jobs-inngest-vs-trigger-dev-vs-vercel-cron) — MEDIUM confidence
 
 ---

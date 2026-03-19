@@ -29,11 +29,15 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - [ ] Chat interface for querying collected news ("what happened with OpenAI this week?")
 - [ ] Chat supports both quick lookups and deeper analysis conversations
 - [ ] AI classification and prioritization of articles by topic and importance
+- [ ] AI summarization of individual articles
+- [ ] ADHD-friendly design throughout (bite-sized content, visual hierarchy, scannable layouts)
+
+### Deferred (v2)
+
 - [ ] Configurable user interests and topic preferences
 - [ ] Push notifications for critical-only news events
 - [ ] Full user authentication (sign up, login, saved preferences)
-- [ ] AI summarization of individual articles and topic clusters
-- [ ] ADHD-friendly design throughout (bite-sized content, visual hierarchy, scannable layouts)
+- [ ] Topic cluster summaries
 
 ### Out of Scope
 
@@ -70,9 +74,9 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | Build on existing codebase | RSS pipeline, database, and UI foundations already work — rewriting wastes time | — Pending |
 | Vercel AI SDK + AI Gateway | Provider-agnostic AI integration, built for Next.js, supports multiple providers via single API | — Pending |
 | Start with Claude as default AI provider | Creator is in the Claude ecosystem; AI Gateway makes switching trivial later | — Pending |
-| Full authentication from v1 | Personalization requires persistent user preferences; open-source users need accounts | — Pending |
+| Defer authentication to v2 | Auth is a schema migration (no userId on articles); v1 works as single-user tool. Research flags auth as critical for v2 personalization — plan schema early to avoid retrofit | — Pending |
 | Dashboard briefing over email | Simpler to build, avoids irony of adding another newsletter, dashboard can evolve to be richer | — Pending |
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-19 after initialization*
+*Last updated: 2026-03-19 after PR review feedback*

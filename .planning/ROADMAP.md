@@ -67,7 +67,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
-**Depends on**: Phase 1
+**Depends on**: Phase 4
 **Requirements**: UX-01, UX-02
 **Success Criteria** (what must be TRUE):
   1. All views (article list, article detail, briefing, chat) use card-based layouts with clear visual hierarchy and no dense text blocks

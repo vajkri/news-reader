@@ -21,7 +21,7 @@ export default async function BriefingPage({
   // so "today's briefing" shows articles published yesterday (UTC).
   const y = selectedDate.getUTCFullYear();
   const m = selectedDate.getUTCMonth();
-  const d = selectedDate.getUTCDate() - 1;
+  const d = selectedDate.getUTCDate() - 1; // Date.UTC handles day=0 correctly (rolls to previous month's last day)
   const windowStart = new Date(Date.UTC(y, m, d, 0, 0, 0, 0));
   const windowEnd = new Date(Date.UTC(y, m, d, 23, 59, 59, 999));
 

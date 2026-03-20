@@ -6,7 +6,7 @@ const SOURCES = [
   { name: "TLDR Tech",         url: "https://bullrich.dev/tldr-rss/tech.rss",                             category: "Tech"   },
   { name: "TLDR AI",           url: "https://bullrich.dev/tldr-rss/ai.rss",                               category: "AI"     },
   { name: "TLDR Design",       url: "https://bullrich.dev/tldr-rss/design.rss",                           category: "Design" },
-  { name: "Hacker News",       url: "https://hnrss.org/frontpage",                                        category: "Tech"   },
+  // { name: "Hacker News",       url: "https://hnrss.org/frontpage",                                        category: "Tech"   },
   { name: "Dev.to",            url: "https://dev.to/feed",                                                category: "Dev"    },
   { name: "TechCrunch AI",     url: "https://techcrunch.com/category/artificial-intelligence/feed/",      category: "AI"     },
   { name: "Smashing Magazine", url: "https://www.smashingmagazine.com/feed/",                             category: "Design" },

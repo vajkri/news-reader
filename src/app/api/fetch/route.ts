@@ -34,18 +34,22 @@ export async function POST(request: Request): Promise<Response> {
         const newArticles = articles.filter((a) => !existingGuids.has(a.guid));
 
         if (newArticles.length > 0) {
-          await prisma.article.createMany({
-            data: newArticles.map((article) => ({
-              guid: article.guid,
-              title: article.title,
-              link: article.link,
-              description: article.description,
-              thumbnail: article.thumbnail,
-              publishedAt: article.publishedAt,
-              readTimeMin: article.readTimeMin,
-              sourceId: source.id,
-            })),
-          });
+          for (const article of newArticles) {
+            await prisma.article.upsert({
+              where: { guid: article.guid },
+              create: {
+                guid: article.guid,
+                title: article.title,
+                link: article.link,
+                description: article.description,
+                thumbnail: article.thumbnail,
+                publishedAt: article.publishedAt,
+                readTimeMin: article.readTimeMin,
+                sourceId: source.id,
+              },
+              update: {},
+            });
+          }
           added += newArticles.length;
         }
       } catch (err) {

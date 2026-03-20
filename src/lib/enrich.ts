@@ -43,7 +43,7 @@ For each article in the batch:
 
 Return results for ALL articles in the batch. Include the articleId in each result.`;
 
-export const BATCH_LIMIT = 30;
+export const BATCH_LIMIT = 15;
 
 export type UnenrichedArticle = {
   id: number;

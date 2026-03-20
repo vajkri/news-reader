@@ -88,4 +88,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-19 after Phase 3 (Daily Briefing) completion*
+*Last updated: 2026-03-20 after Phase 03.1 (TLDR RSS Middleman Source Swap) completion*

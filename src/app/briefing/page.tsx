@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
-import { startOfDay, endOfDay, parseISO, isValid } from "date-fns";
+import { parseISO, isValid } from "date-fns";
 import { groupArticlesByTopic } from "@/lib/briefing";
 import type { ArticleRow } from "@/types";
 import { TopicGroup, DateStepper } from "@/components/features/briefing";
@@ -17,8 +17,13 @@ export default async function BriefingPage({
   const dateParam = params.date;
   const parsed = dateParam ? parseISO(dateParam) : null;
   const selectedDate = parsed && isValid(parsed) ? parsed : new Date();
-  const windowStart = startOfDay(selectedDate);
-  const windowEnd = endOfDay(selectedDate);
+  // TLDR articles are stamped with the previous day's midnight UTC,
+  // so "today's briefing" shows articles published yesterday (UTC).
+  const y = selectedDate.getUTCFullYear();
+  const m = selectedDate.getUTCMonth();
+  const d = selectedDate.getUTCDate() - 1; // Date.UTC handles day=0 correctly (rolls to previous month's last day)
+  const windowStart = new Date(Date.UTC(y, m, d, 0, 0, 0, 0));
+  const windowEnd = new Date(Date.UTC(y, m, d, 23, 59, 59, 999));
 
   const dateFilter = {
     enrichedAt: { not: null },

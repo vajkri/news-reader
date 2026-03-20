@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03-daily-briefing-02-PLAN.md
-last_updated: "2026-03-19T21:25:51.275Z"
+stopped_at: Completed 03.1-01-PLAN.md
+last_updated: "2026-03-20T06:12:02.214Z"
 progress:
-  total_phases: 5
-  completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_phases: 7
+  completed_phases: 4
+  total_plans: 8
+  completed_plans: 8
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 03 — daily-briefing
+**Current focus:** Phase 03.1 — adjust-tl-dr-source-to-use-tldr-rss-middleman
 
 ## Current Position
 
-Phase: 03 (daily-briefing) — COMPLETE
-Plan: 2 of 2 (all plans complete)
+Phase: 03.1 (adjust-tl-dr-source-to-use-tldr-rss-middleman) — COMPLETE
+Plan: 1 of 1 (complete)
 
 ## Performance Metrics
 
@@ -56,10 +56,6 @@ Plan: 2 of 2 (all plans complete)
 
 ## Accumulated Context
 
-### Roadmap Evolution
-
-- Phase 03.2 inserted after Phase 03: Neon Postgres migration + Vercel deployment (URGENT)
-
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
@@ -85,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 03-daily-briefing]: Badge tier variants use Tailwind palette (not CSS vars): functional tier indicators, not brand colors
 - [Phase 03-daily-briefing]: UI-SPEC visual overrides applied: 20px topic headings, 80x80 thumbnails, gap-6 card spacing, space-y-12 topic group separation
 - [Phase 03-daily-briefing]: Empty state includes View Feed CTA link per UI-SPEC copywriting contract
+- [Phase 03.1]: URL-swap preamble in seed.ts uses findUnique + name guard before upsert loop so Hacker News upsert creates a new row rather than matching the old TLDR Tech record
+- [Phase 03.1]: Dev DB had 4 stale sources from prior experiments; cleaned up manually; seed.ts preamble is correct for fresh databases
 
 ### Pending Todos
 
@@ -95,8 +93,13 @@ Recent decisions affecting current work:
 - [Phase 1 prerequisite] SQLite on Vercel uses ephemeral filesystem (better-sqlite3); must confirm persistence strategy (Turso/LibSQL) during Phase 1 — if DB isn't persistent, no feature work is safe to ship
 - [Research flag] Chat rate limiting (Phase 4): Upstash Ratelimit may require Vercel Pro tier; verify before planning Phase 4
 
+### Roadmap Evolution
+
+- Phase 03.1 inserted after Phase 03: Adjust TL;DR source to use tldr-rss middleman (URGENT)
+- Phase 03.2 inserted after Phase 03: Neon Postgres migration + Vercel deployment (URGENT)
+
 ## Session Continuity
 
-Last session: 2026-03-19T20:51:56.553Z
-Stopped at: Completed 03-daily-briefing-02-PLAN.md
-Resume file: None
+Last session: 2026-03-19T22:45:00Z
+Stopped at: Completed 03.1-01-PLAN.md
+Resume file: .planning/phases/03.1-adjust-tl-dr-source-to-use-tldr-rss-middleman/03.1-01-SUMMARY.md

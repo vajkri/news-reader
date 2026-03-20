@@ -15,10 +15,9 @@ export async function POST(request: Request): Promise<Response> {
     return NextResponse.json({ fetched: 0, added: 0, errors: [] });
   }
 
-  let added = 0;
   const errors: string[] = [];
 
-  await Promise.allSettled(
+  const results = await Promise.allSettled(
     sources.map(async (source) => {
       try {
         const articles = await fetchFeed(source.url);
@@ -34,27 +33,36 @@ export async function POST(request: Request): Promise<Response> {
         const newArticles = articles.filter((a) => !existingGuids.has(a.guid));
 
         if (newArticles.length > 0) {
-          await prisma.article.createMany({
-            data: newArticles.map((article) => ({
-              guid: article.guid,
-              title: article.title,
-              link: article.link,
-              description: article.description,
-              thumbnail: article.thumbnail,
-              publishedAt: article.publishedAt,
-              readTimeMin: article.readTimeMin,
-              sourceId: source.id,
-            })),
-          });
-          added += newArticles.length;
+          for (const article of newArticles) {
+            await prisma.article.upsert({
+              where: { guid: article.guid },
+              create: {
+                guid: article.guid,
+                title: article.title,
+                link: article.link,
+                description: article.description,
+                thumbnail: article.thumbnail,
+                publishedAt: article.publishedAt,
+                readTimeMin: article.readTimeMin,
+                sourceId: source.id,
+              },
+              update: {},
+            });
+          }
         }
+        return newArticles.length;
       } catch (err) {
         errors.push(
           `${source.name}: ${err instanceof Error ? err.message : String(err)}`
         );
+        return 0;
       }
     })
   );
+
+  const added = results
+    .filter((r): r is PromiseFulfilledResult<number> => r.status === "fulfilled")
+    .reduce((sum, r) => sum + r.value, 0);
 
   return NextResponse.json({ fetched: sources.length, added, errors });
 }

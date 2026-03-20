@@ -26,6 +26,14 @@ const parser = new Parser<Record<string, unknown>, CustomItem>({
   },
 });
 
+const READ_TIME_RE = /\s*\((\d+)\s+minute\s+read\)\s*$/i;
+
+function extractReadTime(title: string): { title: string; readTimeMin: number | null } {
+  const match = title.match(READ_TIME_RE);
+  if (!match) return { title, readTimeMin: null };
+  return { title: title.replace(READ_TIME_RE, "").trim(), readTimeMin: parseInt(match[1], 10) };
+}
+
 export interface ParsedArticle {
   guid: string;
   title: string;
@@ -41,20 +49,23 @@ export async function fetchFeed(feedUrl: string, { maxAgeMs = 24 * 60 * 60 * 100
   const cutoff = new Date(Date.now() - maxAgeMs);
 
   return feed.items.filter((item) => {
+    if (/\(sponsor\)/i.test(item.title ?? "")) return false;
     const pubDate = item.pubDate ? new Date(item.pubDate) : item.isoDate ? new Date(item.isoDate) : null;
     return !pubDate || pubDate >= cutoff;
   }).map((item) => {
     const guid = item.guid ?? item.link ?? item.title ?? String(Date.now());
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const description = (item as any)["content:encoded"] ?? item.content ?? item.summary ?? null;
+    const rawTitle = item.title ?? "Untitled";
+    const { title, readTimeMin: titleReadTime } = extractReadTime(rawTitle);
     return {
       guid,
-      title: item.title ?? "Untitled",
-      link: item.link ?? feedUrl,
+      title,
+      link: item.link ?? item.guid ?? feedUrl,
       description,
       thumbnail: extractThumbnailFromItem(item),
       publishedAt: item.pubDate ? new Date(item.pubDate) : item.isoDate ? new Date(item.isoDate) : null,
-      readTimeMin: estimateReadTime(description),
+      readTimeMin: titleReadTime ?? estimateReadTime(description),
     };
   });
 }

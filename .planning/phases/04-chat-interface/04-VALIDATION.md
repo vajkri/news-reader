@@ -40,9 +40,9 @@ created: 2026-03-21
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
 | 04-01-01 | 01 | 1 | CHAT-03 | unit | `npx vitest run src/lib/chat-tools.test.ts` | ❌ W0 | ⬜ pending |
 | 04-01-02 | 01 | 1 | CHAT-04 | unit | `npx vitest run src/lib/rate-limit.test.ts` | ❌ W0 | ⬜ pending |
-| 04-02-01 | 02 | 1 | CHAT-01 | integration | `npx vitest run src/app/api/chat/route.test.ts` | ❌ W0 | ⬜ pending |
-| 04-02-02 | 02 | 1 | CHAT-02 | integration | `npx vitest run src/app/api/chat/route.test.ts` | ❌ W0 | ⬜ pending |
-| 04-03-01 | 03 | 2 | CHAT-01 | manual | Browser verification | N/A | ⬜ pending |
+| 04-02-01 | 02 | 2 | CHAT-01 | manual | Browser verification + `npm run build` | N/A | ⬜ pending |
+| 04-02-02 | 02 | 2 | CHAT-02 | manual | Browser verification + `npm run build` | N/A | ⬜ pending |
+| 04-03-01 | 03 | 3 | CHAT-01 | manual | Browser verification | N/A | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -52,7 +52,8 @@ created: 2026-03-21
 
 - [ ] `src/lib/chat-tools.test.ts` — stubs for CHAT-03 (tool-calling query functions)
 - [ ] `src/lib/rate-limit.test.ts` — stubs for CHAT-04 (rate limiting logic)
-- [ ] `src/app/api/chat/route.test.ts` — stubs for CHAT-01, CHAT-02 (chat API endpoint)
+
+*CHAT-01 and CHAT-02 are verified via build checks and manual browser verification (streaming chat route + UI components are not suitable for unit/integration tests per RESEARCH.md).*
 
 *Existing vitest infrastructure covers framework needs.*
 
@@ -62,6 +63,7 @@ created: 2026-03-21
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
+| Chat API streams responses with tool-calling | CHAT-01, CHAT-02 | Streaming endpoint requires live LLM + DB; mocking loses signal | 1. Send message via chat panel. 2. Verify streaming response with citations. 3. Verify `npm run build` passes. |
 | Chat panel opens/closes with FAB and keyboard shortcut | CHAT-01 | Browser interaction, DOM focus/animation | 1. Click FAB, verify panel slides in. 2. Press Cmd+K, verify toggle. 3. Click close, verify panel hides. |
 | Chat panel docks side/bottom and resizes | CHAT-01 | Browser interaction, resize handles | 1. Drag resize handle, verify panel width changes. 2. Toggle dock position, verify layout switch. |
 | Streaming response renders progressively | CHAT-02 | Visual streaming behavior | 1. Send message, verify tokens appear progressively. 2. Verify loading dots before first token. |

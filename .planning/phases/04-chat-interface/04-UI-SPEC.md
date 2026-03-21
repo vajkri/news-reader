@@ -38,16 +38,16 @@ Multiples of 4 only. Standard 8-point scale applies across all chat panel elemen
 |-------|-------|------------|
 | xs | 4px | Icon gaps, dot separators, inline metadata spacing |
 | sm | 8px | Chip gap, panel header action gap, message bubble gap |
-| md | 16px | Panel body padding, context card margin, chip padding inline |
+| md | 16px | Panel body padding, context card margin, chip padding inline, panel header vertical padding |
 | lg | 24px | Panel body vertical padding (empty state), section breaks |
 | xl | 32px | — |
 | 2xl | 48px | — |
 | 3xl | 64px | — |
 
 Exceptions:
-- Panel header padding: 14px vertical / 16px horizontal (14px is 2px off-scale — matches mockup exactly; do not round to 16px)
-- Chip padding: 8px vertical / 14px horizontal (14px exception per mockup; established pattern from CONTEXT.md D-14)
-- Context card left border: 3px (functional accent border, same pattern as BriefingCard `border-l-[3.5px]`)
+- Panel header padding: 16px vertical / 16px horizontal
+- Chip padding: 8px vertical / 12px horizontal
+- Context card left border: 4px (functional accent border, same pattern as BriefingCard `border-l-[3.5px]` — rounded to nearest multiple of 4)
 - FAB (floating action button): 52px diameter — touch target minimum for mobile (exceeds 44px minimum)
 
 ---
@@ -64,9 +64,9 @@ Inherits the project-wide scale from CLAUDE.md. No new sizes introduced.
 | Meta | Geist Sans | 13px | 400 | 1.5 | Input placeholder, context card source/date, section labels |
 
 Notes:
-- Minimum font size: 13px (project rule — no new 12px elements)
+- Minimum font size: 13px (project rule — no new 12px elements outside Badge exception)
 - Empty state sub-copy: 13px / 400 / `--muted-foreground`
-- Context card "Chatting about" label: 11px / 600 / uppercase / `--muted-foreground` — this is a label tag, not body text; exempt from 13px minimum per existing BriefingCard precedent (byline is 13px, label tags use 11px in mockup pattern)
+- Context card "Chatting about" label: 12px / 600 / uppercase / `--muted-foreground` — aligns with the existing Badge exception (12px is the project's documented minimum for label tags per CLAUDE.md Badge note)
 
 ---
 
@@ -156,10 +156,10 @@ Layout: centered vertically in panel body
 
 Layout: pinned context card at top of panel body, centered chips below (Option A from mockup)
 1. Context card (pinned, non-scrolling):
-   - Label: "Chatting about" — 11px / 600 / uppercase / `--muted-foreground`
+   - Label: "Chatting about" — 12px / 600 / uppercase / `--muted-foreground`
    - Title: article title — 14px / 600 / `--foreground`, max 2 lines, line-clamp-2
    - Meta: source name + relative time — 13px / 400 / `--muted-foreground`
-   - Left border: 3px solid `--border`
+   - Left border: 4px solid `--border`
    - Background: `--card`, border: `--border`, border-radius: 0.625rem
    - Margin: 16px all sides inside panel body
 2. Sub-heading: "What would you like to know?" — 14px / 400 / `--muted-foreground`, centered
@@ -236,7 +236,7 @@ No em dashes anywhere (project rule: `.claude/rules/no-em-dashes.md`).
 | "Chat about this" button label | Chat about this |
 | Loading indicator aria-label | Thinking... |
 | Rate limit error | You've reached the hourly message limit. Try again in {N} minutes. |
-| API error | Something went wrong. Please try again. |
+| API error | Something went wrong. Refresh the page or try again in a moment. |
 | No results | No articles found for that query. Try a different topic or time range. |
 | Streaming send button aria-label (active) | Send message |
 | Streaming send button aria-label (loading) | Sending... |

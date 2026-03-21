@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma migrate deploy && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "serena": "uvx --from git+https://github.com/oraios/serena serena start-mcp-server --transport streamable-http --port 56667 --context ide --project . --open-web-dashboard false",
     "lint": "eslint",

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-21T20:55:02.858Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-03-21T21:06:12.117Z"
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 14
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04 (chat-interface) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Plan: 2 of 3
 | Phase 03.2 P02 | 4 | 3 tasks | 2 files |
 | Phase 03.2 P03 | 5 | 3 tasks | 2 files |
 | Phase 04-chat-interface P01 | 6 | 2 tasks | 7 files |
+| Phase 04-chat-interface P02 | 7 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,9 @@ Recent decisions affecting current work:
 - [Phase 03.2]: Cron schedule: fetch at 05:00 UTC, enrich at 06:00 UTC (1-hour gap for fetch to complete before enrich)
 - [Phase 03.2]: mode: insensitive on Postgres contains replaces case-sensitive SQLite workaround; both title and source.name filters updated
 - [Phase 04-chat-interface]: RateLimit uses upsert with id:0 sentinel for expired-window reset; chat tools cast topics as (string[] | null) ?? [] for safe Json? handling
+- [Phase 04-chat-interface]: useChat() with no args uses DefaultChatTransport defaulting to /api/chat; v6 removed api option from useChat
+- [Phase 04-chat-interface]: convertToModelMessages returns Promise in v6, must be awaited
+- [Phase 04-chat-interface]: Tool parts in v6 use type tool-<toolName> with state output-available and output field, replacing removed tool-invocation type
 
 ### Pending Todos
 
@@ -119,6 +123,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-21T20:55:02.854Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-03-21T21:06:12.114Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None

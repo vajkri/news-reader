@@ -102,7 +102,7 @@ Plans:
 
 Plans:
 - [x] 04-01-PLAN.md — Prisma RateLimit model, rate-limit library, chat-tools library, CHAT_MODEL constant, unit tests
-- [ ] 04-02-PLAN.md — Chat API route with streaming + tool-calling, all chat UI components (ChatPanel, ChatMessage, ChatInput, PromptChips, SourceCard, ChatFAB)
+- [x] 04-02-PLAN.md — Chat API route with streaming + tool-calling, all chat UI components (ChatPanel, ChatMessage, ChatInput, PromptChips, SourceCard, ChatFAB)
 - [ ] 04-03-PLAN.md — Layout integration (ChatWrapper in root layout), BriefingCard "Chat about this" button, end-to-end verification
 
 ### Phase 5: UX Polish

@@ -134,7 +134,8 @@ describe('recentArticlesTool', () => {
     vi.spyOn(Date, 'now').mockReturnValue(now);
     mockFindMany.mockResolvedValue([] as never);
 
-    await recentArticlesTool.execute({}, {} as never);
+    // Zod .default(3) applies before execute; mock bypasses Zod so we pass default value
+    await recentArticlesTool.execute({ days: 3 }, {} as never);
 
     const expectedCutoff = new Date(now - 3 * 24 * 60 * 60 * 1000);
 

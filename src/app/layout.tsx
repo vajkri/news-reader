@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Link from "next/link";
+import { ChatWrapper } from "@/components/features/chat";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -52,6 +53,7 @@ export default function RootLayout({
           </div>
         </header>
         <main>{children}</main>
+        <ChatWrapper />
       </body>
     </html>
   );

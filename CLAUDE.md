@@ -148,17 +148,3 @@ Always use `focus-visible:` pseudo-class, never bare `focus:`. This prevents foc
 ## Git
 
 Never append `Co-Authored-By` lines to commit messages. Use Conventional Commits format.
-
-## Documentation & Memory
-
-Where persistent knowledge lives — see `.claude/rules/memory-placement.md` for the full placement guide.
-
-- **`CLAUDE.md`** — prescriptive code conventions (this file)
-- **`.claude/memory/`** — behavioral corrections, user preferences, reference pointers
-- **`.planning/`** — GSD phases, roadmap, research, project state
-- **`.serena/memories/`** — descriptive project knowledge (when Serena is configured)
-
-## Known Limitations
-
-- SQLite `contains` is case-sensitive (no `mode: 'insensitive'` support unlike PostgreSQL)
-- `.env.local` must include `CRON_SECRET=any-dev-value` for local cron endpoint testing

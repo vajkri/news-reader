@@ -38,8 +38,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **CHAT-01**: User can ask natural language questions about collected news
 - [ ] **CHAT-02**: Chat supports both quick lookups ("what's new with Claude?") and deeper analysis
-- [ ] **CHAT-03**: Chat uses tool-calling pattern to query database (not raw article context)
-- [ ] **CHAT-04**: Chat endpoint has rate limiting from day one
+- [x] **CHAT-03**: Chat uses tool-calling pattern to query database (not raw article context)
+- [x] **CHAT-04**: Chat endpoint has rate limiting from day one
 
 ### UX / Design
 
@@ -106,8 +106,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRIEF-03 | Phase 3 | Complete |
 | CHAT-01 | Phase 4 | Pending |
 | CHAT-02 | Phase 4 | Pending |
-| CHAT-03 | Phase 4 | Pending |
-| CHAT-04 | Phase 4 | Pending |
+| CHAT-03 | Phase 4 | Complete |
+| CHAT-04 | Phase 4 | Complete |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |
 

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Phase 4 UI-SPEC approved
-last_updated: "2026-03-21T20:04:59.859Z"
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-21T20:55:02.858Z"
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 11
-  completed_plans: 11
+  total_plans: 14
+  completed_plans: 12
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 03.2 — neon-postgres-migration-vercel-deployment
+**Current focus:** Phase 04 — chat-interface
 
 ## Current Position
 
-Phase: 4
-Plan: Not started
+Phase: 04 (chat-interface) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Plan: Not started
 | Phase 03.2 P01 | 72 | 3 tasks | 8 files |
 | Phase 03.2 P02 | 4 | 3 tasks | 2 files |
 | Phase 03.2 P03 | 5 | 3 tasks | 2 files |
+| Phase 04-chat-interface P01 | 6 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,7 @@ Recent decisions affecting current work:
 - [Phase 03.2]: SQLite stores DateTime as Unix ms integers; cutoff comparison must use CUTOFF.getTime() not .toISOString() in raw SQL
 - [Phase 03.2]: Cron schedule: fetch at 05:00 UTC, enrich at 06:00 UTC (1-hour gap for fetch to complete before enrich)
 - [Phase 03.2]: mode: insensitive on Postgres contains replaces case-sensitive SQLite workaround; both title and source.name filters updated
+- [Phase 04-chat-interface]: RateLimit uses upsert with id:0 sentinel for expired-window reset; chat tools cast topics as (string[] | null) ?? [] for safe Json? handling
 
 ### Pending Todos
 
@@ -117,6 +119,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-21T20:04:59.855Z
-Stopped at: Phase 4 UI-SPEC approved
-Resume file: .planning/phases/04-chat-interface/04-UI-SPEC.md
+Last session: 2026-03-21T20:55:02.854Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: None

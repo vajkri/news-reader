@@ -98,7 +98,12 @@ Plans:
   2. User can continue a conversation with follow-up questions and receive contextually aware responses in the same session
   3. The chat endpoint rejects requests after exceeding a defined rate limit, returning an appropriate error message rather than silently continuing
   4. Chat responses are grounded only in collected articles — the model does not fabricate news events not present in the corpus
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Prisma RateLimit model, rate-limit library, chat-tools library, CHAT_MODEL constant, unit tests
+- [ ] 04-02-PLAN.md — Chat API route with streaming + tool-calling, all chat UI components (ChatPanel, ChatMessage, ChatInput, PromptChips, SourceCard, ChatFAB)
+- [ ] 04-03-PLAN.md — Layout integration (ChatWrapper in root layout), BriefingCard "Chat about this" button, end-to-end verification
 
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
@@ -121,5 +126,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
 | 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
-| 4. Chat Interface | 0/TBD | Not started | - |
+| 4. Chat Interface | 0/3 | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

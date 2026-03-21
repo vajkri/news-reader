@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03.1-01-PLAN.md
-last_updated: "2026-03-20T06:12:02.214Z"
+stopped_at: Completed 03.2-01-PLAN.md
+last_updated: "2026-03-21T13:43:45.583Z"
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 11
+  completed_plans: 9
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 03.1 — adjust-tl-dr-source-to-use-tldr-rss-middleman
+**Current focus:** Phase 03.2 — neon-postgres-migration-vercel-deployment
 
 ## Current Position
 
-Phase: 03.1 (adjust-tl-dr-source-to-use-tldr-rss-middleman) — COMPLETE
-Plan: 1 of 1 (complete)
+Phase: 03.2 (neon-postgres-migration-vercel-deployment) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Plan: 1 of 1 (complete)
 | Phase 02-ai-enrichment P02 | 3 | 2 tasks | 6 files |
 | Phase 03-daily-briefing P01 | 2 | 2 tasks | 4 files |
 | Phase 03-daily-briefing P02 | 2 | 2 tasks | 6 files |
+| Phase 03.2 P01 | 72 | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,9 @@ Recent decisions affecting current work:
 - [Phase 03.1]: Dev DB had 4 stale sources from prior experiments; cleaned up manually; seed.ts preamble is correct for fresh databases
 - [Briefing redesign]: BriefingCard restructured with vertical layout: byline, title (18px), takeaway (extracted last "This..." sentence), context (remaining summary). No thumbnails, no badges; left border = importance, group icon = category
 - [Briefing redesign]: New design tokens: --foreground-secondary (zinc-700/zinc-300), --container-max-width-reading (1024px), dark --card elevated to #0f0f12. No opacity on text colors; explicit tokens only for verifiable contrast
+- [Phase 03.2]: topics field changed from String? (SQLite) to Json? (Postgres JSONB); no JSON.stringify on write, no JSON.parse on read
+- [Phase 03.2]: directUrl = env(DATABASE_URL_UNPOOLED) used for migrations to bypass PgBouncer
+- [Phase 03.2]: postinstall: prisma generate added to package.json for Vercel build cache safety
 
 ### Pending Todos
 
@@ -104,6 +108,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-19T22:45:00Z
-Stopped at: Completed 03.1-01-PLAN.md
-Resume file: .planning/phases/03.1-adjust-tl-dr-source-to-use-tldr-rss-middleman/03.1-01-SUMMARY.md
+Last session: 2026-03-21T13:43:45.580Z
+Stopped at: Completed 03.2-01-PLAN.md
+Resume file: None

@@ -85,7 +85,7 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03.2-01-PLAN.md — Neon provisioning, Prisma schema migration to PostgreSQL, topics Json? type propagation across source files and tests
+- [x] 03.2-01-PLAN.md — Neon provisioning, Prisma schema migration to PostgreSQL, topics Json? type propagation across source files and tests
 - [ ] 03.2-02-PLAN.md — Data migration script (SQLite to Neon), execute migration, verify data, remove SQLite dependencies
 - [ ] 03.2-03-PLAN.md — Cron schedule update, case-insensitive search, Vercel deployment, production verification
 

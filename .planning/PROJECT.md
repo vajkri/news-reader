@@ -60,7 +60,7 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 
 ## Context
 
-- **Brownfield project**: Existing Next.js 16 app with working RSS feed pipeline, Prisma/SQLite database, shadcn/ui components, and Vercel deployment
+- **Brownfield project**: Existing Next.js 16 app with working RSS feed pipeline, Prisma/Neon Postgres database, shadcn/ui components, and Vercel deployment (live at https://news-reader-eta.vercel.app)
 - **User has ADHD**: Every design decision must prioritize scannability — short text blocks, visual hierarchy, card-based layouts, no dense paragraphs
 - **Open-source**: Built for a broad audience (anyone overwhelmed by AI news), not just the creator. Must be configurable and self-hostable
 - **AI ecosystem focus**: Primary interest areas include model releases, developer tools (Claude Code, GitHub Copilot, SDKs), and industry moves (acquisitions, policy)
@@ -68,7 +68,7 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 
 ## Constraints
 
-- **Tech stack**: Next.js 16, React 19, Prisma, SQLite, Tailwind CSS, shadcn/ui — build on existing stack
+- **Tech stack**: Next.js 16, React 19, Prisma, Neon Postgres, Tailwind CSS, shadcn/ui — build on existing stack
 - **AI integration**: Vercel AI SDK with AI Gateway for provider flexibility (start with Claude, support switching)
 - **Design**: ADHD-accessible — no walls of text, visual/scannable format, bite-sized information
 - **Simplicity**: Start with simplest viable solutions, iterate based on real usage
@@ -88,4 +88,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-20 after Phase 03.1 (TLDR RSS Middleman Source Swap) completion*
+*Last updated: 2026-03-21 after Phase 03.2 (Neon Postgres Migration & Vercel Deployment) completion*

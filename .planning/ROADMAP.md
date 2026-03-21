@@ -82,7 +82,7 @@ Plans:
 **Goal:** Migrate the database from local SQLite to Neon Postgres via Vercel Marketplace, transfer existing article data (March 18th onward) to preserve AI enrichments, remove all SQLite dependencies, and deploy to Vercel with working cron jobs and all pages functional
 **Requirements**: D-01 through D-20
 **Depends on:** Phase 03.1
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 03.2-01-PLAN.md — Neon provisioning, Prisma schema migration to PostgreSQL, topics Json? type propagation across source files and tests
@@ -120,6 +120,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
 | 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
-| 03.2 Neon Postgres Migration | 2/3 | In Progress|  |
+| 03.2 Neon Postgres Migration | 2/3 | Complete    | 2026-03-21 |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

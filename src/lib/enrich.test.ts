@@ -99,7 +99,7 @@ describe('saveEnrichmentResults', () => {
     vi.clearAllMocks();
   });
 
-  it('calls prisma.article.update with JSON.stringify on topics', async () => {
+  it('calls prisma.article.update with topics array directly', async () => {
     mockPrismaUpdate.mockResolvedValue({} as never);
     const results = [
       {
@@ -115,7 +115,7 @@ describe('saveEnrichmentResults', () => {
       where: { id: 1 },
       data: {
         summary: 'sum',
-        topics: '["model releases","open source"]',
+        topics: ['model releases', 'open source'],
         importanceScore: 8,
         enrichedAt: expect.any(Date),
       },

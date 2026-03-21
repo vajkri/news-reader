@@ -87,7 +87,7 @@ Plans:
 Plans:
 - [x] 03.2-01-PLAN.md — Neon provisioning, Prisma schema migration to PostgreSQL, topics Json? type propagation across source files and tests
 - [x] 03.2-02-PLAN.md — Data migration script (SQLite to Neon), execute migration, verify data, remove SQLite dependencies
-- [ ] 03.2-03-PLAN.md — Cron schedule update, case-insensitive search, Vercel deployment, production verification
+- [x] 03.2-03-PLAN.md — Cron schedule update, case-insensitive search, Vercel deployment, production verification
 
 ### Phase 4: Chat Interface
 **Goal**: Users can ask natural language questions about collected news and receive accurate, grounded answers drawn from the enriched article corpus
@@ -120,6 +120,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
 | 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
-| 03.2 Neon Postgres Migration | 2/3 | Complete    | 2026-03-21 |
+| 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

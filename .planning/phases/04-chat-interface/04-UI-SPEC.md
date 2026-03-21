@@ -54,19 +54,20 @@ Exceptions:
 
 ## Typography
 
-Inherits the project-wide scale from CLAUDE.md. No new sizes introduced.
+Inherits the project-wide scale from CLAUDE.md. Updated to match new typography scale (Body 16px, Heading 18px, Small/Label 14px).
 
 | Role | Font | Size | Weight | Line Height | Usage |
 |------|------|------|--------|-------------|-------|
-| Body | Geist Sans | 14px | 400 | 1.5 | Chat message text, chip labels, metadata |
+| Body | Geist Sans | 16px | 400 | 1.5 | Chat message text, chip labels |
 | Label | Geist Sans | 14px | 600 | 1.4 | Panel header title ("Chat"), context card title |
-| Heading | Geist Sans | 16px | 600 | 1.4 | Empty state heading ("Ask about your news") |
-| Meta | Geist Sans | 13px | 400 | 1.5 | Input placeholder, context card source/date, section labels |
+| Small | Geist Sans | 14px | 400 | 1.5 | Metadata, context card source/date |
+| Heading | Geist Sans | 18px | 600 | 1.4 | Empty state heading ("Ask about your news") |
+| Meta | Geist Sans | 13px | 400 | 1.5 | Input placeholder, section labels, "Chatting about" label |
 
 Notes:
 - Minimum font size: 13px (project rule — no new 12px elements outside Badge exception)
-- Empty state sub-copy: 13px / 400 / `--muted-foreground`
-- Context card "Chatting about" label: 12px / 600 / uppercase / `--muted-foreground` — aligns with the existing Badge exception (12px is the project's documented minimum for label tags per CLAUDE.md Badge note)
+- Empty state sub-copy: 14px / 400 / `--muted-foreground`
+- Context card "Chatting about" label: 13px / 600 / uppercase / `--muted-foreground`
 
 ---
 
@@ -143,8 +144,8 @@ Existing UI primitives consumed (no new variants needed):
 
 Layout: centered vertically in panel body
 1. Icon: 48x48px rounded box, `--card` bg, `--border` border, lucide `Sparkles` icon at 22px / `--muted-foreground` color
-2. Heading: "Ask about your news" — 16px / 600 / `--foreground`
-3. Sub-copy: "Search, summarize, and analyze articles from your collected sources." — 13px / 400 / `--muted-foreground`
+2. Heading: "Ask about your news" — 18px / 600 / `--foreground`
+3. Sub-copy: "Search, summarize, and analyze articles from your collected sources." — 14px / 400 / `--muted-foreground`
 4. Prompt chips (4 hardcoded):
    - "What's new with Claude?"
    - "Top stories today"
@@ -156,7 +157,7 @@ Layout: centered vertically in panel body
 
 Layout: pinned context card at top of panel body, centered chips below (Option A from mockup)
 1. Context card (pinned, non-scrolling):
-   - Label: "Chatting about" — 12px / 600 / uppercase / `--muted-foreground`
+   - Label: "Chatting about" — 13px / 600 / uppercase / `--muted-foreground`
    - Title: article title — 14px / 600 / `--foreground`, max 2 lines, line-clamp-2
    - Meta: source name + relative time — 13px / 400 / `--muted-foreground`
    - Left border: 4px solid `--border`

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chat Empty State Mockups</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #09090b;
+    color: #fafafa;
+    padding: 40px;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #a1a1aa;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .mockup-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #a1a1aa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .mockup-desc {
+    font-size: 13px;
+    color: #71717a;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* Simulated chat panel */
+  .panel {
+    width: 380px;
+    height: 520px;
+    background: #0f0f12;
+    border: 1px solid #27272a;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #27272a;
+  }
+
+  .panel-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #71717a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .icon-btn:hover { background: #27272a; color: #fafafa; }
+
+  .panel-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .panel-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #27272a;
+  }
+
+  .input-mock {
+    width: 100%;
+    height: 40px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    padding: 0 12px;
+    color: #71717a;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Prompt chips */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .chip {
+    padding: 8px 14px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #d4d4d8;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .chip:hover { border-color: #3f3f46; background: #27272a; }
+
+  /* Welcome message bubble */
+  .welcome-bubble {
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d4d4d8;
+    max-width: 300px;
+    text-align: left;
+  }
+
+  .welcome-bubble strong {
+    color: #fafafa;
+    font-weight: 500;
+  }
+
+  /* Icon placeholder */
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #71717a;
+  }
+
+  /* Heading in empty state */
+  .empty-heading {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fafafa;
+  }
+
+  .empty-sub {
+    font-size: 13px;
+    color: #71717a;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 260px;
+  }
+
+  /* Capability list */
+  .capability-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .capability-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #a1a1aa;
+    line-height: 1.4;
+  }
+
+  .capability-icon {
+    color: #71717a;
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid">
+
+  <!-- OPTION A: Chips only (minimal) -->
+  <div>
+    <div class="mockup-label">A: Chips only</div>
+    <div class="mockup-desc">
+      Minimal. Just prompt chips centered in the panel. No greeting, no icon. The chips ARE the onboarding.
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Chat</span>
+        <div class="panel-actions">
+          <button class="icon-btn" title="New conversation">+</button>
+          <button class="icon-btn" title="Close">&times;</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="chips">
+          <div class="chip">What's new with Claude?</div>
+          <div class="chip">Top stories today</div>
+          <div class="chip">Developer tools this week</div>
+          <div class="chip">Summarize model releases</div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="input-mock">Ask about any topic, source, or time period...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION B: Icon + heading + chips -->
+  <div>
+    <div class="mockup-label">B: Icon + heading + chips</div>
+    <div class="mockup-desc">
+      Small icon and one-liner above the chips. Gives a sense of purpose without being chatty.
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Chat</span>
+        <div class="panel-actions">
+          <button class="icon-btn" title="New conversation">+</button>
+          <button class="icon-btn" title="Close">&times;</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="empty-icon">&#x2728;</div>
+        <div class="empty-heading">Ask about your news</div>
+        <div class="empty-sub">Search, summarize, and analyze articles from your collected sources.</div>
+        <div class="chips">
+          <div class="chip">What's new with Claude?</div>
+          <div class="chip">Top stories today</div>
+          <div class="chip">Developer tools this week</div>
+          <div class="chip">Summarize model releases</div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="input-mock">Ask about any topic, source, or time period...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION C: Welcome bubble + chips -->
+  <div>
+    <div class="mockup-label">C: Welcome bubble + chips</div>
+    <div class="mockup-desc">
+      An AI-style message bubble as greeting, followed by chips. Feels conversational, like the AI is speaking first.
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Chat</span>
+        <div class="panel-actions">
+          <button class="icon-btn" title="New conversation">+</button>
+          <button class="icon-btn" title="Close">&times;</button>
+        </div>
+      </div>
+      <div class="panel-body" style="justify-content: flex-start; padding-top: 20px;">
+        <div class="welcome-bubble">
+          I can help you search, summarize, and analyze your collected AI news. Try one of these, or ask anything:
+        </div>
+        <div class="chips" style="margin-top: 4px;">
+          <div class="chip">What's new with Claude?</div>
+          <div class="chip">Top stories today</div>
+          <div class="chip">Developer tools this week</div>
+          <div class="chip">Summarize model releases</div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="input-mock">Ask about any topic, source, or time period...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION D: Capability list + chips -->
+  <div>
+    <div class="mockup-label">D: Capability hints + chips</div>
+    <div class="mockup-desc">
+      Shows what the chat CAN do (like ChatGPT's old welcome screen), then chips for quick starts.
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Chat</span>
+        <div class="panel-actions">
+          <button class="icon-btn" title="New conversation">+</button>
+          <button class="icon-btn" title="Close">&times;</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="empty-icon">&#x1F50D;</div>
+        <div class="capability-list">
+          <div class="capability-item">
+            <span class="capability-icon">&#x2192;</span>
+            <span><strong style="color:#d4d4d8">Search</strong> articles by topic, source, or date</span>
+          </div>
+          <div class="capability-item">
+            <span class="capability-icon">&#x2192;</span>
+            <span><strong style="color:#d4d4d8">Summarize</strong> what happened in a time period</span>
+          </div>
+          <div class="capability-item">
+            <span class="capability-icon">&#x2192;</span>
+            <span><strong style="color:#d4d4d8">Analyze</strong> trends across your collected news</span>
+          </div>
+        </div>
+        <div class="chips" style="margin-top: 8px;">
+          <div class="chip">What's new with Claude?</div>
+          <div class="chip">Top stories today</div>
+          <div class="chip">Developer tools this week</div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="input-mock">Ask about any topic, source, or time period...</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

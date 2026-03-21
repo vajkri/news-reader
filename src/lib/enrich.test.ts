@@ -99,7 +99,7 @@ describe('saveEnrichmentResults', () => {
     vi.clearAllMocks();
   });
 
-  it('calls prisma.article.update with JSON.stringify on topics', async () => {
+  it('calls prisma.article.update with topics array directly', async () => {
     mockPrismaUpdate.mockResolvedValue({} as never);
     const results = [
       {
@@ -115,7 +115,7 @@ describe('saveEnrichmentResults', () => {
       where: { id: 1 },
       data: {
         summary: 'sum',
-        topics: '["model releases","open source"]',
+        topics: ['model releases', 'open source'],
         importanceScore: 8,
         enrichedAt: expect.any(Date),
       },
@@ -175,7 +175,7 @@ describe('constants', () => {
     expect(SEED_TOPICS.length).toBe(7);
   });
 
-  it('BATCH_LIMIT equals 30', () => {
-    expect(BATCH_LIMIT).toBe(30);
+  it('BATCH_LIMIT equals 15', () => {
+    expect(BATCH_LIMIT).toBe(15);
   });
 });

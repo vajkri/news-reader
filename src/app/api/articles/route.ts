@@ -24,8 +24,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   if (search) {
     andConditions.push({
       OR: [
-        { title: { contains: search } },
-        { source: { name: { contains: search } } },
+        { title: { contains: search, mode: 'insensitive' } },
+        { source: { name: { contains: search, mode: 'insensitive' } } },
       ],
     });
   }

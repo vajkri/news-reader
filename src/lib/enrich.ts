@@ -104,7 +104,7 @@ export async function saveEnrichmentResults(
         where: { id: result.articleId },
         data: {
           summary: result.summary,
-          topics: JSON.stringify(result.topics),
+          topics: result.topics,
           importanceScore: result.importanceScore,
           enrichedAt: new Date(),
         },

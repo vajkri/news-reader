@@ -1,26 +1,33 @@
 -- CreateTable
 CREATE TABLE "Source" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "category" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Source_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Article" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "guid" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "link" TEXT NOT NULL,
     "description" TEXT,
     "thumbnail" TEXT,
-    "publishedAt" DATETIME,
+    "publishedAt" TIMESTAMP(3),
     "readTimeMin" INTEGER,
     "isRead" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "summary" TEXT,
+    "topics" JSONB,
+    "importanceScore" INTEGER,
+    "enrichedAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "sourceId" INTEGER NOT NULL,
-    CONSTRAINT "Article_sourceId_fkey" FOREIGN KEY ("sourceId") REFERENCES "Source" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+
+    CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -37,3 +44,9 @@ CREATE INDEX "Article_publishedAt_idx" ON "Article"("publishedAt");
 
 -- CreateIndex
 CREATE INDEX "Article_isRead_idx" ON "Article"("isRead");
+
+-- CreateIndex
+CREATE INDEX "Article_enrichedAt_idx" ON "Article"("enrichedAt");
+
+-- AddForeignKey
+ALTER TABLE "Article" ADD CONSTRAINT "Article_sourceId_fkey" FOREIGN KEY ("sourceId") REFERENCES "Source"("id") ON DELETE CASCADE ON UPDATE CASCADE;

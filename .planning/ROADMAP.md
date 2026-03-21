@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Secure the codebase, fix corpus limits, configure dev environment (completed 2026-03-19)
 - [x] **Phase 2: AI Enrichment** - Automatically summarize, classify, and score every article (completed 2026-03-19)
-- [ ] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest
+- [x] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest (completed 2026-03-21)
 - [ ] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language
 - [ ] **Phase 5: UX Polish** - Apply ADHD-friendly design consistently across all views
 
@@ -61,11 +61,11 @@ Plans:
   1. The briefing page shows the top 5-10 articles ranked by importance score, not chronologically
   2. Each article on the briefing page is presented as a scannable card: headline, AI summary, importance indicator — no walls of text
   3. Articles on the briefing page are grouped by topic with a clear visual section heading per group
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 03-01-PLAN.md — Briefing utility module (TDD: topic parsing, tier mapping, grouping logic + tests) and Badge tier variants
-- [ ] 03-02-PLAN.md — Briefing page, BriefingCard/TopicGroup/DateStepper components, nav link, visual verification
+- [x] 03-01-PLAN.md — Briefing utility module (TDD: topic parsing, tier mapping, grouping logic + tests) and Badge tier variants
+- [x] 03-02-PLAN.md — Briefing page, BriefingCard/TopicGroup/DateStepper components, nav link, visual verification
 
 ### Phase 03.1: Adjust TL;DR source to use tldr-rss middleman (INSERTED)
 
@@ -79,13 +79,15 @@ Plans:
 
 ### Phase 03.2: Neon Postgres migration + Vercel deployment (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
-**Depends on:** Phase 3
-**Plans:** 0 plans
+**Goal:** Migrate the database from local SQLite to Neon Postgres via Vercel Marketplace, transfer existing article data (March 18th onward) to preserve AI enrichments, remove all SQLite dependencies, and deploy to Vercel with working cron jobs and all pages functional
+**Requirements**: D-01 through D-20
+**Depends on:** Phase 03.1
+**Plans:** 3/3 plans complete
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 03.2 to break down)
+- [x] 03.2-01-PLAN.md — Neon provisioning, Prisma schema migration to PostgreSQL, topics Json? type propagation across source files and tests
+- [x] 03.2-02-PLAN.md — Data migration script (SQLite to Neon), execute migration, verify data, remove SQLite dependencies
+- [x] 03.2-03-PLAN.md — Cron schedule update, case-insensitive search, Vercel deployment, production verification
 
 ### Phase 4: Chat Interface
 **Goal**: Users can ask natural language questions about collected news and receive accurate, grounded answers drawn from the enriched article corpus
@@ -116,7 +118,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-19 |
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
-| 3. Daily Briefing | 1/2 | In Progress|  |
+| 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
+| 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

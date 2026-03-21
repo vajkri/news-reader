@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import type { ArticleRow } from '@/types';
 
 export type ImportanceTier = 'critical' | 'important' | 'notable';
@@ -13,14 +14,10 @@ export interface TopicGroupData {
   maxScore: number;
 }
 
-export function parseTopics(raw: string | null): string[] {
+export function parseTopics(raw: Prisma.JsonValue | null): string[] {
   if (!raw) return ['Uncategorized'];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : ['Uncategorized'];
-  } catch {
-    return ['Uncategorized'];
-  }
+  if (Array.isArray(raw) && raw.length > 0) return raw as string[];
+  return ['Uncategorized'];
 }
 
 export function scoreToTier(score: number | null): ImportanceTier {

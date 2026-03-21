@@ -29,27 +29,19 @@ describe('parseTopics', () => {
     expect(parseTopics(null)).toEqual(['Uncategorized']);
   });
 
-  it('returns ["Uncategorized"] for empty string', () => {
-    expect(parseTopics('')).toEqual(['Uncategorized']);
+  it('returns ["Uncategorized"] for empty array', () => {
+    expect(parseTopics([])).toEqual(['Uncategorized']);
   });
 
-  it('returns ["Uncategorized"] for non-JSON string', () => {
-    expect(parseTopics('not json')).toEqual(['Uncategorized']);
-  });
-
-  it('returns ["Uncategorized"] for empty array JSON', () => {
-    expect(parseTopics('[]')).toEqual(['Uncategorized']);
-  });
-
-  it('returns parsed array for valid JSON topics', () => {
-    expect(parseTopics('["model releases","developer tools"]')).toEqual([
+  it('returns parsed array for valid topics array', () => {
+    expect(parseTopics(['model releases', 'developer tools'])).toEqual([
       'model releases',
       'developer tools',
     ]);
   });
 
-  it('returns single-item array for JSON with one topic', () => {
-    expect(parseTopics('["AI safety"]')).toEqual(['AI safety']);
+  it('returns single-item array for one topic', () => {
+    expect(parseTopics(['AI safety'])).toEqual(['AI safety']);
   });
 });
 
@@ -94,9 +86,9 @@ describe('groupArticlesByTopic', () => {
 
   it('groups articles by primary topic into correct number of groups', () => {
     const articles = [
-      makeArticle({ id: 1, topics: '["AI safety","model releases"]', importanceScore: 8 }),
-      makeArticle({ id: 2, topics: '["model releases"]', importanceScore: 9 }),
-      makeArticle({ id: 3, topics: '["AI safety"]', importanceScore: 6 }),
+      makeArticle({ id: 1, topics: ['AI safety', 'model releases'], importanceScore: 8 }),
+      makeArticle({ id: 2, topics: ['model releases'], importanceScore: 9 }),
+      makeArticle({ id: 3, topics: ['AI safety'], importanceScore: 6 }),
     ];
     const groups = groupArticlesByTopic(articles);
     expect(groups).toHaveLength(2);
@@ -104,8 +96,8 @@ describe('groupArticlesByTopic', () => {
 
   it('assigns each article to its first (primary) topic only', () => {
     const articles = [
-      makeArticle({ id: 1, topics: '["AI safety","model releases"]', importanceScore: 7 }),
-      makeArticle({ id: 2, topics: '["model releases"]', importanceScore: 5 }),
+      makeArticle({ id: 1, topics: ['AI safety', 'model releases'], importanceScore: 7 }),
+      makeArticle({ id: 2, topics: ['model releases'], importanceScore: 5 }),
     ];
     const groups = groupArticlesByTopic(articles);
     const aiSafetyGroup = groups.find((g) => g.topic === 'AI safety');
@@ -118,9 +110,9 @@ describe('groupArticlesByTopic', () => {
 
   it('sorts groups by maxScore descending', () => {
     const articles = [
-      makeArticle({ id: 1, topics: '["AI safety"]', importanceScore: 6 }),
-      makeArticle({ id: 2, topics: '["model releases"]', importanceScore: 9 }),
-      makeArticle({ id: 3, topics: '["hardware"]', importanceScore: 7 }),
+      makeArticle({ id: 1, topics: ['AI safety'], importanceScore: 6 }),
+      makeArticle({ id: 2, topics: ['model releases'], importanceScore: 9 }),
+      makeArticle({ id: 3, topics: ['hardware'], importanceScore: 7 }),
     ];
     const groups = groupArticlesByTopic(articles);
     expect(groups[0].topic).toBe('model releases');
@@ -130,9 +122,9 @@ describe('groupArticlesByTopic', () => {
 
   it('preserves article order within each group', () => {
     const articles = [
-      makeArticle({ id: 1, topics: '["AI safety"]', importanceScore: 9 }),
-      makeArticle({ id: 2, topics: '["AI safety"]', importanceScore: 7 }),
-      makeArticle({ id: 3, topics: '["AI safety"]', importanceScore: 5 }),
+      makeArticle({ id: 1, topics: ['AI safety'], importanceScore: 9 }),
+      makeArticle({ id: 2, topics: ['AI safety'], importanceScore: 7 }),
+      makeArticle({ id: 3, topics: ['AI safety'], importanceScore: 5 }),
     ];
     const groups = groupArticlesByTopic(articles);
     expect(groups).toHaveLength(1);
@@ -141,8 +133,8 @@ describe('groupArticlesByTopic', () => {
 
   it('computes maxScore correctly for each group', () => {
     const articles = [
-      makeArticle({ id: 1, topics: '["AI safety"]', importanceScore: 6 }),
-      makeArticle({ id: 2, topics: '["AI safety"]', importanceScore: 9 }),
+      makeArticle({ id: 1, topics: ['AI safety'], importanceScore: 6 }),
+      makeArticle({ id: 2, topics: ['AI safety'], importanceScore: 9 }),
     ];
     const groups = groupArticlesByTopic(articles);
     expect(groups[0].maxScore).toBe(9);
@@ -150,7 +142,7 @@ describe('groupArticlesByTopic', () => {
 
   it('handles articles with null importanceScore in maxScore calculation', () => {
     const articles = [
-      makeArticle({ id: 1, topics: '["AI safety"]', importanceScore: null }),
+      makeArticle({ id: 1, topics: ['AI safety'], importanceScore: null }),
     ];
     const groups = groupArticlesByTopic(articles);
     expect(groups[0].maxScore).toBe(0);

@@ -1,3 +1,5 @@
+import type { Prisma } from '@prisma/client';
+
 export interface ArticleRow {
   id: number;
   guid: string;
@@ -9,7 +11,7 @@ export interface ArticleRow {
   readTimeMin: number | null;
   isRead: boolean;
   summary: string | null;
-  topics: string | null;
+  topics: Prisma.JsonValue | null;
   importanceScore: number | null;
   enrichedAt: string | null;
   sourceId: number;

@@ -102,6 +102,8 @@ Recent decisions affecting current work:
 2. Add error handling to sources page fetch (area: ui)
 3. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui)
 4. Rotate leaked CRON_SECRET and scrub from git history (area: general)
+5. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
+4. Rotate leaked CRON_SECRET and scrub from git history (area: general)
 
 ### Blockers/Concerns
 

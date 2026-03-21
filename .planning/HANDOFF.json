@@ -1,37 +1,31 @@
 {
   "version": "1.0",
-  "timestamp": "2026-03-19T18:00:23.188Z",
-  "phase": "02",
-  "phase_name": "ai-enrichment",
-  "phase_dir": ".planning/phases/02-ai-enrichment",
-  "plan": null,
-  "task": null,
-  "total_tasks": 4,
-  "status": "uat_in_progress",
-  "completed_tasks": [
-    {"id": "02-01-T1", "name": "Enrichment schema fields and AI dependencies", "status": "done", "commit": "d59ae29"},
-    {"id": "02-01-T2", "name": "AI model config and batch enrichment logic", "status": "done", "commit": "2cbdeca"},
-    {"id": "02-02-T1", "name": "Enrichment cron route and vercel.json cron entry", "status": "done", "commit": "7462ded"},
-    {"id": "02-02-T2", "name": "Vitest config and enrichment unit tests", "status": "done", "commit": "0cc2337"}
+  "timestamp": "2026-03-21T17:00:06.720Z",
+  "phase": "04",
+  "phase_name": "Chat Interface",
+  "phase_dir": ".planning/phases/04-chat-interface",
+  "plan": 0,
+  "task": 0,
+  "total_tasks": 0,
+  "status": "paused",
+  "completed_tasks": [],
+  "remaining_tasks": [
+    {"id": 1, "name": "Collect remaining decisions (6 items, one at a time)", "status": "not_started"},
+    {"id": 2, "name": "Run /gsd:discuss-phase 4", "status": "not_started"},
+    {"id": 3, "name": "Run /gsd:plan-phase 4", "status": "not_started"},
+    {"id": 4, "name": "Execute Phase 4", "status": "not_started"}
   ],
-  "remaining_tasks": [],
-  "blockers": [
-    {
-      "description": "Dev server running from main repo, not worktree. API route /api/enrich returns 404 because the route file only exists in the worktree.",
-      "type": "human_action",
-      "workaround": "Continue UAT from main worktree after merging, or start dev server from worktree directory"
-    }
-  ],
+  "blockers": [],
   "human_actions_pending": [
-    {"action": "Merge worktree branch gsd/phase-02-ai-enrichment into main, then run dev server from main repo to test /api/enrich endpoint", "context": "UAT tests 2-4 need a running dev server with the enrichment route accessible", "blocking": true},
-    {"action": "Set AI_GATEWAY_API_KEY in .env.local for live enrichment testing (test 4)", "context": "Idempotency test requires actual AI Gateway calls", "blocking": false}
+    {"action": "Update global ~/.claude/CLAUDE.md with Memory & Documentation Placement table and ADHD/Decisions directives", "context": "User cannot edit global CLAUDE.md from sandboxed workspace; must do manually or from unsandboxed session", "blocking": false}
   ],
   "decisions": [
-    {"decision": "maxOutputTokens (not maxTokens) for AI SDK v6", "rationale": "Parameter renamed in v6, caught during execution", "phase": "02"},
-    {"decision": "Topics stored as JSON string in SQLite", "rationale": "SQLite has no native array type; Prisma bug #26571 prevents @default on JSON columns", "phase": "02"},
-    {"decision": "GET method for /api/enrich", "rationale": "Vercel cron jobs invoke via GET by default", "phase": "02"}
+    {"decision": "Rate limiting: YES", "rationale": "Minimize token usage, stay within free tier", "phase": "04"},
+    {"decision": "SQLite works fine, no dependency on Phase 03.2", "rationale": "Prisma abstracts DB; tool-calling queries work identically on SQLite and Postgres", "phase": "04"},
+    {"decision": "Grounding/factuality is very important", "rationale": "User explicitly confirmed; system prompt + tool design must prevent hallucination", "phase": "04"},
+    {"decision": "Summarize button desired on briefing cards", "rationale": "User wants more info without reading full article; placement (Phase 4 vs 04.1) not yet decided", "phase": "04"}
   ],
-  "uncommitted_files": [".planning/phases/02-ai-enrichment/02-UAT.md"],
-  "next_action": "Merge gsd/phase-02-ai-enrichment into main, start dev server, resume UAT with /gsd:verify-work 2",
-  "context_notes": "Phase 2 execution complete (2/2 plans, 4/4 tasks, verification passed 9/9). UAT in progress: test 1 passed (unit tests), tests 2-3 recorded as issues (404 due to worktree/dev-server mismatch), tests 4-5 pending. User wants to continue from main worktree instead."
+  "uncommitted_files": [],
+  "next_action": "Present 6 remaining decisions one at a time, then run /gsd:discuss-phase 4",
+  "context_notes": "Pre-planning discussion phase. User has ADHD: present one decision at a time. User corrected agent for information overload. Memory placement rules clarified but global CLAUDE.md needs manual update."
 }

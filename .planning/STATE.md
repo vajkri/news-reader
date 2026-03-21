@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03.2-01-PLAN.md
-last_updated: "2026-03-21T13:43:45.583Z"
+stopped_at: Completed 03.2-02-PLAN.md
+last_updated: "2026-03-21T13:50:06.535Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 11
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 03.2 (neon-postgres-migration-vercel-deployment) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Plan: 2 of 3
 | Phase 03-daily-briefing P01 | 2 | 2 tasks | 4 files |
 | Phase 03-daily-briefing P02 | 2 | 2 tasks | 6 files |
 | Phase 03.2 P01 | 72 | 3 tasks | 8 files |
+| Phase 03.2 P02 | 4 | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -89,6 +90,8 @@ Recent decisions affecting current work:
 - [Phase 03.2]: topics field changed from String? (SQLite) to Json? (Postgres JSONB); no JSON.stringify on write, no JSON.parse on read
 - [Phase 03.2]: directUrl = env(DATABASE_URL_UNPOOLED) used for migrations to bypass PgBouncer
 - [Phase 03.2]: postinstall: prisma generate added to package.json for Vercel build cache safety
+- [Phase 03.2]: Migration script reads SQLite via better-sqlite3 direct SQL (not Prisma) to avoid dual-engine conflict after Postgres schema switch
+- [Phase 03.2]: SQLite stores DateTime as Unix ms integers; cutoff comparison must use CUTOFF.getTime() not .toISOString() in raw SQL
 
 ### Pending Todos
 
@@ -108,6 +111,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-21T13:43:45.580Z
-Stopped at: Completed 03.2-01-PLAN.md
+Last session: 2026-03-21T13:50:06.531Z
+Stopped at: Completed 03.2-02-PLAN.md
 Resume file: None

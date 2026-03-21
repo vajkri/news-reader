@@ -91,6 +91,7 @@ Recent decisions affecting current work:
 1. Add body validation to articles PATCH endpoint (area: api)
 2. Add error handling to sources page fetch (area: ui)
 3. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui)
+4. Rotate leaked CRON_SECRET and scrub from git history (area: general)
 
 ### Blockers/Concerns
 

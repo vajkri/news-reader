@@ -79,13 +79,15 @@ Plans:
 
 ### Phase 03.2: Neon Postgres migration + Vercel deployment (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
-**Depends on:** Phase 3
-**Plans:** 0 plans
+**Goal:** Migrate the database from local SQLite to Neon Postgres via Vercel Marketplace, transfer existing article data (March 18th onward) to preserve AI enrichments, remove all SQLite dependencies, and deploy to Vercel with working cron jobs and all pages functional
+**Requirements**: D-01 through D-20
+**Depends on:** Phase 03.1
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 03.2 to break down)
+- [ ] 03.2-01-PLAN.md — Neon provisioning, Prisma schema migration to PostgreSQL, topics Json? type propagation across source files and tests
+- [ ] 03.2-02-PLAN.md — Data migration script (SQLite to Neon), execute migration, verify data, remove SQLite dependencies
+- [ ] 03.2-03-PLAN.md — Cron schedule update, case-insensitive search, Vercel deployment, production verification
 
 ### Phase 4: Chat Interface
 **Goal**: Users can ask natural language questions about collected news and receive accurate, grounded answers drawn from the enriched article corpus
@@ -118,5 +120,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
 | 3. Daily Briefing | 1/2 | In Progress|  |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
+| 03.2 Neon Postgres Migration | 0/3 | Not started | - |
 | 4. Chat Interface | 0/TBD | Not started | - |
 | 5. UX Polish | 0/TBD | Not started | - |

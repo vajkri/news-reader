@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Secure the codebase, fix corpus limits, configure dev environment (completed 2026-03-19)
 - [x] **Phase 2: AI Enrichment** - Automatically summarize, classify, and score every article (completed 2026-03-19)
-- [ ] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest
+- [x] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest (completed 2026-03-21)
 - [ ] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language
 - [ ] **Phase 5: UX Polish** - Apply ADHD-friendly design consistently across all views
 
@@ -61,11 +61,11 @@ Plans:
   1. The briefing page shows the top 5-10 articles ranked by importance score, not chronologically
   2. Each article on the briefing page is presented as a scannable card: headline, AI summary, importance indicator — no walls of text
   3. Articles on the briefing page are grouped by topic with a clear visual section heading per group
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 03-01-PLAN.md — Briefing utility module (TDD: topic parsing, tier mapping, grouping logic + tests) and Badge tier variants
-- [ ] 03-02-PLAN.md — Briefing page, BriefingCard/TopicGroup/DateStepper components, nav link, visual verification
+- [x] 03-01-PLAN.md — Briefing utility module (TDD: topic parsing, tier mapping, grouping logic + tests) and Badge tier variants
+- [x] 03-02-PLAN.md — Briefing page, BriefingCard/TopicGroup/DateStepper components, nav link, visual verification
 
 ### Phase 03.1: Adjust TL;DR source to use tldr-rss middleman (INSERTED)
 
@@ -118,7 +118,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-19 |
 | 2. AI Enrichment | 2/2 | Complete   | 2026-03-19 |
-| 3. Daily Briefing | 1/2 | In Progress|  |
+| 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
 | 03.2 Neon Postgres Migration | 2/3 | In Progress|  |
 | 4. Chat Interface | 0/TBD | Not started | - |

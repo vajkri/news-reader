@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03.2-02-PLAN.md
-last_updated: "2026-03-21T13:50:06.535Z"
+stopped_at: Completed 03.2-03-PLAN.md
+last_updated: "2026-03-21T13:55:44.451Z"
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 11
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
@@ -55,6 +55,7 @@ Plan: 3 of 3
 | Phase 03-daily-briefing P02 | 2 | 2 tasks | 6 files |
 | Phase 03.2 P01 | 72 | 3 tasks | 8 files |
 | Phase 03.2 P02 | 4 | 3 tasks | 2 files |
+| Phase 03.2 P03 | 5 | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,8 @@ Recent decisions affecting current work:
 - [Phase 03.2]: postinstall: prisma generate added to package.json for Vercel build cache safety
 - [Phase 03.2]: Migration script reads SQLite via better-sqlite3 direct SQL (not Prisma) to avoid dual-engine conflict after Postgres schema switch
 - [Phase 03.2]: SQLite stores DateTime as Unix ms integers; cutoff comparison must use CUTOFF.getTime() not .toISOString() in raw SQL
+- [Phase 03.2]: Cron schedule: fetch at 05:00 UTC, enrich at 06:00 UTC (1-hour gap for fetch to complete before enrich)
+- [Phase 03.2]: mode: insensitive on Postgres contains replaces case-sensitive SQLite workaround; both title and source.name filters updated
 
 ### Pending Todos
 
@@ -111,6 +114,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-21T13:50:06.531Z
-Stopped at: Completed 03.2-02-PLAN.md
+Last session: 2026-03-21T13:55:44.447Z
+Stopped at: Completed 03.2-03-PLAN.md
 Resume file: None

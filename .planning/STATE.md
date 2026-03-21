@@ -83,10 +83,14 @@ Recent decisions affecting current work:
 - [Phase 03-daily-briefing]: Empty state includes View Feed CTA link per UI-SPEC copywriting contract
 - [Phase 03.1]: URL-swap preamble in seed.ts uses findUnique + name guard before upsert loop so Hacker News upsert creates a new row rather than matching the old TLDR Tech record
 - [Phase 03.1]: Dev DB had 4 stale sources from prior experiments; cleaned up manually; seed.ts preamble is correct for fresh databases
+- [Briefing redesign]: BriefingCard restructured with vertical layout: byline, title (18px), takeaway (extracted last "This..." sentence), context (remaining summary). No thumbnails, no badges; left border = importance, group icon = category
+- [Briefing redesign]: New design tokens: --foreground-secondary (zinc-700/zinc-300), --container-max-width-reading (1024px), dark --card elevated to #0f0f12. No opacity on text colors; explicit tokens only for verifiable contrast
 
 ### Pending Todos
 
-1. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui, 10 files)
+1. Add body validation to articles PATCH endpoint (area: api)
+2. Add error handling to sources page fetch (area: ui)
+3. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui)
 
 ### Blockers/Concerns
 

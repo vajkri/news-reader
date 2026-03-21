@@ -88,14 +88,15 @@ Target: **WCAG 2.2 AA** conformance. All UI must meet:
 
 All tokens are defined in `src/app/globals.css`.
 
-- **Color tokens** are CSS custom properties in `:root`. Light/dark mode via `prefers-color-scheme`. Variables: `--background`, `--foreground`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-foreground`, `--secondary`, `--accent`, `--card`, `--highlight`, `--highlight-foreground`, `--radius`.
+- **Color tokens** are CSS custom properties in `:root`. Light/dark mode via `prefers-color-scheme`. Variables: `--background`, `--foreground`, `--foreground-secondary`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-foreground`, `--secondary`, `--accent`, `--card`, `--highlight`, `--highlight-foreground`, `--radius`.
+- **Text hierarchy tokens:** `--foreground` (primary text, titles), `--foreground-secondary` (secondary text like insights/takeaways; zinc-700 light, zinc-300 dark), `--muted-foreground` (metadata, supporting context). Never use opacity on text colors; use explicit tokens for verifiable contrast.
 - **Highlight tokens:** `--highlight` (warm yellow bg) and `--highlight-foreground` (dark text on highlight). Use via `style={{ background: 'var(--highlight)', color: 'var(--highlight-foreground)' }}` on `<mark>` elements. Both modes meet WCAG 2.2 AA contrast.
 - **Font variables:** `--font-geist-sans` (Geist Sans, for UI) and `--font-geist-mono` (Geist Mono, for code). Loaded via `next/font/local` in `layout.tsx`.
-- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1460px), `--container-padding` (1.5rem). Used by `.section-container` utility in `@layer components`.
+- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1460px), `--container-max-width-reading` (1024px), `--container-padding` (1.5rem). Used by `.section-container` and `.reading-container` utilities in `@layer components`.
 
 ### Container Utility
 
-Use a two-div pattern: outer div owns background (full-width), inner div uses `.section-container` to constrain and pad content.
+Use a two-div pattern: outer div owns background (full-width), inner div uses `.section-container` (wide, 1460px) or `.reading-container` (narrow, 1024px for reading-focused pages) to constrain and pad content.
 
 ```html
 <div><!-- outer: full-width background -->

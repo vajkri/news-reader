@@ -58,7 +58,7 @@ export default async function BriefingPage({
   const topicGroups = groupArticlesByTopic(serialized);
 
   return (
-    <div className="section-container py-6">
+    <div className="reading-container py-6">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-base font-semibold text-[var(--foreground)]">
           Daily Briefing
@@ -85,7 +85,7 @@ export default async function BriefingPage({
           </Link>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-16">
           {topicGroups.map((group) => (
             <TopicGroup key={group.topic} group={group} />
           ))}

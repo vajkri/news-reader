@@ -29,6 +29,27 @@ export function scoreToTier(score: number | null): ImportanceTier {
   return 'important'; // 7-8
 }
 
+export function splitSummary(
+  summary: string | null,
+): { takeaway: string; context: string } | null {
+  if (!summary) return null;
+
+  const trimmed = summary.trim();
+  const lastThisIdx = trimmed.lastIndexOf('. This');
+
+  if (lastThisIdx === -1) {
+    if (trimmed.startsWith('This')) {
+      return { takeaway: trimmed, context: '' };
+    }
+    return { takeaway: '', context: trimmed };
+  }
+
+  return {
+    context: trimmed.slice(0, lastThisIdx + 1).trim(),
+    takeaway: trimmed.slice(lastThisIdx + 2).trim(),
+  };
+}
+
 export function groupArticlesByTopic(articles: ArticleRow[]): TopicGroupData[] {
   const groups = new Map<string, BriefingArticle[]>();
 

@@ -3,6 +3,18 @@ import { tool } from 'ai';
 import { z } from 'zod';
 import { prisma } from './prisma';
 
+interface RawSearchResult {
+  id: number;
+  title: string;
+  summary: string | null;
+  link: string;
+  publishedAt: Date | null;
+  importanceScore: number | null;
+  topics: unknown;
+  sourceName: string;
+  sourceCategory: string | null;
+}
+
 function mapArticleResponse(a: {
   id: number;
   title: string;
@@ -46,19 +58,38 @@ export const searchArticlesTool = tool({
       .describe('Max results to return'),
   }),
   execute: async ({ query, limit }) => {
-    const articles = await prisma.article.findMany({
-      where: {
-        OR: [
-          { title: { contains: query, mode: 'insensitive' } },
-          { description: { contains: query, mode: 'insensitive' } },
-        ],
-        enrichedAt: { not: null },
-      },
-      orderBy: [{ importanceScore: 'desc' }, { publishedAt: 'desc' }],
-      take: limit,
-      include: { source: { select: { name: true, category: true } } },
-    });
-    return articles.map(mapArticleResponse);
+    const articles = await prisma.$queryRaw<RawSearchResult[]>`
+      SELECT
+        a.id, a.title, a.summary, a.link,
+        a."publishedAt", a."importanceScore", a.topics,
+        s.name AS "sourceName", s.category AS "sourceCategory"
+      FROM "Article" a
+      JOIN "Source" s ON a."sourceId" = s.id
+      WHERE a."enrichedAt" IS NOT NULL
+        AND (
+          to_tsvector('english', coalesce(a.title, '') || ' ' || coalesce(a.description, '') || ' ' || coalesce(a.summary, ''))
+          @@ plainto_tsquery('english', ${query})
+        )
+      ORDER BY
+        ts_rank(
+          to_tsvector('english', coalesce(a.title, '') || ' ' || coalesce(a.description, '') || ' ' || coalesce(a.summary, '')),
+          plainto_tsquery('english', ${query})
+        ) DESC,
+        a."importanceScore" DESC NULLS LAST,
+        a."publishedAt" DESC NULLS LAST
+      LIMIT ${limit}
+    `;
+
+    return articles.map((a) => ({
+      id: a.id,
+      title: a.title,
+      summary: a.summary,
+      source: a.sourceName,
+      publishedAt: a.publishedAt,
+      link: a.link,
+      importanceScore: a.importanceScore,
+      topics: (a.topics as string[] | null) ?? [],
+    }));
   },
 });
 

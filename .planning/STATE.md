@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 04-04-PLAN.md
-last_updated: "2026-03-22T07:10:04.975Z"
+stopped_at: Completed 04-06-PLAN.md
+last_updated: "2026-03-22T07:28:49.565Z"
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 18
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04 (chat-interface) — EXECUTING
-Plan: 3 of 7
+Plan: 4 of 7
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ Plan: 3 of 7
 | Phase 04-chat-interface P02 | 7 | 2 tasks | 10 files |
 | Phase 04-chat-interface P05 | 8 | 3 tasks | 4 files |
 | Phase 04-chat-interface P04 | 9 | 2 tasks | 5 files |
+| Phase 04-chat-interface P06 | 4 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,8 @@ Recent decisions affecting current work:
 - [Phase 04-chat-interface]: CSS Grid embedded layout uses data attribute on html element for decoupled coordination between ChatPanel and .app-content
 - [Phase 04-chat-interface]: useMemo for rate limit derivation instead of useEffect+setState to satisfy react-hooks/set-state-in-effect rule
 - [Phase 04-chat-interface]: plainto_tsquery over to_tsquery for natural language query handling; sendMessage ChatRequestOptions.body for articleContext (useChat body removed in v6)
+- [Phase 04-chat-interface]: SourcesToggle uses raw button: disclosure toggle doesn't fit Button component styling
+- [Phase 04-chat-interface]: Inline SourceCards via custom react-markdown a renderer matching sources by URL
 
 ### Pending Todos
 
@@ -128,6 +131,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-22T07:10:04.971Z
-Stopped at: Completed 04-04-PLAN.md
+Last session: 2026-03-22T07:28:49.561Z
+Stopped at: Completed 04-06-PLAN.md
 Resume file: None

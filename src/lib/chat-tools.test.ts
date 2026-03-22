@@ -7,6 +7,7 @@ vi.mock('@/lib/prisma', () => ({
     article: {
       findMany: vi.fn(),
     },
+    $queryRaw: vi.fn(),
   },
 }));
 
@@ -23,6 +24,19 @@ import {
 } from '@/lib/chat-tools';
 
 const mockFindMany = vi.mocked(prisma.article.findMany);
+const mockQueryRaw = vi.mocked(prisma.$queryRaw);
+
+const sampleRawArticle = {
+  id: 1,
+  title: 'Claude 4 Released',
+  summary: 'Anthropic released Claude 4 with improved reasoning.',
+  link: 'https://example.com/claude-4',
+  publishedAt: new Date('2026-03-20'),
+  importanceScore: 9,
+  topics: ['model releases', 'industry moves'],
+  sourceName: 'TechCrunch',
+  sourceCategory: 'tech',
+};
 
 const sampleArticle = {
   id: 1,
@@ -40,29 +54,17 @@ describe('searchArticlesTool', () => {
     vi.clearAllMocks();
   });
 
-  it('calls prisma.article.findMany with title OR description contains query (mode insensitive), enrichedAt not null', async () => {
-    mockFindMany.mockResolvedValue([sampleArticle] as never);
+  it('calls prisma.$queryRaw (not findMany) for full-text search', async () => {
+    mockQueryRaw.mockResolvedValue([sampleRawArticle] as never);
 
     await searchArticlesTool.execute({ query: 'Claude', limit: 5 }, {} as never);
 
-    expect(mockFindMany).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: expect.objectContaining({
-          OR: [
-            { title: { contains: 'Claude', mode: 'insensitive' } },
-            { description: { contains: 'Claude', mode: 'insensitive' } },
-          ],
-          enrichedAt: { not: null },
-        }),
-        orderBy: [{ importanceScore: 'desc' }, { publishedAt: 'desc' }],
-        take: 5,
-        include: { source: { select: { name: true, category: true } } },
-      })
-    );
+    expect(mockQueryRaw).toHaveBeenCalled();
+    expect(mockFindMany).not.toHaveBeenCalled();
   });
 
-  it('returns mapped array with id, title, summary, source name, publishedAt, link, importanceScore, topics', async () => {
-    mockFindMany.mockResolvedValue([sampleArticle] as never);
+  it('returns mapped results with source name from raw query', async () => {
+    mockQueryRaw.mockResolvedValue([sampleRawArticle] as never);
 
     const result = await searchArticlesTool.execute({ query: 'Claude', limit: 5 }, {} as never);
 
@@ -78,6 +80,22 @@ describe('searchArticlesTool', () => {
         topics: ['model releases', 'industry moves'],
       },
     ]);
+  });
+
+  it('returns empty topics array when topics is null', async () => {
+    mockQueryRaw.mockResolvedValue([
+      { ...sampleRawArticle, topics: null },
+    ] as never);
+
+    const result = await searchArticlesTool.execute({ query: 'Claude', limit: 5 }, {} as never);
+
+    expect(result[0].topics).toEqual([]);
+  });
+
+  it('has a non-empty description and inputSchema', () => {
+    expect(searchArticlesTool.description).toBeTypeOf('string');
+    expect(searchArticlesTool.description.length).toBeGreaterThan(0);
+    expect(searchArticlesTool.inputSchema).toBeDefined();
   });
 });
 

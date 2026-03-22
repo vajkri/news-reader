@@ -19,10 +19,17 @@ RULES:
 - For "what's new" or "latest" questions, use the recentArticles tool.
 - For specific topics or keywords, use the searchArticles tool.
 - For topic-based browsing, use the articlesByTopic tool.
-- You may call multiple tools if needed to answer a complex question.`;
+- You may call multiple tools if needed to answer a complex question.
+
+CAPABILITIES AND LIMITATIONS:
+- You can ONLY search the article database using your tools. You CANNOT browse the web, access URLs, or fetch live data.
+- You CANNOT set up notifications, alerts, or monitoring. You CANNOT track feeds in real-time.
+- You CANNOT send emails, create accounts, or perform any action outside of answering questions about collected articles.
+- If asked to do something outside your capabilities, explain what you CAN do instead.
+- Format responses using markdown: use bullet points, bold for emphasis, and headers for structure. Keep text scannable.`;
 
 export async function POST(request: Request): Promise<Response> {
-  const { messages } = await request.json();
+  const { messages, articleContext } = await request.json();
 
   // Rate limiting (D-04, D-05)
   const ip = request.headers.get('x-forwarded-for') ?? 'anonymous';
@@ -35,10 +42,16 @@ export async function POST(request: Request): Promise<Response> {
   }
   await incrementRateLimit(ip);
 
+  // Build system prompt with optional article context (D-05)
+  let systemPrompt = SYSTEM_PROMPT;
+  if (articleContext && typeof articleContext === 'object' && articleContext.title) {
+    systemPrompt += `\n\nCONTEXT: The user is asking about a specific article: "${articleContext.title}" from ${articleContext.source}${articleContext.publishedAt ? `, published ${articleContext.publishedAt}` : ''}. Prioritize information about this article. Use the searchArticles tool with relevant keywords from the article title to find it.`;
+  }
+
   // Stream with tool-calling (D-01, D-02, D-03)
   const result = streamText({
     model: CHAT_MODEL,
-    system: SYSTEM_PROMPT,
+    system: systemPrompt,
     messages: await convertToModelMessages(messages.slice(-10)), // D-05: 10-turn history
     tools: {
       searchArticles: searchArticlesTool,

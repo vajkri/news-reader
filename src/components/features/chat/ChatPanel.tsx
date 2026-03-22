@@ -67,6 +67,7 @@ function isToolPart(type: string): boolean {
 function extractSources(
   parts: Array<{ type: string; [key: string]: unknown }>
 ): ToolResultArticle[] {
+  const seen = new Set<string>();
   const sources: ToolResultArticle[] = [];
   for (const part of parts) {
     if (isToolPart(part.type) && part.state === 'output-available') {
@@ -79,13 +80,16 @@ function extractSources(
             'title' in article &&
             'link' in article
           ) {
+            const link = String(article.link);
+            if (seen.has(link)) continue;
+            seen.add(link);
             sources.push({
               title: String(article.title),
               source: String(article.source ?? ''),
               publishedAt: article.publishedAt
                 ? String(article.publishedAt)
                 : null,
-              link: String(article.link),
+              link,
             });
           }
         }

@@ -104,8 +104,8 @@ Plans:
 - [x] 04-01-PLAN.md — Prisma RateLimit model, rate-limit library, chat-tools library, CHAT_MODEL constant, unit tests
 - [x] 04-02-PLAN.md — Chat API route with streaming + tool-calling, all chat UI components (ChatPanel, ChatMessage, ChatInput, PromptChips, SourceCard, ChatFAB)
 - [x] 04-03-PLAN.md — Layout integration (ChatWrapper in root layout), BriefingCard "Chat about this" button, end-to-end verification
-- [ ] 04-04-PLAN.md — [gap closure] Full-text search via $queryRaw, prisma generate in dev script, system prompt guardrails, article context as system message
-- [ ] 04-05-PLAN.md — [gap closure] ChatPanel responsive fixes (hydration, widths, scroll-lock, Escape), embedded desktop layout, context clearing, rate limit error
+- [x] 04-04-PLAN.md — [gap closure] Full-text search via $queryRaw, prisma generate in dev script, system prompt guardrails, article context as system message
+- [x] 04-05-PLAN.md — [gap closure] ChatPanel responsive fixes (hydration, widths, scroll-lock, Escape), embedded desktop layout, context clearing, rate limit error
 - [ ] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
 - [ ] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
 

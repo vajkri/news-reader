@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 04-02-PLAN.md
-last_updated: "2026-03-21T21:06:12.117Z"
+stopped_at: Completed 04-04-PLAN.md
+last_updated: "2026-03-22T07:10:04.975Z"
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 14
-  completed_plans: 13
+  total_plans: 18
+  completed_plans: 15
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04 (chat-interface) — EXECUTING
-Plan: 3 of 3
+Plan: 3 of 7
 
 ## Performance Metrics
 
@@ -58,6 +58,8 @@ Plan: 3 of 3
 | Phase 03.2 P03 | 5 | 3 tasks | 2 files |
 | Phase 04-chat-interface P01 | 6 | 2 tasks | 7 files |
 | Phase 04-chat-interface P02 | 7 | 2 tasks | 10 files |
+| Phase 04-chat-interface P05 | 8 | 3 tasks | 4 files |
+| Phase 04-chat-interface P04 | 9 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -101,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 04-chat-interface]: useChat() with no args uses DefaultChatTransport defaulting to /api/chat; v6 removed api option from useChat
 - [Phase 04-chat-interface]: convertToModelMessages returns Promise in v6, must be awaited
 - [Phase 04-chat-interface]: Tool parts in v6 use type tool-<toolName> with state output-available and output field, replacing removed tool-invocation type
+- [Phase 04-chat-interface]: CSS Grid embedded layout uses data attribute on html element for decoupled coordination between ChatPanel and .app-content
+- [Phase 04-chat-interface]: useMemo for rate limit derivation instead of useEffect+setState to satisfy react-hooks/set-state-in-effect rule
+- [Phase 04-chat-interface]: plainto_tsquery over to_tsquery for natural language query handling; sendMessage ChatRequestOptions.body for articleContext (useChat body removed in v6)
 
 ### Pending Todos
 
@@ -123,6 +128,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-21T21:06:12.114Z
-Stopped at: Completed 04-02-PLAN.md
+Last session: 2026-03-22T07:10:04.971Z
+Stopped at: Completed 04-04-PLAN.md
 Resume file: None

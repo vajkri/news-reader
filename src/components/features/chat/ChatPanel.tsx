@@ -111,7 +111,6 @@ export function ChatPanel({
   const [isTyping, setIsTyping] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [isNarrowViewport, setIsNarrowViewport] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const initialDockRef = useRef(false);
 
@@ -171,9 +170,13 @@ export function ChatPanel({
     return null;
   }, [error]);
 
-  // Auto-scroll to bottom on new messages
+  // Auto-scroll chat container to bottom on new messages (without affecting parent scroll)
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, [messages]);
 
   // Resize handling
@@ -338,7 +341,7 @@ export function ChatPanel({
       </div>
 
       {/* Body */}
-      <div className="flex-1 overflow-y-auto px-4 py-4" role="log" aria-live="polite">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-4 py-4" role="log" aria-live="polite">
         {messages.length === 0 && !articleContext && (
           <div className="flex flex-col items-center justify-center h-full gap-5">
             <div className="w-12 h-12 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center">
@@ -449,7 +452,7 @@ export function ChatPanel({
           </div>
         )}
 
-        <div ref={messagesEndRef} />
+        {/* sentinel for future use */}
       </div>
 
       {/* Footer */}

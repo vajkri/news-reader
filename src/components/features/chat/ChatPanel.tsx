@@ -249,6 +249,7 @@ export function ChatPanel({
   }, [setMessages, onClearContext]);
 
   const isLoading = status === 'submitted' || status === 'streaming';
+  const showEmptyState = messages.length === 0 && !isLoading;
 
   const chips = articleContext ? CONTEXTUAL_CHIPS : GENERIC_CHIPS;
   const placeholder = articleContext
@@ -352,7 +353,7 @@ export function ChatPanel({
 
       {/* Body */}
       <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-4 py-4" role="log" aria-live="polite">
-        {messages.length === 0 && !articleContext && (
+        {showEmptyState && !articleContext && (
           <div className="flex flex-col items-center justify-center h-full gap-5">
             <div className="w-12 h-12 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center">
               <Sparkles size={22} className="text-[var(--muted-foreground)]" />
@@ -372,42 +373,43 @@ export function ChatPanel({
           </div>
         )}
 
-        {messages.length === 0 && articleContext && (
-          <div className="flex flex-col h-full">
-            <div className="border-l-4 border-[var(--border)] bg-[var(--card)] rounded-[0.625rem] p-3 mx-0 mt-0">
-              <span className="text-[0.8125rem] font-semibold uppercase text-[var(--muted-foreground)] tracking-wide">
-                Chatting about
+        {articleContext && (
+          <div className="border-l-4 border-[var(--border)] bg-[var(--card)] rounded-[0.625rem] p-3 mx-0 mt-0 mb-4">
+            <span className="text-[0.8125rem] font-semibold uppercase text-[var(--muted-foreground)] tracking-wide">
+              Chatting about
+            </span>
+            <p className="text-sm font-semibold text-[var(--foreground)] line-clamp-2 mt-1">
+              {articleContext.title}
+            </p>
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
+                {articleContext.source}
               </span>
-              <p className="text-sm font-semibold text-[var(--foreground)] line-clamp-2 mt-1">
-                {articleContext.title}
-              </p>
-              <div className="flex items-center gap-1.5 mt-1">
-                <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
-                  {articleContext.source}
-                </span>
-                {articleContext.publishedAt && (
-                  <>
-                    <span className="w-[3px] h-[3px] rounded-full bg-[var(--muted-foreground)]" />
-                    <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
-                      {formatDistanceToNow(
-                        new Date(articleContext.publishedAt),
-                        { addSuffix: true }
-                      )}
-                    </span>
-                  </>
-                )}
-              </div>
+              {articleContext.publishedAt && (
+                <>
+                  <span className="w-[3px] h-[3px] rounded-full bg-[var(--muted-foreground)]" />
+                  <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
+                    {formatDistanceToNow(
+                      new Date(articleContext.publishedAt),
+                      { addSuffix: true }
+                    )}
+                  </span>
+                </>
+              )}
             </div>
-            <div className="flex flex-col items-center justify-center flex-1 gap-4">
-              <p className="text-sm text-[var(--muted-foreground)] text-center">
-                What would you like to know?
-              </p>
-              <PromptChips
-                chips={chips}
-                onChipClick={handleChipClick}
-                visible={!isTyping}
-              />
-            </div>
+          </div>
+        )}
+
+        {showEmptyState && articleContext && (
+          <div className="flex flex-col items-center justify-center flex-1 gap-4">
+            <p className="text-sm text-[var(--muted-foreground)] text-center">
+              What would you like to know?
+            </p>
+            <PromptChips
+              chips={chips}
+              onChipClick={handleChipClick}
+              visible={!isTyping}
+            />
           </div>
         )}
 

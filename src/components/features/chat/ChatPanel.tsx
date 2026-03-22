@@ -199,8 +199,12 @@ export function ChatPanel({
 
     const handleMouseMove = (e: MouseEvent): void => {
       if (dockPosition === 'side') {
-        const newWidth = window.innerWidth - e.clientX;
-        setPanelWidth(Math.max(280, Math.min(600, newWidth)));
+        const newWidth = Math.max(280, Math.min(600, window.innerWidth - e.clientX));
+        setPanelWidth(newWidth);
+        // Sync CSS variable immediately so grid column resizes without lag
+        if (isEmbedded) {
+          document.documentElement.style.setProperty('--chat-panel-width', `${newWidth}px`);
+        }
       } else {
         const newHeightPx = window.innerHeight - e.clientY;
         const newHeightDvh = (newHeightPx / window.innerHeight) * 100;
@@ -218,7 +222,7 @@ export function ChatPanel({
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isResizing, dockPosition]);
+  }, [isResizing, dockPosition, isEmbedded]);
 
   const handleSend = useCallback(
     (text: string) => {
@@ -271,7 +275,7 @@ export function ChatPanel({
       : 'fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-[var(--background)]';
 
   const panelStyle = isEmbeddedSide
-    ? { width: `${panelWidth}px` }
+    ? {} // grid column controls width via --chat-panel-width
     : dockPosition === 'side'
       ? {
           width: isNarrowViewport ? '100%' : `${panelWidth}px`,

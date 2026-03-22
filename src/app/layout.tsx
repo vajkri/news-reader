@@ -52,8 +52,10 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <main>{children}</main>
-        <ChatWrapper />
+        <div className="app-content">
+          <main>{children}</main>
+          <ChatWrapper />
+        </div>
       </body>
     </html>
   );

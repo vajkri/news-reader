@@ -45,7 +45,7 @@ export async function POST(request: Request): Promise<Response> {
   // Build system prompt with optional article context (D-05)
   let systemPrompt = SYSTEM_PROMPT;
   if (articleContext && typeof articleContext === 'object' && articleContext.title) {
-    systemPrompt += `\n\nCONTEXT: The user is asking about a specific article: "${articleContext.title}" from ${articleContext.source}${articleContext.publishedAt ? `, published ${articleContext.publishedAt}` : ''}. Prioritize information about this article. Use the searchArticles tool with relevant keywords from the article title to find it.`;
+    systemPrompt += `\n\nCONTEXT: The user is asking about a specific article: "${articleContext.title}" from ${articleContext.source}${articleContext.publishedAt ? `, published ${articleContext.publishedAt}` : ''}. Prioritize information about this article. Use the searchArticles tool with relevant keywords from the article title to find it. The user already sees the article title and source in the UI, so do NOT re-introduce or re-cite it at the top of your response. Jump straight into answering their question.`;
   }
 
   // Stream with tool-calling (D-01, D-02, D-03)

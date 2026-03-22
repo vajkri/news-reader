@@ -75,7 +75,6 @@ export function ChatWrapper(): React.ReactElement {
 
   return (
     <>
-      <ChatFAB onClick={handleToggle} isOpen={isOpen} />
       <ChatPanel
         isOpen={isOpen}
         onClose={handleClose}
@@ -83,6 +82,7 @@ export function ChatWrapper(): React.ReactElement {
         onClearContext={handleClearContext}
         isEmbedded={isEmbedded}
       />
+      <ChatFAB onClick={handleToggle} isOpen={isOpen} />
     </>
   );
 }

@@ -431,7 +431,7 @@ export function ChatPanel({
                       type: string;
                       [key: string]: unknown;
                     }>
-                  )
+                  ).filter((s) => !articleContext || s.title !== articleContext.title)
                 : undefined
             }
             isStreaming={

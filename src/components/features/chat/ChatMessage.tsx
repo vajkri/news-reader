@@ -3,17 +3,17 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ChevronDown, Search } from 'lucide-react';
+import { ChevronDown, Search, Loader2 } from 'lucide-react';
 import { SourceCard } from './SourceCard';
 
-interface ChatMessageSource {
+export interface ChatMessageSource {
   title: string;
   source: string;
   publishedAt: string | null;
   link: string;
 }
 
-interface ChatMessageProps {
+export interface ChatMessageProps {
   role: 'user' | 'assistant';
   parts: Array<{ type: string; text?: string; [key: string]: unknown }>;
   sources?: ChatMessageSource[];
@@ -71,6 +71,13 @@ export function ChatMessage({
     .map((p) => p.text ?? '')
     .join('');
 
+  const hasToolParts = parts.some(
+    (p) => p.type.startsWith('tool-') || p.type === 'dynamic-tool'
+  );
+
+  const showLoading = role === 'assistant' && isStreaming && !text;
+  const loadingLabel = hasToolParts ? 'Searching articles...' : 'Thinking...';
+
   return (
     <div className="mb-2">
       <div
@@ -80,8 +87,13 @@ export function ChatMessage({
             : 'mr-auto bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5'
         }
       >
-        {role === 'assistant' ? (
-          <div className="chat-prose text-base leading-relaxed">
+        {showLoading ? (
+          <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+            <Loader2 size={14} className="animate-spin" />
+            <span>{loadingLabel}</span>
+          </div>
+        ) : role === 'assistant' ? (
+          <div className="chat-prose text-sm leading-relaxed">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -118,7 +130,7 @@ export function ChatMessage({
             </ReactMarkdown>
           </div>
         ) : (
-          <p className="text-base leading-relaxed whitespace-pre-wrap">
+          <p className="text-sm leading-relaxed whitespace-pre-wrap">
             {text}
           </p>
         )}

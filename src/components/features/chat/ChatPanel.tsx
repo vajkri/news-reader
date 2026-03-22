@@ -11,7 +11,7 @@ import {
 import { useChat } from '@ai-sdk/react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Sparkles, Plus, X, PanelRight, PanelBottom } from 'lucide-react';
+import { Sparkles, Plus, X, PanelRight, PanelBottom, Loader2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
@@ -426,17 +426,13 @@ export function ChatPanel({
           />
         ))}
 
-        {/* Loading indicator */}
+        {/* Loading indicator -- shown before assistant message exists */}
         {status === 'submitted' && (
           <div className="mb-2">
-            <div
-              className="mr-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5"
-              aria-label="Thinking..."
-            >
-              <div className="flex gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[var(--muted-foreground)] animate-bounce [animation-delay:0ms]" />
-                <span className="w-2 h-2 rounded-full bg-[var(--muted-foreground)] animate-bounce [animation-delay:150ms]" />
-                <span className="w-2 h-2 rounded-full bg-[var(--muted-foreground)] animate-bounce [animation-delay:300ms]" />
+            <div className="mr-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5">
+              <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+                <Loader2 size={14} className="animate-spin" />
+                <span>Thinking...</span>
               </div>
             </div>
           </div>

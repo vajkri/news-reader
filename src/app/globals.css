@@ -95,9 +95,9 @@
     color: var(--foreground);
   }
 
-  .chat-prose h1 { font-size: 1.125rem; }
-  .chat-prose h2 { font-size: 1rem; }
-  .chat-prose h3 { font-size: 0.9375rem; }
+  .chat-prose h1 { font-size: 1rem; }
+  .chat-prose h2 { font-size: 0.9375rem; }
+  .chat-prose h3 { font-size: 0.875rem; }
 
   .chat-prose p {
     margin-bottom: 0.5em;

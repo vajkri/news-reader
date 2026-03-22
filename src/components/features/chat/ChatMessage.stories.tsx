@@ -1,5 +1,7 @@
+import { useReducer, useEffect, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatMessage } from './ChatMessage';
+import type { ChatMessageProps } from './ChatMessage';
 
 const meta = {
   title: 'Chat/ChatMessage',
@@ -40,6 +42,19 @@ const sampleSources = [
     link: 'https://vitejs.dev/blog/vite-8',
   },
 ];
+
+const fullResponseText = `## Latest Model Releases
+
+Here are the key AI model releases from this week:
+
+- **Claude 4** from Anthropic: features extended thinking, improved reasoning. [Claude 4 Released with Extended Thinking](https://anthropic.com/claude-4)
+- **GPT-5** from OpenAI: major benchmark improvements in math and coding. [GPT-5 Benchmarks Show Major Reasoning Gains](https://openai.com/gpt-5)
+
+### Key Takeaway
+
+The competition between frontier labs is accelerating. Each release shows **significant gains** in reasoning and coding benchmarks.`;
+
+// --- Static stories ---
 
 export const UserPlainText: Story = {
   args: {
@@ -109,6 +124,25 @@ export const AssistantWithDeferredToggle: Story = {
   },
 };
 
+export const AssistantThinking: Story = {
+  name: 'Loading: Thinking',
+  args: {
+    role: 'assistant',
+    parts: [],
+    isStreaming: true,
+  },
+};
+
+export const AssistantSearching: Story = {
+  name: 'Loading: Searching',
+  args: {
+    role: 'assistant',
+    parts: [{ type: 'tool-searchArticles', state: 'partial-call' }],
+    sources: [],
+    isStreaming: true,
+  },
+};
+
 export const AssistantStreaming: Story = {
   args: {
     role: 'assistant',
@@ -149,5 +183,179 @@ export const AssistantNoResults: Story = {
       type: 'text',
       text: "I don't have any articles about quantum computing in the database. I can search for articles about AI model releases, developer tools, open source projects, and industry moves. Would you like to try a different topic?",
     }],
+  },
+};
+
+// --- Interactive flow story ---
+
+type FlowPhase = 'idle' | 'thinking' | 'searching' | 'streaming' | 'complete';
+
+interface FlowState {
+  phase: FlowPhase;
+  streamedLength: number;
+  messages: ChatMessageProps[];
+}
+
+type FlowAction =
+  | { type: 'start' }
+  | { type: 'reset' }
+  | { type: 'add-assistant-thinking' }
+  | { type: 'start-searching' }
+  | { type: 'start-streaming' }
+  | { type: 'stream-chunk'; length: number }
+  | { type: 'finish' };
+
+const initialFlowState: FlowState = {
+  phase: 'idle',
+  streamedLength: 0,
+  messages: [],
+};
+
+function flowReducer(state: FlowState, action: FlowAction): FlowState {
+  switch (action.type) {
+    case 'start':
+      return {
+        phase: 'thinking',
+        streamedLength: 0,
+        messages: [{
+          role: 'user',
+          parts: [{ type: 'text', text: 'What are the latest AI model releases this week?' }],
+        }],
+      };
+    case 'reset':
+      return initialFlowState;
+    case 'add-assistant-thinking': {
+      return {
+        ...state,
+        phase: 'searching',
+        messages: [
+          ...state.messages,
+          { role: 'assistant', parts: [{ type: 'tool-searchArticles', state: 'partial-call' }], sources: [], isStreaming: true },
+        ],
+      };
+    }
+    case 'start-searching': {
+      const updated = [...state.messages];
+      updated[updated.length - 1] = {
+        role: 'assistant',
+        parts: [{ type: 'tool-searchArticles', state: 'partial-call' }],
+        sources: [],
+        isStreaming: true,
+      };
+      return { ...state, messages: updated };
+    }
+    case 'start-streaming':
+      return { ...state, phase: 'streaming', streamedLength: 1 };
+    case 'stream-chunk': {
+      const updated = [...state.messages];
+      updated[updated.length - 1] = {
+        role: 'assistant',
+        parts: [{ type: 'text', text: fullResponseText.slice(0, action.length) }],
+        sources: sampleSources,
+        isStreaming: true,
+      };
+      return { ...state, streamedLength: action.length, messages: updated };
+    }
+    case 'finish': {
+      const updated = [...state.messages];
+      updated[updated.length - 1] = {
+        role: 'assistant',
+        parts: [{ type: 'text', text: fullResponseText }],
+        sources: sampleSources,
+        isStreaming: false,
+      };
+      return { ...state, phase: 'complete', messages: updated };
+    }
+    default:
+      return state;
+  }
+}
+
+function ChatFlowSimulation(): React.ReactElement {
+  const [state, dispatch] = useReducer(flowReducer, initialFlowState);
+  const { phase, streamedLength, messages } = state;
+
+  const handleClick = useCallback(() => {
+    dispatch(phase === 'idle' ? { type: 'start' } : { type: 'reset' });
+  }, [phase]);
+
+  // Phase transitions with realistic timing
+  useEffect(() => {
+    if (phase === 'thinking') {
+      const timer = setTimeout(() => dispatch({ type: 'add-assistant-thinking' }), 1500);
+      return () => clearTimeout(timer);
+    }
+    if (phase === 'searching') {
+      const timer = setTimeout(() => dispatch({ type: 'start-streaming' }), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [phase]);
+
+  // Text streaming simulation
+  useEffect(() => {
+    if (phase !== 'streaming') return;
+    if (streamedLength >= fullResponseText.length) {
+      dispatch({ type: 'finish' });
+      return;
+    }
+    const timer = setTimeout(() => {
+      const nextLength = Math.min(
+        streamedLength + 3 + Math.floor(Math.random() * 5),
+        fullResponseText.length
+      );
+      dispatch({ type: 'stream-chunk', length: nextLength });
+    }, 30);
+    return () => clearTimeout(timer);
+  }, [phase, streamedLength]);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex gap-2 mb-4">
+        {/* Disclosure controls, not action buttons */}
+        <button
+          onClick={handleClick}
+          className="px-3 py-1.5 text-sm font-medium rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none"
+        >
+          {phase === 'idle' ? 'Send message' : 'Reset'}
+        </button>
+        <span className="flex items-center text-xs text-[var(--muted-foreground)] font-mono">
+          {phase}
+        </span>
+      </div>
+
+      {messages.map((msg, i) => (
+        <ChatMessage key={i} {...msg} />
+      ))}
+
+      {/* Thinking indicator (before assistant message exists) */}
+      {phase === 'thinking' && messages.length === 1 && (
+        <div className="mb-2">
+          <div className="mr-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5">
+            <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+              <svg className="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              <span>Thinking...</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export const InteractiveFlow: Story = {
+  args: {
+    role: 'assistant',
+    parts: [],
+  },
+  render: () => <ChatFlowSimulation />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Interactive simulation of the full chat flow: user sends message, AI thinks, searches articles, streams response, then shows deferred toggle.',
+      },
+    },
   },
 };

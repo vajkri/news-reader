@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { ChatPanel } from './ChatPanel';
 import { ChatFAB } from './ChatFAB';
 
+const EMBEDDED_BREAKPOINT = 1320;
+
 export function ChatWrapper(): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [articleContext, setArticleContext] = useState<{
@@ -13,17 +15,20 @@ export function ChatWrapper(): React.ReactElement {
     publishedAt: string | null;
   } | null>(null);
 
-  // Cmd+K / Ctrl+K keyboard shortcut (D-09)
+  // Cmd+K / Ctrl+K keyboard shortcut (D-09) + Escape to close
   useEffect(() => {
     const handler = (e: KeyboardEvent): void => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setIsOpen((prev) => !prev);
       }
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, []);
+  }, [isOpen]);
 
   // Listen for custom "chat-about-this" events from BriefingCard (D-18)
   useEffect(() => {
@@ -49,8 +54,24 @@ export function ChatWrapper(): React.ReactElement {
       );
   }, []);
 
+  // Embedded mode detection for desktop (>=1320px)
+  const [isEmbedded, setIsEmbedded] = useState(false);
+
+  useEffect(() => {
+    const checkEmbedded = (): void => setIsEmbedded(window.innerWidth >= EMBEDDED_BREAKPOINT);
+    checkEmbedded();
+    window.addEventListener('resize', checkEmbedded);
+    return () => window.removeEventListener('resize', checkEmbedded);
+  }, []);
+
   const handleClose = useCallback(() => setIsOpen(false), []);
-  const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
+  const handleToggle = useCallback(() => {
+    setIsOpen((prev) => {
+      if (prev) setArticleContext(null);
+      return !prev;
+    });
+  }, []);
+  const handleClearContext = useCallback(() => setArticleContext(null), []);
 
   return (
     <>
@@ -59,6 +80,8 @@ export function ChatWrapper(): React.ReactElement {
         isOpen={isOpen}
         onClose={handleClose}
         articleContext={articleContext}
+        onClearContext={handleClearContext}
+        isEmbedded={isEmbedded}
       />
     </>
   );

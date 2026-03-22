@@ -419,6 +419,10 @@ export function ChatPanel({
                   )
                 : undefined
             }
+            isStreaming={
+              msg.id === messages[messages.length - 1]?.id &&
+              status === 'streaming'
+            }
           />
         ))}
 

@@ -104,6 +104,16 @@ export function ChatPanel({
 }: ChatPanelProps): ReactElement {
   const { messages, sendMessage, status, error, setMessages } = useChat();
 
+  // Clear messages when articleContext changes to a different article
+  const prevContextIdRef = useRef<number | null>(null);
+  useEffect(() => {
+    const currentId = articleContext?.id ?? null;
+    if (currentId !== null && currentId !== prevContextIdRef.current) {
+      setMessages([]);
+    }
+    prevContextIdRef.current = currentId;
+  }, [articleContext, setMessages]);
+
   // SSR-safe: always initialize to 'side', detect mobile in resize listener
   const [dockPosition, setDockPosition] = useState<'side' | 'bottom'>('side');
   const [panelWidth, setPanelWidth] = useState(420);

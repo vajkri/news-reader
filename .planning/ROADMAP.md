@@ -107,7 +107,7 @@ Plans:
 - [x] 04-04-PLAN.md — [gap closure] Full-text search via $queryRaw, prisma generate in dev script, system prompt guardrails, article context as system message
 - [x] 04-05-PLAN.md — [gap closure] ChatPanel responsive fixes (hydration, widths, scroll-lock, Escape), embedded desktop layout, context clearing, rate limit error
 - [x] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
-- [ ] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
+- [x] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
 
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile

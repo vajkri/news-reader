@@ -274,8 +274,8 @@ export function ChatPanel({
       ? 'fixed top-0 right-0 h-full z-50 border-l border-[var(--border)] bg-[var(--background)]'
       : 'fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-[var(--background)]';
 
-  const panelStyle = isEmbeddedSide
-    ? {} // grid column controls width via --chat-panel-width
+  const panelStyle: React.CSSProperties = isEmbeddedSide
+    ? { gridColumn: 2, gridRow: 1 }
     : dockPosition === 'side'
       ? {
           width: isNarrowViewport ? '100%' : `${panelWidth}px`,

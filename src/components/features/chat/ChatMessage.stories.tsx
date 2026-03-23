@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatMessage } from './ChatMessage';
+import { ChatInput } from './ChatInput';
 import type { ChatMessageProps } from './ChatMessage';
 
 const meta = {
@@ -355,6 +356,65 @@ export const InteractiveFlow: Story = {
     docs: {
       description: {
         story: 'Interactive simulation of the full chat flow: user sends message, AI thinks, searches articles, streams response, then shows deferred toggle.',
+      },
+    },
+  },
+};
+
+// --- Rate limit error story ---
+
+function RateLimitSimulation(): React.ReactElement {
+  return (
+    <div className="flex flex-col border border-[var(--border)] rounded-lg overflow-hidden" style={{ maxWidth: 500 }}>
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
+        <span className="text-sm font-semibold text-[var(--foreground)]">Chat</span>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 px-4 py-4">
+        <ChatMessage
+          role="user"
+          parts={[{ type: 'text', text: 'Tell me more about the Vite 8 release' }]}
+        />
+        <ChatMessage
+          role="assistant"
+          parts={[{ type: 'text', text: 'The Vite 8 release brings Rolldown integration, which replaces esbuild and Rollup with a single Rust-based bundler for dramatically faster builds.' }]}
+          sources={sampleSources}
+        />
+        <ChatMessage
+          role="user"
+          parts={[{ type: 'text', text: 'What about performance benchmarks?' }]}
+        />
+
+        {/* Rate limit error banner */}
+        <div className="mb-2 p-3 bg-[var(--card)] border border-[var(--border)] rounded-lg">
+          <p className="text-sm text-[var(--muted-foreground)]">
+            You&apos;ve reached the hourly message limit. Try again in 42 minutes.
+          </p>
+        </div>
+      </div>
+
+      {/* Disabled input */}
+      <ChatInput
+        onSend={() => {}}
+        disabled={true}
+        placeholder="Message limit reached"
+      />
+    </div>
+  );
+}
+
+export const RateLimitError: Story = {
+  args: {
+    role: 'assistant',
+    parts: [],
+  },
+  render: () => <RateLimitSimulation />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Simulates the rate limit error state: error banner with minutes until reset, input disabled with "Message limit reached" placeholder.',
       },
     },
   },

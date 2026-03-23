@@ -14,7 +14,7 @@ const ChatRequestSchema = z.object({
   messages: z.array(
     z
       .object({
-        role: z.string(),
+        role: z.enum(['system', 'user', 'assistant']),
         parts: z.array(z.any()),
       })
       .passthrough()

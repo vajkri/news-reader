@@ -81,8 +81,10 @@
   html[data-chat-embedded="true"] .app-content > main {
     grid-column: 1;
     grid-row: 1;
-    overflow-y: auto;
+    overflow: hidden auto;
     min-width: 0;
+    /* Override container width from 100dvw to 100% so content reflows within grid column */
+    --container-width: 100%;
   }
 
   html[data-chat-embedded="true"] .app-content > [role="complementary"] {

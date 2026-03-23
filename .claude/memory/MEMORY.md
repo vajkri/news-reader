@@ -12,7 +12,6 @@
 - [feedback_gsd_state_accuracy.md](./feedback_gsd_state_accuracy.md) — GSD state files must reflect reality
 - [feedback_tailwind_variable_syntax.md](./feedback_tailwind_variable_syntax.md) — Use Tailwind v4 shorthand for CSS variable references; /50 opacity doesn't work with CSS vars
 - [feedback_gsd_phase_numbering.md](./feedback_gsd_phase_numbering.md) — Use exact phase numbers user specifies, don't auto-assign (other branches may have phases)
-- [feedback_memory_in_repo.md](./feedback_memory_in_repo.md) — All memories must be saved in repo .claude/memory/, never in global Claude memory
 
 ## References
 

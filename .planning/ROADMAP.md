@@ -109,6 +109,26 @@ Plans:
 - [x] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
 - [x] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
 
+### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 7/7 plans complete
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.1 to break down)
+
+### Phase 04.2: Code optimization via agent-skills: clean up without changing behavior (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.2 to break down)
+
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
 **Depends on**: Phase 4

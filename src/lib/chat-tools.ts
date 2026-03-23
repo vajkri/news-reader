@@ -53,6 +53,7 @@ export const searchArticlesTool = tool({
     query: z.string().describe('Search keyword or phrase'),
     limit: z
       .number()
+      .max(20)
       .optional()
       .default(5)
       .describe('Max results to return'),
@@ -98,7 +99,7 @@ export const articlesByTopicTool = tool({
     'Find articles by topic category. Topics include: model releases, developer tools, industry moves, open source, research, policy, infrastructure.',
   inputSchema: z.object({
     topic: z.string().describe('Topic category'),
-    limit: z.number().optional().default(5),
+    limit: z.number().max(20).optional().default(5),
   }),
   execute: async ({ topic, limit }) => {
     const articles = await prisma.article.findMany({
@@ -120,6 +121,7 @@ export const recentArticlesTool = tool({
   inputSchema: z.object({
     days: z
       .number()
+      .max(14)
       .optional()
       .default(3)
       .describe('Number of days to look back'),

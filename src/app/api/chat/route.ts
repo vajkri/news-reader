@@ -1,4 +1,5 @@
 import { streamText, convertToModelMessages, stepCountIs } from 'ai';
+import { z } from 'zod';
 import { CHAT_MODEL } from '@/lib/ai';
 import {
   searchArticlesTool,
@@ -8,6 +9,24 @@ import {
 import { rateLimit } from '@/lib/rate-limit';
 
 export const maxDuration = 60;
+
+const ChatRequestSchema = z.object({
+  messages: z.array(
+    z
+      .object({
+        role: z.string(),
+        parts: z.array(z.any()),
+      })
+      .passthrough()
+  ),
+  articleContext: z
+    .object({
+      title: z.string(),
+      source: z.string(),
+      publishedAt: z.string().nullable(),
+    })
+    .optional(),
+});
 
 const SYSTEM_PROMPT = `You are a news assistant for an AI industry news tracker. You answer questions about AI news articles collected from RSS feeds.
 
@@ -29,7 +48,18 @@ CAPABILITIES AND LIMITATIONS:
 - Format responses using markdown: use bullet points, bold for emphasis, and headers for structure. Keep text scannable.`;
 
 export async function POST(request: Request): Promise<Response> {
-  const { messages, articleContext } = await request.json();
+  let body: z.infer<typeof ChatRequestSchema>;
+  try {
+    const raw: unknown = await request.json();
+    body = ChatRequestSchema.parse(raw);
+  } catch {
+    return Response.json(
+      { error: 'invalid_request', message: 'Invalid request body' },
+      { status: 400 }
+    );
+  }
+
+  const { messages, articleContext } = body;
 
   // Rate limiting (D-04, D-05)
   const ip = request.headers.get('x-forwarded-for') ?? 'anonymous';
@@ -43,7 +73,7 @@ export async function POST(request: Request): Promise<Response> {
 
   // Build system prompt with optional article context (D-05)
   let systemPrompt = SYSTEM_PROMPT;
-  if (articleContext && typeof articleContext === 'object' && articleContext.title) {
+  if (articleContext?.title) {
     systemPrompt += `\n\nCONTEXT: The user is asking about a specific article: "${articleContext.title}" from ${articleContext.source}${articleContext.publishedAt ? `, published ${articleContext.publishedAt}` : ''}. Prioritize information about this article. Use the searchArticles tool with relevant keywords from the article title to find it. The user already sees the article title and source in the UI, so do NOT re-introduce or re-cite it at the top of your response. Jump straight into answering their question.`;
   }
 

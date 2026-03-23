@@ -197,9 +197,11 @@ export function ChatPanel({
   useEffect(() => {
     if (!isResizing) return;
 
+    document.body.style.userSelect = 'none';
+
     const handleMouseMove = (e: MouseEvent): void => {
       if (dockPosition === 'side') {
-        const newWidth = Math.max(280, Math.min(600, window.innerWidth - e.clientX));
+        const newWidth = Math.max(280, Math.min(800, window.innerWidth - e.clientX));
         setPanelWidth(newWidth);
         // Sync CSS variable immediately so grid column resizes without lag
         if (isEmbedded) {
@@ -219,6 +221,7 @@ export function ChatPanel({
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
     return () => {
+      document.body.style.userSelect = '';
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };

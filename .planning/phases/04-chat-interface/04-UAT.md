@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: resolved
 phase: 04-chat-interface
 source: [04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03 commit 372cd60]
 started: 2026-03-21T21:30:00Z

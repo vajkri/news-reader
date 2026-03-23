@@ -126,6 +126,7 @@ export function ChatPanel({
   const [isResizing, setIsResizing] = useState(false);
   const [isNarrowViewport, setIsNarrowViewport] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const chatInputRef = useRef<HTMLInputElement>(null);
   const initialDockRef = useRef(false);
 
   // Detect narrow viewport for full-width mode + initial mobile dock detection
@@ -169,6 +170,15 @@ export function ChatPanel({
       delete document.documentElement.dataset.chatEmbedded;
     };
   }, [isOpen, isEmbedded, panelWidth, dockPosition]);
+
+  // Focus chat input when panel opens
+  useEffect(() => {
+    if (isOpen) {
+      requestAnimationFrame(() => {
+        chatInputRef.current?.focus();
+      });
+    }
+  }, [isOpen]);
 
   // Derive rate limit minutes from error (no effect needed)
   const rateLimited = useMemo((): number | null => {
@@ -480,6 +490,7 @@ export function ChatPanel({
 
       {/* Footer */}
       <ChatInput
+        ref={chatInputRef}
         onSend={handleSend}
         disabled={isLoading || rateLimited !== null}
         placeholder={rateLimited !== null ? 'Message limit reached' : placeholder}

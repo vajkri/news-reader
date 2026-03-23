@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, forwardRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ArrowUp } from 'lucide-react';
@@ -12,12 +12,12 @@ interface ChatInputProps {
   onTypingChange?: (isTyping: boolean) => void;
 }
 
-export function ChatInput({
+export const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(function ChatInput({
   onSend,
   disabled,
   placeholder,
   onTypingChange,
-}: ChatInputProps): React.ReactElement {
+}, ref): React.ReactElement {
   const [value, setValue] = useState('');
 
   useEffect(() => {
@@ -42,6 +42,7 @@ export function ChatInput({
       className="flex items-center gap-2 p-3 border-t border-[var(--border)]"
     >
       <Input
+        ref={ref}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
@@ -61,4 +62,4 @@ export function ChatInput({
       </Button>
     </form>
   );
-}
+});

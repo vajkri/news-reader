@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChatPanel } from './ChatPanel';
 import { ChatFAB } from './ChatFAB';
 
@@ -8,6 +8,8 @@ const EMBEDDED_BREAKPOINT = 1320;
 
 export function ChatWrapper(): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
+  const fabRef = useRef<HTMLButtonElement>(null);
+  const wasOpenRef = useRef(false);
   const [articleContext, setArticleContext] = useState<{
     id: number;
     title: string;
@@ -64,6 +66,16 @@ export function ChatWrapper(): React.ReactElement {
     return () => window.removeEventListener('resize', checkEmbedded);
   }, []);
 
+  // Return focus to FAB when chat panel closes
+  useEffect(() => {
+    if (!isOpen && wasOpenRef.current) {
+      requestAnimationFrame(() => {
+        fabRef.current?.focus();
+      });
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
+
   const handleClose = useCallback(() => setIsOpen(false), []);
   const handleToggle = useCallback(() => {
     setIsOpen((prev) => {
@@ -82,7 +94,7 @@ export function ChatWrapper(): React.ReactElement {
         onClearContext={handleClearContext}
         isEmbedded={isEmbedded}
       />
-      <ChatFAB onClick={handleToggle} isOpen={isOpen} />
+      <ChatFAB ref={fabRef} onClick={handleToggle} isOpen={isOpen} />
     </>
   );
 }

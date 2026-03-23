@@ -5,133 +5,114 @@ vi.mock('server-only', () => ({}));
 vi.mock('@/lib/prisma', () => ({
   prisma: {
     rateLimit: {
-      findFirst: vi.fn(),
-      update: vi.fn(),
       upsert: vi.fn(),
+      update: vi.fn(),
     },
   },
 }));
 
 import { prisma } from '@/lib/prisma';
-import { checkRateLimit, incrementRateLimit } from '@/lib/rate-limit';
+import { rateLimit, WINDOW_MS, MAX_MESSAGES } from '@/lib/rate-limit';
 
-const mockFindFirst = vi.mocked(prisma.rateLimit.findFirst);
-const mockUpdate = vi.mocked(prisma.rateLimit.update);
 const mockUpsert = vi.mocked(prisma.rateLimit.upsert);
+const mockUpdate = vi.mocked(prisma.rateLimit.update);
 
-describe('checkRateLimit', () => {
+describe('rateLimit', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('returns null when no record exists for key (new user)', async () => {
-    mockFindFirst.mockResolvedValue(null);
-
-    const result = await checkRateLimit('192.168.1.1');
-    expect(result).toBeNull();
-  });
-
-  it('returns null when record count is below MAX_MESSAGES (19 messages)', async () => {
-    mockFindFirst.mockResolvedValue({
+  it('allows and creates a new record for a first-time key', async () => {
+    mockUpsert.mockResolvedValue({
       id: 1,
       key: '192.168.1.1',
-      count: 19,
+      count: 1,
       windowStart: new Date(),
     });
 
-    const result = await checkRateLimit('192.168.1.1');
-    expect(result).toBeNull();
-  });
+    const result = await rateLimit('192.168.1.1');
 
-  it('returns minutes-until-reset number when count >= 20', async () => {
-    const windowStart = new Date(Date.now() - 30 * 60 * 1000); // 30 min ago
-    mockFindFirst.mockResolvedValue({
-      id: 1,
-      key: '192.168.1.1',
-      count: 20,
-      windowStart,
-    });
-
-    const result = await checkRateLimit('192.168.1.1');
-    expect(result).toBeTypeOf('number');
-    expect(result).toBeGreaterThan(0);
-    expect(result).toBeLessThanOrEqual(30);
-  });
-
-  it('returns null when existing record windowStart is older than 1 hour (expired window)', async () => {
-    // findFirst with windowStart >= (now - 1hr) won't match expired records
-    // so Prisma returns null for expired windows
-    mockFindFirst.mockResolvedValue(null);
-
-    const result = await checkRateLimit('192.168.1.1');
-    expect(result).toBeNull();
-  });
-});
-
-describe('incrementRateLimit', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('creates a new record when none exists for key', async () => {
-    mockFindFirst.mockResolvedValue(null);
-    mockUpsert.mockResolvedValue({} as never);
-
-    await incrementRateLimit('10.0.0.1');
-
+    expect(result).toEqual({ allowed: true, retryAfterMinutes: null });
     expect(mockUpsert).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: expect.anything(),
-        create: expect.objectContaining({
-          key: '10.0.0.1',
-          count: 1,
-        }),
-        update: expect.objectContaining({
-          count: 1,
-        }),
+        where: { key: '192.168.1.1' },
+        create: expect.objectContaining({ key: '192.168.1.1', count: 1 }),
+        update: { count: { increment: 1 } },
       })
     );
   });
 
-  it('increments count on existing record within the window', async () => {
-    const windowStart = new Date(Date.now() - 10 * 60 * 1000); // 10 min ago
-    mockFindFirst.mockResolvedValue({
-      id: 5,
-      key: '10.0.0.1',
-      count: 3,
+  it('allows when count is at MAX_MESSAGES (20) within window', async () => {
+    mockUpsert.mockResolvedValue({
+      id: 1,
+      key: '192.168.1.1',
+      count: MAX_MESSAGES,
+      windowStart: new Date(),
+    });
+
+    const result = await rateLimit('192.168.1.1');
+
+    expect(result).toEqual({ allowed: true, retryAfterMinutes: null });
+  });
+
+  it('denies when count exceeds MAX_MESSAGES and returns retry minutes', async () => {
+    const windowStart = new Date(Date.now() - 30 * 60 * 1000); // 30 min ago
+    mockUpsert.mockResolvedValue({
+      id: 1,
+      key: '192.168.1.1',
+      count: MAX_MESSAGES + 1,
       windowStart,
     });
     mockUpdate.mockResolvedValue({} as never);
 
-    await incrementRateLimit('10.0.0.1');
+    const result = await rateLimit('192.168.1.1');
 
+    expect(result.allowed).toBe(false);
+    expect(result.retryAfterMinutes).toBeTypeOf('number');
+    expect(result.retryAfterMinutes).toBeGreaterThan(0);
+    expect(result.retryAfterMinutes).toBeLessThanOrEqual(30);
+    // Should decrement to undo the over-limit increment
     expect(mockUpdate).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: { id: 5 },
-        data: { count: 4 },
+        where: { key: '192.168.1.1' },
+        data: { count: { decrement: 1 } },
       })
     );
   });
 
-  it('resets count to 1 and updates windowStart when window has expired', async () => {
-    // findFirst with valid window returns null (expired record not matched)
-    mockFindFirst.mockResolvedValue(null);
-    mockUpsert.mockResolvedValue({} as never);
+  it('resets window when windowStart is older than WINDOW_MS', async () => {
+    const expiredStart = new Date(Date.now() - WINDOW_MS - 60000); // expired 1 min ago
+    mockUpsert.mockResolvedValue({
+      id: 1,
+      key: '192.168.1.1',
+      count: 50, // high count from old window
+      windowStart: expiredStart,
+    });
+    mockUpdate.mockResolvedValue({} as never);
 
-    await incrementRateLimit('10.0.0.1');
+    const result = await rateLimit('192.168.1.1');
 
-    expect(mockUpsert).toHaveBeenCalledWith(
+    expect(result).toEqual({ allowed: true, retryAfterMinutes: null });
+    // Should reset count and windowStart
+    expect(mockUpdate).toHaveBeenCalledWith(
       expect.objectContaining({
-        create: expect.objectContaining({
-          key: '10.0.0.1',
-          count: 1,
-        }),
-        update: expect.objectContaining({
-          count: 1,
-          windowStart: expect.any(Date),
-        }),
+        where: { key: '192.168.1.1' },
+        data: expect.objectContaining({ count: 1, windowStart: expect.any(Date) }),
       })
     );
+  });
+
+  it('allows when count is below MAX_MESSAGES within valid window', async () => {
+    mockUpsert.mockResolvedValue({
+      id: 1,
+      key: '10.0.0.1',
+      count: 5,
+      windowStart: new Date(Date.now() - 10 * 60 * 1000), // 10 min ago
+    });
+
+    const result = await rateLimit('10.0.0.1');
+
+    expect(result).toEqual({ allowed: true, retryAfterMinutes: null });
     expect(mockUpdate).not.toHaveBeenCalled();
   });
 });

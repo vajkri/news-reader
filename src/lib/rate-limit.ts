@@ -8,47 +8,51 @@ export const WINDOW_MS = 60 * 60 * 1000;
 export const MAX_MESSAGES = 20;
 
 /**
- * Check if a key has exceeded the rate limit within the current window.
- * Returns null if under limit, or the number of minutes until the window
- * resets if at/over the limit.
+ * Atomically check and increment the rate limit for a key.
+ * Uses a single upsert to avoid check-then-increment race conditions.
+ * Returns whether the request is allowed and, if not, how many minutes until reset.
  */
-export async function checkRateLimit(key: string): Promise<number | null> {
-  const windowCutoff = new Date(Date.now() - WINDOW_MS);
+export async function rateLimit(key: string): Promise<{
+  allowed: boolean;
+  retryAfterMinutes: number | null;
+}> {
+  const now = new Date();
+  const windowCutoff = new Date(now.getTime() - WINDOW_MS);
 
-  const record = await prisma.rateLimit.findFirst({
-    where: { key, windowStart: { gte: windowCutoff } },
+  // Atomic upsert: create if not exists, update if exists
+  const record = await prisma.rateLimit.upsert({
+    where: { key },
+    create: {
+      key,
+      count: 1,
+      windowStart: now,
+    },
+    update: {
+      // Prisma doesn't support conditional update expressions,
+      // so we always increment here and check afterward.
+      count: { increment: 1 },
+    },
   });
 
-  if (!record || record.count < MAX_MESSAGES) {
-    return null;
-  }
-
-  const resetAt = record.windowStart.getTime() + WINDOW_MS;
-  return Math.ceil((resetAt - Date.now()) / 60000);
-}
-
-/**
- * Increment the rate limit counter for a key.
- * Creates a new record if none exists or the window has expired.
- * Increments the existing record's count if within a valid window.
- */
-export async function incrementRateLimit(key: string): Promise<void> {
-  const windowCutoff = new Date(Date.now() - WINDOW_MS);
-
-  const existing = await prisma.rateLimit.findFirst({
-    where: { key, windowStart: { gte: windowCutoff } },
-  });
-
-  if (existing) {
+  // If the window has expired, reset and allow
+  if (record.windowStart < windowCutoff) {
     await prisma.rateLimit.update({
-      where: { id: existing.id },
-      data: { count: existing.count + 1 },
+      where: { key },
+      data: { count: 1, windowStart: now },
     });
-  } else {
-    await prisma.rateLimit.upsert({
-      where: { id: 0 },
-      create: { key, count: 1, windowStart: new Date() },
-      update: { count: 1, windowStart: new Date() },
-    });
+    return { allowed: true, retryAfterMinutes: null };
   }
+
+  // If over the limit, calculate retry time and undo the increment
+  if (record.count > MAX_MESSAGES) {
+    await prisma.rateLimit.update({
+      where: { key },
+      data: { count: { decrement: 1 } },
+    });
+    const resetAt = record.windowStart.getTime() + WINDOW_MS;
+    const retryAfterMinutes = Math.ceil((resetAt - Date.now()) / 60000);
+    return { allowed: false, retryAfterMinutes };
+  }
+
+  return { allowed: true, retryAfterMinutes: null };
 }

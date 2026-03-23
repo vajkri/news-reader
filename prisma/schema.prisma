@@ -43,8 +43,7 @@ model Article {
 
 model RateLimit {
   id          Int      @id @default(autoincrement())
-  key         String
+  key         String   @unique
   count       Int      @default(0)
   windowStart DateTime @default(now())
-  @@index([key])
 }

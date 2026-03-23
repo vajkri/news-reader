@@ -5,7 +5,7 @@ import {
   articlesByTopicTool,
   recentArticlesTool,
 } from '@/lib/chat-tools';
-import { checkRateLimit, incrementRateLimit } from '@/lib/rate-limit';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const maxDuration = 60;
 
@@ -33,14 +33,13 @@ export async function POST(request: Request): Promise<Response> {
 
   // Rate limiting (D-04, D-05)
   const ip = request.headers.get('x-forwarded-for') ?? 'anonymous';
-  const retryAfter = await checkRateLimit(ip);
-  if (retryAfter !== null) {
+  const { allowed, retryAfterMinutes } = await rateLimit(ip);
+  if (!allowed) {
     return Response.json(
-      { error: 'rate_limited', retryAfterMinutes: retryAfter },
+      { error: 'rate_limited', retryAfterMinutes },
       { status: 429 }
     );
   }
-  await incrementRateLimit(ip);
 
   // Build system prompt with optional article context (D-05)
   let systemPrompt = SYSTEM_PROMPT;

@@ -32,6 +32,7 @@ function SourcesToggle({
       {/* Disclosure toggle, not action button -- raw button is appropriate */}
       <button
         onClick={() => setIsExpanded((prev) => !prev)}
+        aria-expanded={isExpanded}
         className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none rounded px-1.5 py-1"
       >
         <Search size={13} />

@@ -12,13 +12,11 @@ export function PromptChips({
   chips,
   onChipClick,
   visible,
-}: PromptChipsProps): React.ReactElement {
+}: PromptChipsProps): React.ReactElement | null {
+  if (!visible) return null;
+
   return (
-    <div
-      className={`flex flex-wrap gap-2 justify-center transition-opacity duration-200 ${
-        visible ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
+    <div className="flex flex-wrap gap-2 justify-center">
       {chips.map((chip) => (
         <Button
           key={chip}

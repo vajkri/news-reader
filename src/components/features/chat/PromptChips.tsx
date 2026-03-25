@@ -22,7 +22,7 @@ export function PromptChips({
           key={chip}
           variant="outline"
           size="sm"
-          className="rounded-full text-sm font-normal text-[var(--foreground-secondary)]"
+          className="rounded-full text-sm font-normal text-(--foreground-secondary)"
           onClick={() => onChipClick(chip)}
         >
           {chip}

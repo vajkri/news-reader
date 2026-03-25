@@ -16,11 +16,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
           {
-            "bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--primary)]/90":
+            "bg-(--primary) text-(--primary-foreground) hover:bg-[color-mix(in_srgb,var(--primary)_90%,transparent)]":
               variant === "default",
-            "border border-[var(--border)] bg-transparent hover:bg-[var(--accent)]":
+            "border border-(--border) bg-transparent hover:bg-(--accent)":
               variant === "outline",
-            "hover:bg-[var(--accent)] bg-transparent": variant === "ghost",
+            "hover:bg-(--accent) bg-transparent": variant === "ghost",
             "bg-red-500 text-white hover:bg-red-600": variant === "destructive",
           },
           {

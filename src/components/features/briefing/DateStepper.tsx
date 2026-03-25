@@ -39,7 +39,7 @@ export function DateStepper() {
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
-      <span className="text-sm font-semibold min-w-[120px] text-center text-[var(--foreground)]">
+      <span className="text-sm font-semibold min-w-[120px] text-center text-(--foreground)">
         {isToday(currentDate) ? "Today" : format(currentDate, "MMM d, yyyy")}
       </span>
       <Button

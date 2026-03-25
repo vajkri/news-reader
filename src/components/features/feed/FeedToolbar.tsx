@@ -70,7 +70,7 @@ export function FeedToolbar({
             size="sm"
             onClick={() => onReadFilterChange(val)}
             aria-pressed={readFilter === val}
-            className={`text-xs capitalize ${readFilter === val ? "font-semibold" : ""}`}
+            className={`text-sm capitalize ${readFilter === val ? "font-semibold" : ""}`}
           >
             {val}
           </Button>
@@ -116,7 +116,7 @@ export function FeedToolbar({
 
       {/* Search input */}
       <div className="relative">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--muted-foreground)]" />
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-(--muted-foreground)" />
         <Input
           ref={searchInputRef}
           type="search"

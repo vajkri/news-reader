@@ -17,7 +17,7 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
   const parts = splitSummary(article.summary);
 
   return (
-    <article className="rounded-[0.625rem] border border-[var(--border)] bg-[var(--card)] overflow-hidden">
+    <article className="rounded-[0.625rem] border border-(--border) bg-(--card) overflow-hidden">
       <a
         href={article.link}
         target="_blank"
@@ -25,7 +25,7 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
         className={cn(
           "block",
           "hover:bg-[color-mix(in_srgb,var(--muted)_50%,transparent)] transition-colors",
-          "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none",
+          "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-(--primary) focus-visible:outline-none",
         )}
       >
         <div
@@ -35,13 +35,13 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
           )}
         >
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-[0.8125rem] font-medium text-[var(--muted-foreground)]">
+            <span className="text-[0.8125rem] font-medium text-(--muted-foreground)">
               {article.source.name}
             </span>
             {article.publishedAt && (
               <>
-                <span className="w-[3px] h-[3px] rounded-full bg-[var(--muted-foreground)]" />
-                <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
+                <span className="w-[3px] h-[3px] rounded-full bg-(--muted-foreground)" />
+                <span className="text-[0.8125rem] text-(--muted-foreground)">
                   {formatDistanceToNow(new Date(article.publishedAt), {
                     addSuffix: true,
                   })}
@@ -50,18 +50,18 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
             )}
           </div>
 
-          <h3 className="text-lg font-semibold text-[var(--foreground)] leading-[1.4] tracking-[-0.01em]">
+          <h3 className="text-lg font-semibold text-(--foreground) leading-[1.4] tracking-[-0.01em]">
             {article.title}
           </h3>
 
           {parts?.takeaway && (
-            <p className="text-base font-medium text-[var(--foreground-secondary)] leading-normal mt-2">
+            <p className="text-base font-medium text-(--foreground-secondary) leading-normal mt-2">
               {parts.takeaway}
             </p>
           )}
 
           {parts?.context && (
-            <p className="text-base text-[var(--muted-foreground)] leading-normal mt-1.5 line-clamp-2">
+            <p className="text-base text-(--muted-foreground) leading-normal mt-1.5 line-clamp-2">
               {parts.context}
             </p>
           )}
@@ -71,7 +71,7 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
         <Button
           variant="ghost"
           size="sm"
-          className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] gap-1.5 text-[0.8125rem]"
+          className="text-(--muted-foreground) hover:text-(--foreground) gap-1.5 text-[0.8125rem]"
           onClick={(e) => {
             e.stopPropagation();
             window.dispatchEvent(

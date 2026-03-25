@@ -282,10 +282,10 @@ export function ChatPanel({
 
   // Panel position classes
   const panelPositionClasses = isEmbeddedSide
-    ? 'h-[calc(100dvh-3rem)] sticky top-12 border-l border-[var(--border)] bg-[var(--background)]'
+    ? 'h-[calc(100dvh-3rem)] sticky top-12 border-l border-(--border) bg-(--background)'
     : dockPosition === 'side'
-      ? 'fixed top-0 right-0 h-full z-50 border-l border-[var(--border)] bg-[var(--background)]'
-      : 'fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-[var(--background)]';
+      ? 'fixed top-0 right-0 h-full z-50 border-l border-(--border) bg-(--background)'
+      : 'fixed bottom-0 left-0 right-0 z-50 border-t border-(--border) bg-(--background)';
 
   const panelStyle: React.CSSProperties = isEmbeddedSide
     ? { gridColumn: 2, gridRow: 1 }
@@ -317,19 +317,19 @@ export function ChatPanel({
       {/* Resize handle (hidden on narrow viewports where panel is full-width) */}
       {dockPosition === 'side' && !isNarrowViewport ? (
         <div
-          className="absolute left-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--border)] transition-colors"
+          className="absolute left-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-(--border) transition-colors"
           onMouseDown={() => setIsResizing(true)}
         />
       ) : dockPosition === 'bottom' ? (
         <div
-          className="absolute top-0 left-0 right-0 h-1 cursor-row-resize hover:bg-[var(--border)] transition-colors"
+          className="absolute top-0 left-0 right-0 h-1 cursor-row-resize hover:bg-(--border) transition-colors"
           onMouseDown={() => setIsResizing(true)}
         />
       ) : null}
 
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] shrink-0">
-        <span className="text-sm font-semibold text-[var(--foreground)]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-(--border) shrink-0">
+        <span className="text-sm font-semibold text-(--foreground)">
           Chat
         </span>
         <div className="flex gap-1">
@@ -376,13 +376,13 @@ export function ChatPanel({
       <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-4 py-4" role="log" aria-live="polite">
         {showEmptyState && !articleContext && (
           <div className="flex flex-col items-center justify-center h-full gap-5">
-            <div className="w-12 h-12 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center">
-              <Sparkles size={22} className="text-[var(--muted-foreground)]" />
+            <div className="w-12 h-12 rounded-xl bg-(--card) border border-(--border) flex items-center justify-center">
+              <Sparkles size={22} className="text-(--muted-foreground)" />
             </div>
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">
+            <h2 className="text-lg font-semibold text-(--foreground)">
               Ask about your news
             </h2>
-            <p className="text-sm text-[var(--muted-foreground)] text-center max-w-[260px]">
+            <p className="text-sm text-(--muted-foreground) text-center max-w-[260px]">
               Search, summarize, and analyze articles from your collected
               sources.
             </p>
@@ -395,21 +395,21 @@ export function ChatPanel({
         )}
 
         {articleContext && (
-          <div className="border-l-4 border-[var(--border)] bg-[var(--card)] rounded-[0.625rem] p-3 mx-0 mt-0 mb-4">
-            <span className="text-[0.8125rem] font-semibold uppercase text-[var(--muted-foreground)] tracking-wide">
+          <div className="border-l-4 border-(--border) bg-(--card) rounded-[0.625rem] p-3 mx-0 mt-0 mb-4">
+            <span className="text-[0.8125rem] font-semibold uppercase text-(--muted-foreground) tracking-wide">
               Chatting about
             </span>
-            <p className="text-sm font-semibold text-[var(--foreground)] line-clamp-2 mt-1">
+            <p className="text-sm font-semibold text-(--foreground) line-clamp-2 mt-1">
               {articleContext.title}
             </p>
             <div className="flex items-center gap-1.5 mt-1">
-              <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
+              <span className="text-[0.8125rem] text-(--muted-foreground)">
                 {articleContext.source}
               </span>
               {articleContext.publishedAt && (
                 <>
-                  <span className="w-[3px] h-[3px] rounded-full bg-[var(--muted-foreground)]" />
-                  <span className="text-[0.8125rem] text-[var(--muted-foreground)]">
+                  <span className="w-[3px] h-[3px] rounded-full bg-(--muted-foreground)" />
+                  <span className="text-[0.8125rem] text-(--muted-foreground)">
                     {formatDistanceToNow(
                       new Date(articleContext.publishedAt),
                       { addSuffix: true }
@@ -423,7 +423,7 @@ export function ChatPanel({
 
         {showEmptyState && articleContext && (
           <div className="flex flex-col items-center justify-center flex-1 gap-4">
-            <p className="text-sm text-[var(--muted-foreground)] text-center">
+            <p className="text-sm text-(--muted-foreground) text-center">
               What would you like to know?
             </p>
             <PromptChips
@@ -465,8 +465,8 @@ export function ChatPanel({
         {/* Loading indicator -- shown before assistant message exists */}
         {status === 'submitted' && (
           <div className="mb-2">
-            <div className="mr-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5">
-              <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+            <div className="mr-auto bg-(--card) border border-(--border) rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5">
+              <div className="flex items-center gap-2 text-sm text-(--muted-foreground)">
                 <Loader2 size={14} className="animate-spin" />
                 <span>Thinking...</span>
               </div>
@@ -476,8 +476,8 @@ export function ChatPanel({
 
         {/* Error display */}
         {error && (
-          <div className="mb-2 p-3 bg-[var(--card)] border border-[var(--border)] rounded-lg">
-            <p className="text-sm text-[var(--muted-foreground)]">
+          <div className="mb-2 p-3 bg-(--card) border border-(--border) rounded-lg">
+            <p className="text-sm text-(--muted-foreground)">
               {rateLimited !== null
                 ? `You've reached the hourly message limit. Try again in ${rateLimited} minute${rateLimited === 1 ? '' : 's'}.`
                 : 'Something went wrong. Refresh the page or try again in a moment.'}

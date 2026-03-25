@@ -39,8 +39,8 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
         const { thumbnail, title } = row.original;
         if (!thumbnail) {
           return (
-            <div className="h-10 w-10 flex-shrink-0 rounded bg-[var(--muted)] flex items-center justify-center">
-              <span className="text-[var(--muted-foreground)] text-xs">—</span>
+            <div className="h-10 w-10 flex-shrink-0 rounded bg-(--muted) flex items-center justify-center">
+              <span className="text-(--muted-foreground) text-xs">—</span>
             </div>
           );
         }
@@ -67,8 +67,8 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-start gap-1 text-sm font-medium hover:underline group ${
-              isRead ? "text-[var(--muted-foreground)]" : "text-[var(--foreground)]"
+            className={`flex items-start gap-1 text-base font-medium hover:underline group ${
+              isRead ? "text-(--muted-foreground)" : "text-(--foreground)"
             }`}
           >
             <span className="line-clamp-2">{highlightMatch(title, searchQuery ?? "")}</span>
@@ -83,7 +83,7 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
       accessorFn: (row) => row.source.name,
       size: 120,
       cell: ({ row }) => (
-        <span className="text-xs text-[var(--muted-foreground)] whitespace-nowrap">
+        <span className="text-xs text-(--muted-foreground) whitespace-nowrap">
           {row.original.source.name}
         </span>
       ),
@@ -107,7 +107,7 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
         const mins = getValue() as number | null;
         if (!mins) return null;
         return (
-          <span className="flex items-center gap-1 text-xs text-[var(--muted-foreground)] whitespace-nowrap">
+          <span className="flex items-center gap-1 text-xs text-(--muted-foreground) whitespace-nowrap">
             <Clock className="h-3 w-3" />
             {mins} min
           </span>
@@ -120,10 +120,10 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
       size: 100,
       cell: ({ getValue }) => {
         const val = getValue() as string | null;
-        if (!val) return <span className="text-xs text-[var(--muted-foreground)]">—</span>;
+        if (!val) return <span className="text-xs text-(--muted-foreground)">—</span>;
         try {
           return (
-            <span className="text-xs text-[var(--muted-foreground)] whitespace-nowrap">
+            <span className="text-xs text-(--muted-foreground) whitespace-nowrap">
               {formatDistanceToNow(new Date(val), { addSuffix: true })}
             </span>
           );
@@ -145,7 +145,7 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
             onClick={() => onToggleRead(id, !isRead)}
             className={`text-xs ${
               isRead
-                ? "text-[var(--muted-foreground)]"
+                ? "text-(--muted-foreground)"
                 : "text-blue-600 dark:text-blue-400 font-semibold"
             }`}
           >

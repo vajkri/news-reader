@@ -15,10 +15,11 @@
   --radius: 0.5rem;
   --highlight: #fef9c3;
   --highlight-foreground: #451a03;
-  --container-width: 100dvw;
+  --container-width: 100%;
   --container-max-width: 1460px;
   --container-max-width-reading: 1024px;
   --container-padding: 1.5rem;
+  --destructive: #dc2626;
   --chat-user-bg: #e4e4e7;
   --chat-user-fg: #18181b;
 }
@@ -45,6 +46,7 @@
     --card: #0f0f12;
     --highlight: rgba(250, 204, 21, 0.18);
     --highlight-foreground: #fef08a;
+    --destructive: #f87171;
     --chat-user-bg: #27272a;
     --chat-user-fg: #e4e4e7;
   }

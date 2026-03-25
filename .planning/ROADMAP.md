@@ -138,6 +138,16 @@ Plans:
 Plans:
 - [ ] TBD (run /gsd:plan-phase 04.2 to break down)
 
+### Phase 04.3: Non-RSS source ingestion via sitemap parsing (INSERTED)
+
+**Goal:** Add sitemap-based source ingestion with strategy pattern dispatch, enabling Anthropic News and Claude Blog as non-RSS sources
+**Requirements**: TBD
+**Depends on:** Phase 04.1
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.3 to break down)
+
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
 **Depends on**: Phase 4
@@ -161,4 +171,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
 | 4. Chat Interface | 7/7 | Complete | - |
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
-| 5. UX Polish | 0/TBD | Not started | - |
+| 04.2 Code Optimization         | 0/TBD | Not started | -          |
+| 04.3 Non-RSS Source Ingestion   | 0/TBD | Not started | -          |
+| 5. UX Polish                    | 0/TBD | Not started | -          |

@@ -7,7 +7,7 @@ A personal RSS news reader/tracker built with Next.js. Users can add RSS feed so
 - **Framework:** Next.js 16.1.7 (App Router, `src/` directory)
 - **Language:** TypeScript (strict mode)
 - **React:** 19.2.3
-- **Database:** SQLite via Prisma ORM (prisma-client-js generator)
+- **Database:** Neon Postgres via Prisma ORM (@prisma/adapter-neon, @neondatabase/serverless)
 - **Styling:** Tailwind CSS v4, shadcn/ui (zinc base, CSS variables, lucide icons)
 - **Fonts:** Geist Sans + Geist Mono (loaded as local fonts from node_modules)
 - **Data table:** @tanstack/react-table
@@ -15,7 +15,7 @@ A personal RSS news reader/tracker built with Next.js. Users can add RSS feed so
 - **Deployment:** Vercel (with cron job for periodic feed fetching every 30 min)
 - **Path alias:** `@/*` maps to `./src/*`
 
-## Data Model (Prisma/SQLite)
+## Data Model (Prisma/Neon Postgres)
 
 - **Source**: id, name, url (unique), category?, createdAt, articles[]
 - **Article**: id, guid (unique), title, link, description?, thumbnail?, publishedAt?, readTimeMin?, isRead (default false), createdAt, sourceId (FK to Source)

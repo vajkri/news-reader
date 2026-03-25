@@ -19,7 +19,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.1 — source-quality-filtering-prioritize-news-over-personal-content
+**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing (next to plan)
 
 ## Current Position
 
@@ -124,10 +124,9 @@ Recent decisions affecting current work:
 ### Pending Todos
 
 1. Add body validation to articles PATCH endpoint (area: api)
-2. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui)
-3. Rotate leaked CRON_SECRET and scrub from git history (area: general)
-4. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
-5. Update typography implementations to match design system scale (area: ui)
+2. Rotate leaked CRON_SECRET and scrub from git history (area: general)
+3. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
+4. Update typography implementations to match design system scale (area: ui)
 
 ### Blockers/Concerns
 
@@ -140,6 +139,7 @@ Recent decisions affecting current work:
 - Phase 03.2 inserted after Phase 03: Neon Postgres migration + Vercel deployment (URGENT)
 - Phase 04.1 inserted after Phase 04: Source quality filtering: prioritize news over personal content (URGENT)
 - Phase 04.2 inserted after Phase 04: Code optimization via agent-skills: clean up without changing behavior (URGENT)
+- Phase 04.3 inserted after Phase 04: Non-RSS source ingestion via sitemap parsing (URGENT)
 
 ## Session Continuity
 

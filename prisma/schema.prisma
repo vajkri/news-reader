@@ -10,12 +10,16 @@ datasource db {
 }
 
 model Source {
-  id        Int       @id @default(autoincrement())
-  name      String
-  url       String    @unique
-  category  String?
-  createdAt DateTime  @default(now())
-  articles  Article[]
+  id                  Int       @id @default(autoincrement())
+  name                String
+  url                 String    @unique
+  category            String?
+  sourceType          String    @default("rss")
+  sitemapPathPattern  String?
+  scrapeUrl           String?
+  scrapeLinkSelector  String?
+  createdAt           DateTime  @default(now())
+  articles            Article[]
 }
 
 model Article {

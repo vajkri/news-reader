@@ -11,6 +11,8 @@ const SOURCES = [
   { name: "OpenAI News",       url: "https://openai.com/news/rss.xml",                                   category: "AI"     },
   { name: "Hugging Face Blog", url: "https://huggingface.co/blog/feed.xml",                               category: "AI"     },
   { name: "Hacker News",       url: "https://hnrss.org/frontpage",                                       category: "Tech"   },
+  { name: "Anthropic News",    url: "https://www.anthropic.com/sitemap.xml",                              category: "AI",    sourceType: "sitemap", sitemapPathPattern: "/news/" },
+  { name: "Claude Blog",       url: "https://claude.com/sitemap.xml",                                    category: "AI",    sourceType: "sitemap", sitemapPathPattern: "/blog/" },
 ];
 
 async function main() {

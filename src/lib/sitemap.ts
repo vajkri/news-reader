@@ -63,10 +63,17 @@ export async function fetchSitemap(
     if (r.status === "fulfilled" && r.value) articles.push(r.value);
   }
 
-  // For entries without lastmod: fetch page to get date, then apply cutoff
+  // For entries without lastmod: cap to newest 50 URLs (sorted reverse by path,
+  // which approximates recency for date-based URL patterns), then fetch pages
+  // to extract dates and apply the 7-day cutoff.
   if (withoutLastmod.length > 0) {
+    const MAX_NO_LASTMOD = 50;
+    const capped = withoutLastmod
+      .sort((a, b) => b.loc.localeCompare(a.loc))
+      .slice(0, MAX_NO_LASTMOD);
+
     const noLastmodResults = await Promise.allSettled(
-      withoutLastmod.map((u) => extractArticleMeta(u.loc, null))
+      capped.map((u) => extractArticleMeta(u.loc, null))
     );
     for (const r of noLastmodResults) {
       if (r.status === "fulfilled" && r.value) {

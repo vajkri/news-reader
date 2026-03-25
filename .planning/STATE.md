@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 04.1-03-PLAN.md
-last_updated: "2026-03-25T12:05:58.465Z"
+status: Phase complete — ready for verification
+stopped_at: Completed 04.1-04-PLAN.md
+last_updated: "2026-03-25T12:38:27.111Z"
 progress:
   total_phases: 9
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 22
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -65,6 +65,7 @@ Plan: 4 of 4
 | Phase 04.1 P01 | 10 | 2 tasks | 5 files |
 | Phase 04.1 P02 | 5 | 2 tasks | 2 files |
 | Phase 04.1 P03 | 10 | 3 tasks | 3 files |
+| Phase 04.1 P04 | 1844 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -118,6 +119,7 @@ Recent decisions affecting current work:
 - [Phase 04.1]: Enrichment SYSTEM_PROMPT restructured with 7 explicit sections; content type taxonomy: announcement=FROM company, news=ABOUT company by third party; thinContent threshold made explicit at 50 words
 - [Phase 04.1]: Chat SYSTEM_PROMPT: answer-first rule, 4 named capabilities, fast-failure one-sentence response, removed negative-framed CAPABILITIES AND LIMITATIONS block
 - [Phase 04.1]: deepseek/deepseek-v3.2 selected as enrichment model over gemini-2.5-flash-lite, gemini-3.1-flash-lite-preview, and gpt-4.1-mini based on structured evaluation (2026-03-25)
+- [Phase 04.1]: deepseek/deepseek-v3.2 used for full corpus re-enrichment; Neon HTTP adapter required in all local scripts
 
 ### Pending Todos
 
@@ -141,6 +143,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-25T12:05:58.460Z
-Stopped at: Completed 04.1-03-PLAN.md
+Last session: 2026-03-25T12:38:27.107Z
+Stopped at: Completed 04.1-04-PLAN.md
 Resume file: None

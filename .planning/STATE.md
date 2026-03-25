@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Completed 04.1-04-PLAN.md
+status: Phase 04.1 shipped — PR #16
+stopped_at: Shipped Phase 04.1
 last_updated: "2026-03-25T12:42:39.598Z"
 progress:
   total_phases: 9

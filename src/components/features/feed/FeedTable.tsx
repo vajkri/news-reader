@@ -171,7 +171,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       />
 
       {/* Status bar */}
-      <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)] pb-2" aria-live="polite">
+      <div className="flex items-center gap-3 text-xs text-(--muted-foreground) pb-2" aria-live="polite">
         {loading ? (
           <span>Loading...</span>
         ) : debouncedSearch ? (
@@ -204,20 +204,20 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border border-[var(--border)] overflow-x-auto" aria-busy={loading}>
+      <div className="rounded-lg border border-(--border) overflow-x-auto" aria-busy={loading}>
         <table className="w-full text-sm">
           <caption className="sr-only">Article feed</caption>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b border-[var(--border)] bg-[var(--muted)]"
+                className="border-b border-(--border) bg-(--muted)"
               >
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     style={{ width: header.getSize() !== 150 ? header.getSize() : undefined }}
-                    className="px-3 py-2.5 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide whitespace-nowrap"
+                    className="px-3 py-2.5 text-left text-xs font-medium text-(--muted-foreground) uppercase tracking-wide whitespace-nowrap"
                   >
                     {header.isPlaceholder
                       ? null
@@ -234,28 +234,28 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
             {loading ? (
               // Skeleton rows — padding and column widths match loaded rows
               Array.from({ length: 8 }).map((_, i) => (
-                <tr key={i} className="border-b border-[var(--border)] animate-pulse">
+                <tr key={i} className="border-b border-(--border) animate-pulse">
                   <td className="px-3 py-2.5" style={{ width: 56 }}>
-                    <div className="h-10 w-10 rounded bg-[var(--muted)]" />
+                    <div className="h-10 w-10 rounded bg-(--muted)" />
                   </td>
                   <td className="px-3 py-2.5">
-                    <div className="h-4 w-3/4 rounded bg-[var(--muted)] mb-1.5" />
-                    <div className="h-3 w-1/2 rounded bg-[var(--muted)]" />
+                    <div className="h-4 w-3/4 rounded bg-(--muted) mb-1.5" />
+                    <div className="h-3 w-1/2 rounded bg-(--muted)" />
                   </td>
                   <td className="px-3 py-2.5" style={{ width: 100 }}>
-                    <div className="h-4 w-20 rounded bg-[var(--muted)]" />
+                    <div className="h-4 w-20 rounded bg-(--muted)" />
                   </td>
                   <td className="px-3 py-2.5" style={{ width: 100 }}>
-                    <div className="h-5 w-16 rounded-full bg-[var(--muted)]" />
+                    <div className="h-5 w-16 rounded-full bg-(--muted)" />
                   </td>
                   <td className="px-3 py-2.5" style={{ width: 80 }}>
-                    <div className="h-4 w-12 rounded bg-[var(--muted)]" />
+                    <div className="h-4 w-12 rounded bg-(--muted)" />
                   </td>
                   <td className="px-3 py-2.5" style={{ width: 90 }}>
-                    <div className="h-4 w-16 rounded bg-[var(--muted)]" />
+                    <div className="h-4 w-16 rounded bg-(--muted)" />
                   </td>
                   <td className="px-3 py-2.5" style={{ width: 80 }}>
-                    <div className="h-7 w-14 rounded bg-[var(--muted)]" />
+                    <div className="h-7 w-14 rounded bg-(--muted)" />
                   </td>
                 </tr>
               ))
@@ -263,7 +263,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-3 py-16 text-center text-[var(--muted-foreground)]"
+                  className="px-3 py-16 text-center text-(--muted-foreground)"
                 >
                   <div className="flex flex-col items-center gap-1">
                     {debouncedSearch ? (
@@ -286,7 +286,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`border-b border-[var(--border)] transition-colors hover:bg-[var(--muted)]/40 ${
+                  className={`border-b border-(--border) transition-colors hover:bg-[color-mix(in_srgb,var(--muted)_40%,transparent)] ${
                     row.original.isRead ? "opacity-60" : ""
                   }`}
                 >
@@ -308,7 +308,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       {/* Infinite scroll sentinel */}
       {hasMore && !loading && (
         <div ref={sentinelRef} className="h-10 flex items-center justify-center" aria-hidden="true">
-          <div className="h-4 w-4 border-2 border-[var(--muted-foreground)] border-t-transparent rounded-full animate-spin" aria-label="Loading more articles" />
+          <div className="h-4 w-4 border-2 border-(--muted-foreground) border-t-transparent rounded-full animate-spin" aria-label="Loading more articles" />
         </div>
       )}
     </div>

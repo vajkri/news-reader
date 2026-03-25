@@ -60,7 +60,7 @@ export default async function BriefingPage({
   return (
     <div className="reading-container py-6">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-base font-semibold text-[var(--foreground)]">
+        <h1 className="text-base font-semibold text-(--foreground)">
           Daily Briefing
         </h1>
         <Suspense fallback={<div className="h-8 w-[120px]" />}>
@@ -70,16 +70,16 @@ export default async function BriefingPage({
 
       {topicGroups.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-sm font-semibold text-[var(--foreground)]">
+          <p className="text-sm font-semibold text-(--foreground)">
             No briefing for this day
           </p>
-          <p className="text-sm text-[var(--muted-foreground)] mt-1">
+          <p className="text-sm text-(--muted-foreground) mt-1">
             No articles with an importance score of 4 or higher were published
             on this date. Check the Feed for all collected articles.
           </p>
           <Link
             href="/"
-            className="inline-block mt-4 text-sm font-semibold text-[var(--primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 rounded"
+            className="inline-block mt-4 text-sm font-semibold text-(--primary) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:ring-offset-2 rounded"
           >
             View Feed
           </Link>

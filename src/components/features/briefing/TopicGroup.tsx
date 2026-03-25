@@ -23,17 +23,17 @@ const TOPIC_ICONS: Record<string, React.ElementType> = {
 function TopicIcon({ topic }: { topic: string }) {
   const Icon = TOPIC_ICONS[topic.toLowerCase()] ?? Cpu;
   return (
-    <Icon size={20} className="text-[var(--muted-foreground)]" aria-hidden />
+    <Icon size={20} className="text-(--muted-foreground)" aria-hidden />
   );
 }
 
 export function TopicGroup({ group }: { group: TopicGroupData }) {
   return (
     <section className="space-y-4">
-      <h2 className="flex items-center gap-2 text-xl font-semibold text-[var(--foreground)]">
+      <h2 className="flex items-center gap-2 text-xl font-semibold text-(--foreground)">
         <TopicIcon topic={group.topic} />
         {group.topic}
-        <span className="text-base font-normal text-[var(--muted-foreground)]">
+        <span className="text-base font-normal text-(--muted-foreground)">
           ({group.articles.length})
         </span>
       </h2>

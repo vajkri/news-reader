@@ -315,11 +315,11 @@ function ChatFlowSimulation(): React.ReactElement {
         {/* Disclosure controls, not action buttons */}
         <button
           onClick={handleClick}
-          className="px-3 py-1.5 text-sm font-medium rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none"
+          className="px-3 py-1.5 text-sm font-medium rounded-lg bg-(--primary) text-(--primary-foreground) hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:outline-none"
         >
           {phase === 'idle' ? 'Send message' : 'Reset'}
         </button>
-        <span className="flex items-center text-xs text-[var(--muted-foreground)] font-mono">
+        <span className="flex items-center text-xs text-(--muted-foreground) font-mono">
           {phase}
         </span>
       </div>
@@ -331,8 +331,8 @@ function ChatFlowSimulation(): React.ReactElement {
       {/* Thinking indicator (before assistant message exists) */}
       {phase === 'thinking' && messages.length === 1 && (
         <div className="mb-2">
-          <div className="mr-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5">
-            <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+          <div className="mr-auto bg-(--card) border border-(--border) rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5">
+            <div className="flex items-center gap-2 text-sm text-(--muted-foreground)">
               <svg className="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -365,10 +365,10 @@ export const InteractiveFlow: Story = {
 
 function RateLimitSimulation(): React.ReactElement {
   return (
-    <div className="flex flex-col border border-[var(--border)] rounded-lg overflow-hidden" style={{ maxWidth: 500 }}>
+    <div className="flex flex-col border border-(--border) rounded-lg overflow-hidden" style={{ maxWidth: 500 }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
-        <span className="text-sm font-semibold text-[var(--foreground)]">Chat</span>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-(--border)">
+        <span className="text-sm font-semibold text-(--foreground)">Chat</span>
       </div>
 
       {/* Messages */}
@@ -388,8 +388,8 @@ function RateLimitSimulation(): React.ReactElement {
         />
 
         {/* Rate limit error banner */}
-        <div className="mb-2 p-3 bg-[var(--card)] border border-[var(--border)] rounded-lg">
-          <p className="text-sm text-[var(--muted-foreground)]">
+        <div className="mb-2 p-3 bg-(--card) border border-(--border) rounded-lg">
+          <p className="text-sm text-(--muted-foreground)">
             You&apos;ve reached the hourly message limit. Try again in 42 minutes.
           </p>
         </div>

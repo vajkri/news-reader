@@ -34,19 +34,23 @@ export async function fetchFeeds(): Promise<FetchResult> {
         const newArticles = articles.filter((a) => !existingGuids.has(a.guid));
 
         if (newArticles.length > 0) {
-          await prisma.article.createMany({
-            data: newArticles.map((article) => ({
-              guid: article.guid,
-              title: article.title,
-              link: article.link,
-              description: article.description,
-              thumbnail: article.thumbnail,
-              publishedAt: article.publishedAt,
-              readTimeMin: article.readTimeMin,
-              sourceId: source.id,
-            })),
-          });
-          added += newArticles.length;
+          const results = await Promise.allSettled(
+            newArticles.map((article) =>
+              prisma.article.create({
+                data: {
+                  guid: article.guid,
+                  title: article.title,
+                  link: article.link,
+                  description: article.description,
+                  thumbnail: article.thumbnail,
+                  publishedAt: article.publishedAt,
+                  readTimeMin: article.readTimeMin,
+                  sourceId: source.id,
+                },
+              })
+            )
+          );
+          added += results.filter((r) => r.status === "fulfilled").length;
         }
       } catch (err) {
         errors.push(

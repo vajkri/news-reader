@@ -55,9 +55,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SITE-01**: Strategy pattern dispatcher routes fetching by source type (rss, sitemap, scrape)
 - [x] **SITE-02**: Sitemap strategy parses XML, filters by path pattern and 7-day cutoff, returns ParsedArticle[]
 - [x] **SITE-03**: Article meta extraction from HTML pages (og:title, og:description, og:image, datePublished)
-- [ ] **SITE-04**: Source model extended with sourceType, sitemapPathPattern, scrapeUrl, scrapeLinkSelector
-- [ ] **SITE-05**: Anthropic News and Claude Blog added as sitemap sources
-- [ ] **SITE-06**: Fetch cron dispatches to correct strategy based on source.sourceType
+- [x] **SITE-04**: Source model extended with sourceType, sitemapPathPattern, scrapeUrl, scrapeLinkSelector
+- [x] **SITE-05**: Anthropic News and Claude Blog added as sitemap sources
+- [x] **SITE-06**: Fetch cron dispatches to correct strategy based on source.sourceType
 
 ### UX / Design
 
@@ -135,9 +135,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SITE-01 | Phase 04.3 | Complete |
 | SITE-02 | Phase 04.3 | Complete |
 | SITE-03 | Phase 04.3 | Complete |
-| SITE-04 | Phase 04.3 | Pending |
-| SITE-05 | Phase 04.3 | Pending |
-| SITE-06 | Phase 04.3 | Pending |
+| SITE-04 | Phase 04.3 | Complete |
+| SITE-05 | Phase 04.3 | Complete |
+| SITE-06 | Phase 04.3 | Complete |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |
 

@@ -64,7 +64,7 @@ Skills are injected via the Vercel plugin bootstrap and provide domain expertise
 Serena provides semantic code intelligence (symbol search, reference finding, symbolic editing). Already configured:
 
 - Config: `.serena/project.yml` (project_name: NewsReader, languages: typescript + bash)
-- Start: `npm run serena` (starts MCP server on port 56667)
+- Start: `pnpm serena` (starts MCP server on port 56667)
 - MCP endpoint: `http://localhost:56667/mcp` (configure in your MCP client to point here)
 - Memories: `.serena/memories/` (onboarding completed, project structure indexed)
 

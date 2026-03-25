@@ -19,7 +19,7 @@ vi.mock('@/lib/prisma', () => ({
 }));
 
 vi.mock('@/lib/ai', () => ({
-  AI_MODEL: 'google/gemini-2.5-flash-lite',
+  AI_MODEL: 'deepseek/deepseek-v3.2',
 }));
 
 import { generateText, Output } from 'ai';
@@ -195,7 +195,7 @@ describe('enrichArticlesBatch', () => {
 
     expect(mockGenerateText).toHaveBeenCalledWith(
       expect.objectContaining({
-        model: 'google/gemini-2.5-flash-lite',
+        model: 'deepseek/deepseek-v3.2',
         output: expect.anything(),
       })
     );

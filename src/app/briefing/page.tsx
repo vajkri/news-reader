@@ -60,7 +60,7 @@ export default async function BriefingPage({
   return (
     <div className="reading-container py-6">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-base font-semibold text-(--foreground)">
+        <h1 className="text-lg font-semibold text-(--foreground)">
           Daily Briefing
         </h1>
         <Suspense fallback={<div className="h-8 w-[120px]" />}>
@@ -73,7 +73,7 @@ export default async function BriefingPage({
           <p className="text-sm font-semibold text-(--foreground)">
             No briefing for this day
           </p>
-          <p className="text-sm text-(--muted-foreground) mt-1">
+          <p className="text-base text-(--muted-foreground) mt-1">
             No articles with an importance score of 4 or higher were published
             on this date. Check the Feed for all collected articles.
           </p>

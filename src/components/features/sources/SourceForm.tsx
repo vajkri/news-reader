@@ -55,7 +55,7 @@ export function SourceForm({ onAdded }: SourceFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <h2 className="text-base font-semibold">Add RSS source</h2>
+      <h2 className="text-lg font-semibold">Add RSS source</h2>
       <div className="flex flex-wrap gap-2">
         <Input
           placeholder="Name (e.g. Hacker News)"

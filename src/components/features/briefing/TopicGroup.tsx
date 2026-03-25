@@ -30,10 +30,10 @@ function TopicIcon({ topic }: { topic: string }) {
 export function TopicGroup({ group }: { group: TopicGroupData }) {
   return (
     <section className="space-y-4">
-      <h2 className="flex items-center gap-2 text-xl font-semibold text-(--foreground)">
+      <h2 className="flex items-center gap-2 text-lg font-semibold text-(--foreground)">
         <TopicIcon topic={group.topic} />
         {group.topic}
-        <span className="text-base font-normal text-(--muted-foreground)">
+        <span className="text-sm font-normal text-(--muted-foreground)">
           ({group.articles.length})
         </span>
       </h2>

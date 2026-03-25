@@ -8,9 +8,18 @@ import { SourceRow } from "@/types";
 interface SourceListProps {
   sources: SourceRow[];
   onDeleted: (id: number) => void;
+  error?: string | null;
 }
 
-export function SourceList({ sources, onDeleted }: SourceListProps) {
+export function SourceList({ sources, onDeleted, error }: SourceListProps) {
+  if (error) {
+    return (
+      <p role="alert" className="text-sm text-[var(--destructive)] py-4">
+        {error}
+      </p>
+    );
+  }
+
   if (sources.length === 0) {
     return (
       <p className="text-sm text-[var(--muted-foreground)] py-4">
@@ -53,7 +62,7 @@ export function SourceList({ sources, onDeleted }: SourceListProps) {
                   variant="ghost"
                   size="icon"
                   onClick={() => handleDelete(source.id)}
-                  className="text-[var(--muted-foreground)] hover:text-red-500"
+                  className="text-[var(--muted-foreground)] hover:text-[var(--destructive)]"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

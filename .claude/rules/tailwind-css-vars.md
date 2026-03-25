@@ -1,3 +1,9 @@
+---
+description: Use Tailwind v4 parenthetical shorthand for CSS custom properties, not bracket syntax
+globs:
+  - "src/**"
+---
+
 # Tailwind v4 CSS Variable Syntax
 
 Use the Tailwind v4 parenthetical shorthand for CSS custom properties: `bg-(--background)`, `text-(--foreground)`, `border-(--border)`.

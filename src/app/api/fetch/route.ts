@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { fetchFeed } from "@/lib/rss";
+import { fetchArticles } from "@/lib/fetch-strategies";
 
 export async function POST(request: Request): Promise<Response> {
   const secret = process.env.CRON_SECRET;
@@ -9,7 +9,17 @@ export async function POST(request: Request): Promise<Response> {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const sources = await prisma.source.findMany();
+  const sources = await prisma.source.findMany({
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      sourceType: true,
+      sitemapPathPattern: true,
+      scrapeUrl: true,
+      scrapeLinkSelector: true,
+    },
+  });
 
   if (sources.length === 0) {
     return NextResponse.json({ fetched: 0, added: 0, errors: [] });
@@ -20,7 +30,7 @@ export async function POST(request: Request): Promise<Response> {
   const results = await Promise.allSettled(
     sources.map(async (source) => {
       try {
-        const articles = await fetchFeed(source.url);
+        const articles = await fetchArticles(source);
         const guids = articles.map((a) => a.guid);
 
         // Find which guids already exist

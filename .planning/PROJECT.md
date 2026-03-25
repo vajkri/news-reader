@@ -22,6 +22,8 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - ✓ Next.js web application with responsive layout — existing
 - ✓ AI summarization of individual articles — Validated in Phase 2: AI Enrichment
 - ✓ AI classification and prioritization of articles by topic and importance — Validated in Phase 2: AI Enrichment
+- ✓ Source quality curation with contentType and thinContent enrichment fields — Validated in Phase 04.1: Source Quality Filtering
+- ✓ Enrichment model evaluation and selection (deepseek/deepseek-v3.2) — Validated in Phase 04.1: Source Quality Filtering
 
 ### Active
 
@@ -88,4 +90,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-21 after Phase 03.2 (Neon Postgres Migration & Vercel Deployment) completion*
+*Last updated: 2026-03-25 after Phase 04.1 (Source Quality Filtering) completion*

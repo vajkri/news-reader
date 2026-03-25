@@ -20,13 +20,13 @@ news-reader/
 │   │           └── route.ts    # POST: fetch RSS articles (cron target)
 │   ├── components/
 │   │   ├── ui/                 # shadcn/ui primitives (badge, button, select, input)
-│   │   ├── feed/               # Feed feature components
-│   │   │   ├── FeedTable.tsx
-│   │   │   ├── FeedToolbar.tsx
-│   │   │   └── columns.tsx
-│   │   └── sources/            # Source management components
-│   │       ├── SourceForm.tsx
-│   │       └── SourceList.tsx
+│   │   ├── layout/             # Layout primitives
+│   │   └── features/           # Feature components, nested by page
+│   │       ├── feed/           # Feed page components
+│   │       ├── sources/        # Sources page components
+│   │       ├── briefing/       # Daily briefing components
+│   │       ├── chat/           # Chat interface components
+│   │       └── Header/         # App header/nav
 │   ├── lib/
 │   │   ├── prisma.ts           # Prisma singleton (server-only)
 │   │   ├── utils.ts            # cn() utility (clsx + tailwind-merge)

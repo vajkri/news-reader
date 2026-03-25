@@ -21,4 +21,4 @@
 - next/core-web-vitals + typescript config
 - Flat config format (`eslint.config.mjs`)
 
-See CLAUDE.md for all prescriptive rules (component organization, git conventions, accessibility, design tokens).
+All prescriptive rules (component organization, design tokens, accessibility, git conventions) live in `CLAUDE.md` and `.claude/rules/`. This file is descriptive only.

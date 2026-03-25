@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-stopped_at: Completed 04-07-PLAN.md
-last_updated: "2026-03-23T08:11:21.806Z"
+status: Phase 04.1 shipped — PR #16
+stopped_at: Shipped Phase 04.1
+last_updated: "2026-03-25T12:42:39.598Z"
 progress:
   total_phases: 9
-  completed_phases: 6
-  total_plans: 18
-  completed_plans: 18
+  completed_phases: 7
+  total_plans: 22
+  completed_plans: 22
 ---
 
 # Project State
@@ -19,11 +19,11 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04 — chat-interface
+**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing (next to plan)
 
 ## Current Position
 
-Phase: 04.1
+Phase: 04.2
 Plan: Not started
 
 ## Performance Metrics
@@ -62,6 +62,10 @@ Plan: Not started
 | Phase 04-chat-interface P04 | 9 | 2 tasks | 5 files |
 | Phase 04-chat-interface P06 | 4 | 2 tasks | 5 files |
 | Phase 04-chat-interface P07 | 8 | 2 tasks | 5 files |
+| Phase 04.1 P01 | 10 | 2 tasks | 5 files |
+| Phase 04.1 P02 | 5 | 2 tasks | 2 files |
+| Phase 04.1 P03 | 10 | 3 tasks | 3 files |
+| Phase 04.1 P04 | 1844 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -111,17 +115,18 @@ Recent decisions affecting current work:
 - [Phase 04-chat-interface]: SourcesToggle uses raw button: disclosure toggle doesn't fit Button component styling
 - [Phase 04-chat-interface]: Inline SourceCards via custom react-markdown a renderer matching sources by URL
 - [Phase 04-chat-interface]: Storybook configured with @storybook/nextjs; stories colocated with ChatMessage component; globals.css imported in preview.ts for design tokens
-- [Todo fix]: --container-width changed from 100dvw to 100% to prevent horizontal scroll (100dvw includes scrollbar width)
-- [Todo fix]: Sources page fetch error handling: res.ok check + .catch(); error replaces empty state in SourceList (no content shift)
-- [Todo fix]: SourceForm inputs use flex basis instead of min-width for proper wrapping on narrow viewports
+- [Phase 04.1]: Migration applied via Neon HTTP API when TCP/5432 blocked; vitest.config.ts exclude added for .claude/worktrees/ to prevent test conflicts
+- [Phase 04.1]: Enrichment SYSTEM_PROMPT restructured with 7 explicit sections; content type taxonomy: announcement=FROM company, news=ABOUT company by third party; thinContent threshold made explicit at 50 words
+- [Phase 04.1]: Chat SYSTEM_PROMPT: answer-first rule, 4 named capabilities, fast-failure one-sentence response, removed negative-framed CAPABILITIES AND LIMITATIONS block
+- [Phase 04.1]: deepseek/deepseek-v3.2 selected as enrichment model over gemini-2.5-flash-lite, gemini-3.1-flash-lite-preview, and gpt-4.1-mini based on structured evaluation (2026-03-25)
+- [Phase 04.1]: deepseek/deepseek-v3.2 used for full corpus re-enrichment; Neon HTTP adapter required in all local scripts
 
 ### Pending Todos
 
 1. Add body validation to articles PATCH endpoint (area: api)
-2. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui)
-3. Rotate leaked CRON_SECRET and scrub from git history (area: general)
-4. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
-5. Update typography implementations to match design system scale (area: ui)
+2. Rotate leaked CRON_SECRET and scrub from git history (area: general)
+3. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
+4. Update typography implementations to match design system scale (area: ui)
 
 ### Blockers/Concerns
 
@@ -134,9 +139,10 @@ Recent decisions affecting current work:
 - Phase 03.2 inserted after Phase 03: Neon Postgres migration + Vercel deployment (URGENT)
 - Phase 04.1 inserted after Phase 04: Source quality filtering: prioritize news over personal content (URGENT)
 - Phase 04.2 inserted after Phase 04: Code optimization via agent-skills: clean up without changing behavior (URGENT)
+- Phase 04.3 inserted after Phase 04: Non-RSS source ingestion via sitemap parsing (URGENT)
 
 ## Session Continuity
 
-Last session: 2026-03-22T07:39:27.563Z
-Stopped at: Completed 04-07-PLAN.md
+Last session: 2026-03-25T12:38:27.107Z
+Stopped at: Completed 04.1-04-PLAN.md
 Resume file: None

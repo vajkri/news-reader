@@ -47,7 +47,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SQF-02**: Article model extended with contentType (5-value enum) and thinContent (boolean), persisted during enrichment
 - [x] **SQF-03**: Enrichment system prompt improved with contentType taxonomy, importance score anchors, and summary quality rules
 - [x] **SQF-04**: Chat system prompt improved with answer-first behavior and named capabilities per UX research
-- [ ] **SQF-05**: Enrichment model evaluated across 4 candidates and best selected based on quality and cost
+- [x] **SQF-05**: Enrichment model evaluated across 4 candidates and best selected based on quality and cost
 - [ ] **SQF-06**: Full article corpus re-enriched with improved prompt and selected model
 
 ### UX / Design
@@ -121,7 +121,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SQF-02 | Phase 04.1 | Complete |
 | SQF-03 | Phase 04.1 | Complete |
 | SQF-04 | Phase 04.1 | Complete |
-| SQF-05 | Phase 04.1 | Pending |
+| SQF-05 | Phase 04.1 | Complete |
 | SQF-06 | Phase 04.1 | Pending |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |

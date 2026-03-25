@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { fetchFeed } from "@/lib/rss";
+import { fetchArticles } from "@/lib/fetch-strategies";
 
 interface FetchResult {
   fetched: number;
@@ -10,7 +10,17 @@ interface FetchResult {
 }
 
 export async function fetchFeeds(): Promise<FetchResult> {
-  const sources = await prisma.source.findMany();
+  const sources = await prisma.source.findMany({
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      sourceType: true,
+      sitemapPathPattern: true,
+      scrapeUrl: true,
+      scrapeLinkSelector: true,
+    },
+  });
 
   if (sources.length === 0) {
     return { fetched: 0, added: 0, errors: [] };
@@ -22,7 +32,7 @@ export async function fetchFeeds(): Promise<FetchResult> {
   await Promise.allSettled(
     sources.map(async (source) => {
       try {
-        const articles = await fetchFeed(source.url);
+        const articles = await fetchArticles(source);
         const guids = articles.map((a) => a.guid);
 
         const existing = await prisma.article.findMany({

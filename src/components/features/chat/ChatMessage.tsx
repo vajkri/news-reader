@@ -33,7 +33,7 @@ function SourcesToggle({
       <button
         onClick={() => setIsExpanded((prev) => !prev)}
         aria-expanded={isExpanded}
-        className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:outline-none rounded px-1.5 py-1"
+        className="flex items-center gap-1.5 text-[0.8125rem] text-(--muted-foreground) hover:text-(--foreground) transition-colors focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:outline-none rounded px-1.5 py-1"
       >
         <Search size={13} />
         <span>
@@ -84,12 +84,12 @@ export function ChatMessage({
       <div
         className={
           role === 'user'
-            ? 'ml-auto bg-[var(--chat-user-bg)] text-[var(--chat-user-fg)] rounded-2xl rounded-tr-sm max-w-[85%] px-4 py-2.5'
-            : 'mr-auto bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5'
+            ? 'ml-auto bg-(--chat-user-bg) text-(--chat-user-fg) rounded-2xl rounded-tr-sm max-w-[85%] px-4 py-2.5'
+            : 'mr-auto bg-(--card) border border-(--border) text-(--foreground) rounded-2xl rounded-tl-sm max-w-[85%] px-4 py-2.5'
         }
       >
         {showLoading ? (
-          <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+          <div className="flex items-center gap-2 text-sm text-(--muted-foreground)">
             <Loader2 size={14} className="animate-spin" />
             <span>{loadingLabel}</span>
           </div>
@@ -119,7 +119,7 @@ export function ChatMessage({
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[var(--primary)] underline underline-offset-2 hover:opacity-80"
+                      className="text-(--primary) underline underline-offset-2 hover:opacity-80"
                     >
                       {children}
                     </a>

@@ -23,7 +23,7 @@ export default function SourcesPage() {
     <div className="section-container py-8 flex flex-col gap-6">
       <div>
         <h1 className="text-2xl font-bold">RSS Sources</h1>
-        <p className="text-sm text-[var(--muted-foreground)] mt-1">
+        <p className="text-sm text-(--muted-foreground) mt-1">
           Manage the RSS feeds your reader pulls from.
         </p>
       </div>

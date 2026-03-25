@@ -27,6 +27,11 @@ export const ArticleEnrichmentSchema = z.object({
       `Topic categories. Prefer seeds: ${SEED_TOPICS.join(', ')}. Create new only when no seed fits.`
     ),
   importanceScore: z.number().int().min(1).max(10),
+  contentType: z
+    .enum(['news', 'tutorial', 'opinion', 'announcement', 'roundup'])
+    .describe(
+      'Primary content type. news=factual reporting, tutorial=how-to/guide, opinion=analysis/commentary, announcement=official company post, roundup=digest/list'
+    ),
   thinContent: z
     .boolean()
     .describe(
@@ -39,7 +44,8 @@ For each article in the batch:
 1. Write a 2-3 sentence summary. Tone: factual, dry, implications-forward. Final sentence starts with "This" and states the implication.
 2. Assign one or more topic categories. Prefer from the seed list: model releases, developer tools, industry moves, research & breakthroughs, AI regulation & policy, open source, AI coding tools. Create new categories only when no seed fits.
 3. Score importance 1-10 relative to the OTHER articles in this batch. Consider: broad AI industry impact AND relevance to a frontend developer building with AI tools.
-4. Set thinContent=true if the article description is too short or generic to summarize meaningfully.
+4. Classify contentType: news=factual reporting, tutorial=how-to/guide, opinion=analysis/commentary, announcement=official company post, roundup=digest/list.
+5. Set thinContent=true if the article description is too short or generic to summarize meaningfully.
 
 Return results for ALL articles in the batch. Include the articleId in each result.`;
 
@@ -106,6 +112,8 @@ export async function saveEnrichmentResults(
           summary: result.summary,
           topics: result.topics,
           importanceScore: result.importanceScore,
+          contentType: result.contentType,
+          thinContent: result.thinContent,
           enrichedAt: new Date(),
         },
       })

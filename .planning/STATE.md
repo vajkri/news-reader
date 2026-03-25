@@ -111,6 +111,9 @@ Recent decisions affecting current work:
 - [Phase 04-chat-interface]: SourcesToggle uses raw button: disclosure toggle doesn't fit Button component styling
 - [Phase 04-chat-interface]: Inline SourceCards via custom react-markdown a renderer matching sources by URL
 - [Phase 04-chat-interface]: Storybook configured with @storybook/nextjs; stories colocated with ChatMessage component; globals.css imported in preview.ts for design tokens
+- [Todo fix]: --container-width changed from 100dvw to 100% to prevent horizontal scroll (100dvw includes scrollbar width)
+- [Todo fix]: Sources page fetch error handling: res.ok check + .catch(); error replaces empty state in SourceList (no content shift)
+- [Todo fix]: SourceForm inputs use flex basis instead of min-width for proper wrapping on narrow viewports
 
 ### Pending Todos
 

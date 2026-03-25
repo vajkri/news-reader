@@ -92,7 +92,7 @@ All tokens are defined in `src/app/globals.css`.
 - **Text hierarchy tokens:** `--foreground` (primary text, titles), `--foreground-secondary` (secondary text like insights/takeaways; zinc-700 light, zinc-300 dark), `--muted-foreground` (metadata, supporting context). Never use opacity on text colors; use explicit tokens for verifiable contrast.
 - **Highlight tokens:** `--highlight` (warm yellow bg) and `--highlight-foreground` (dark text on highlight). Use via `style={{ background: 'var(--highlight)', color: 'var(--highlight-foreground)' }}` on `<mark>` elements. Both modes meet WCAG 2.2 AA contrast.
 - **Font variables:** `--font-geist-sans` (Geist Sans, for UI) and `--font-geist-mono` (Geist Mono, for code). Loaded via `next/font/local` in `layout.tsx`.
-- **Container tokens** in `:root`: `--container-width` (100dvw), `--container-max-width` (1460px), `--container-max-width-reading` (1024px), `--container-padding` (1.5rem). Used by `.section-container` and `.reading-container` utilities in `@layer components`.
+- **Container tokens** in `:root`: `--container-width` (100%), `--container-max-width` (1460px), `--container-max-width-reading` (1024px), `--container-padding` (1.5rem). Used by `.section-container` and `.reading-container` utilities in `@layer components`.
 
 ### Container Utility
 

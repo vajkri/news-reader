@@ -50,6 +50,15 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SQF-05**: Enrichment model evaluated across 4 candidates and best selected based on quality and cost
 - [x] **SQF-06**: Full article corpus re-enriched with improved prompt and selected model
 
+### Non-RSS Source Ingestion
+
+- [x] **SITE-01**: Strategy pattern dispatcher routes fetching by source type (rss, sitemap, scrape)
+- [x] **SITE-02**: Sitemap strategy parses XML, filters by path pattern and 7-day cutoff, returns ParsedArticle[]
+- [x] **SITE-03**: Article meta extraction from HTML pages (og:title, og:description, og:image, datePublished)
+- [x] **SITE-04**: Source model extended with sourceType, sitemapPathPattern, scrapeUrl, scrapeLinkSelector
+- [x] **SITE-05**: Anthropic News and Claude Blog added as sitemap sources
+- [x] **SITE-06**: Fetch cron dispatches to correct strategy based on source.sourceType
+
 ### UX / Design
 
 - [ ] **UX-01**: All views redesigned with ADHD-friendly scannable layout (cards, visual hierarchy, no text walls)
@@ -123,14 +132,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SQF-04 | Phase 04.1 | Complete |
 | SQF-05 | Phase 04.1 | Complete |
 | SQF-06 | Phase 04.1 | Complete |
+| SITE-01 | Phase 04.3 | Complete |
+| SITE-02 | Phase 04.3 | Complete |
+| SITE-03 | Phase 04.3 | Complete |
+| SITE-04 | Phase 04.3 | Complete |
+| SITE-05 | Phase 04.3 | Complete |
+| SITE-06 | Phase 04.3 | Complete |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 27 total
-- Mapped to phases: 27
+- v1 requirements: 33 total
+- Mapped to phases: 33
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-19*
-*Last updated: 2026-03-25 after Phase 04.1 planning*
+*Last updated: 2026-03-25 after Phase 04.3 planning*

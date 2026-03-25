@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 04.1 shipped — PR #16
-stopped_at: Shipped Phase 04.1
-last_updated: "2026-03-25T12:42:39.598Z"
+status: "Phase 04.3 shipped — PR #17"
+stopped_at: Completed 04.3-02-PLAN.md
+last_updated: "2026-03-25T20:02:35.447Z"
 progress:
-  total_phases: 9
-  completed_phases: 7
-  total_plans: 22
-  completed_plans: 22
+  total_phases: 10
+  completed_phases: 8
+  total_plans: 24
+  completed_plans: 24
 ---
 
 # Project State
@@ -19,11 +19,11 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing (next to plan)
+**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing
 
 ## Current Position
 
-Phase: 04.2
+Phase: 5
 Plan: Not started
 
 ## Performance Metrics
@@ -66,6 +66,8 @@ Plan: Not started
 | Phase 04.1 P02 | 5 | 2 tasks | 2 files |
 | Phase 04.1 P03 | 10 | 3 tasks | 3 files |
 | Phase 04.1 P04 | 1844 | 2 tasks | 5 files |
+| Phase 04.3 P01 | 5 | 2 tasks | 9 files |
+| Phase 04.3 P02 | 7 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -120,6 +122,10 @@ Recent decisions affecting current work:
 - [Phase 04.1]: Chat SYSTEM_PROMPT: answer-first rule, 4 named capabilities, fast-failure one-sentence response, removed negative-framed CAPABILITIES AND LIMITATIONS block
 - [Phase 04.1]: deepseek/deepseek-v3.2 selected as enrichment model over gemini-2.5-flash-lite, gemini-3.1-flash-lite-preview, and gpt-4.1-mini based on structured evaluation (2026-03-25)
 - [Phase 04.1]: deepseek/deepseek-v3.2 used for full corpus re-enrichment; Neon HTTP adapter required in all local scripts
+- [Phase 04.3]: vi.clearAllMocks() required in beforeEach for module mock tests; vi.restoreAllMocks() removes vi.mock() stubs causing test failures
+- [Phase 04.3]: Strategy dispatcher uses Record<sourceType, handler> map with default fallback (rss) for easily extensible source type routing
+- [Phase 04.3]: Manual migration applied via Neon HTTP (TCP/5432 blocked); recorded in _prisma_migrations table
+- [Phase 04.3]: Existing RSS sources need no sourceType in seed.ts: schema default 'rss' applies; upsert update:{} does not overwrite
 
 ### Pending Todos
 
@@ -143,6 +149,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-25T12:38:27.107Z
-Stopped at: Completed 04.1-04-PLAN.md
+Last session: 2026-03-25T19:24:59.892Z
+Stopped at: Completed 04.3-02-PLAN.md
 Resume file: None

@@ -141,12 +141,18 @@ Plans:
 ### Phase 04.3: Non-RSS source ingestion via sitemap parsing (INSERTED)
 
 **Goal:** Add sitemap-based source ingestion with strategy pattern dispatch, enabling Anthropic News and Claude Blog as non-RSS sources
-**Requirements**: TBD
+**Requirements**: SITE-01, SITE-02, SITE-03, SITE-04, SITE-05, SITE-06
 **Depends on:** Phase 04.1
-**Plans:** 0 plans
+**Success Criteria** (what must be TRUE):
+  1. Fetch cron dispatches to correct strategy (rss/sitemap/scrape) based on source.sourceType
+  2. Sitemap strategy parses XML, filters by path pattern and 7-day cutoff, extracts article metadata from HTML pages
+  3. Anthropic News and Claude Blog articles appear in the feed after cron runs
+  4. Existing RSS sources continue to work unchanged
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 04.3 to break down)
+- [x] 04.3-01-PLAN.md — Strategy modules (fetch-article-meta, sitemap, scrape scaffold, dispatcher) + unit tests
+- [x] 04.3-02-PLAN.md — Schema migration (sourceType fields), seed Anthropic News + Claude Blog, wire fetch cron to dispatcher
 
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
@@ -172,5 +178,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 4. Chat Interface | 7/7 | Complete | - |
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
-| 04.3 Non-RSS Source Ingestion   | 0/TBD | Not started | -          |
+| 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

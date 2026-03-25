@@ -124,7 +124,7 @@ Plans:
 
 Plans:
 - [x] 04.1-01-PLAN.md — Schema migration (contentType + thinContent), seed.ts source updates, enrichment code + tests
-- [ ] 04.1-02-PLAN.md — Enrichment and chat system prompt rewrites using chatbot-prompt-design skill
+- [x] 04.1-02-PLAN.md — Enrichment and chat system prompt rewrites using chatbot-prompt-design skill
 - [ ] 04.1-03-PLAN.md — Model evaluation script, user selects winner, AI_MODEL updated
 - [ ] 04.1-04-PLAN.md — Dev.to article deletion via seed cascade, full corpus re-enrichment script
 

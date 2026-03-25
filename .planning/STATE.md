@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 04.1-01-PLAN.md
-last_updated: "2026-03-25T11:24:31.531Z"
+stopped_at: Completed 04.1-02-PLAN.md
+last_updated: "2026-03-25T11:28:28.852Z"
 progress:
   total_phases: 9
   completed_phases: 6
   total_plans: 22
-  completed_plans: 19
+  completed_plans: 20
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04.1 (source-quality-filtering-prioritize-news-over-personal-content) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Plan: 2 of 4
 | Phase 04-chat-interface P06 | 4 | 2 tasks | 5 files |
 | Phase 04-chat-interface P07 | 8 | 2 tasks | 5 files |
 | Phase 04.1 P01 | 10 | 2 tasks | 5 files |
+| Phase 04.1 P02 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -113,6 +114,8 @@ Recent decisions affecting current work:
 - [Phase 04-chat-interface]: Inline SourceCards via custom react-markdown a renderer matching sources by URL
 - [Phase 04-chat-interface]: Storybook configured with @storybook/nextjs; stories colocated with ChatMessage component; globals.css imported in preview.ts for design tokens
 - [Phase 04.1]: Migration applied via Neon HTTP API when TCP/5432 blocked; vitest.config.ts exclude added for .claude/worktrees/ to prevent test conflicts
+- [Phase 04.1]: Enrichment SYSTEM_PROMPT restructured with 7 explicit sections; content type taxonomy: announcement=FROM company, news=ABOUT company by third party; thinContent threshold made explicit at 50 words
+- [Phase 04.1]: Chat SYSTEM_PROMPT: answer-first rule, 4 named capabilities, fast-failure one-sentence response, removed negative-framed CAPABILITIES AND LIMITATIONS block
 
 ### Pending Todos
 
@@ -136,6 +139,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-25T11:24:31.527Z
-Stopped at: Completed 04.1-01-PLAN.md
+Last session: 2026-03-25T11:28:28.847Z
+Stopped at: Completed 04.1-02-PLAN.md
 Resume file: None

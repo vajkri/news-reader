@@ -123,9 +123,10 @@ Never use raw `<button>` elements. Always use the `Button` component, adding var
 
 | Role        | Font       | Size  | Weight | Usage                                          |
 | ----------- | ---------- | ----- | ------ | ---------------------------------------------- |
-| Body        | Geist Sans | 14px  | 400    | Article metadata, filter labels, secondary text |
+| Body        | Geist Sans | 16px  | 400    | Article content, descriptions, primary reading text |
 | UI Label    | Geist Sans | 14px  | 600    | Button labels, nav links, badge text, status bar |
-| Heading     | Geist Sans | 16px  | 600    | Column headers, section titles                 |
+| Small       | Geist Sans | 14px  | 400    | Article metadata, filter labels, secondary text |
+| Heading     | Geist Sans | 18px  | 600    | Column headers, section titles                 |
 | Mono        | Geist Mono | 13px  | 400    | Code references, URL display                   |
 
 Minimum font size: 13px. Badge exception: 12px (`text-xs`) — do not add new 12px elements.
@@ -148,17 +149,3 @@ Always use `focus-visible:` pseudo-class, never bare `focus:`. This prevents foc
 ## Git
 
 Never append `Co-Authored-By` lines to commit messages. Use Conventional Commits format.
-
-## Documentation & Memory
-
-Where persistent knowledge lives — see `.claude/rules/memory-placement.md` for the full placement guide.
-
-- **`CLAUDE.md`** — prescriptive code conventions (this file)
-- **`.claude/memory/`** — behavioral corrections, user preferences, reference pointers
-- **`.planning/`** — GSD phases, roadmap, research, project state
-- **`.serena/memories/`** — descriptive project knowledge (when Serena is configured)
-
-## Known Limitations
-
-- SQLite `contains` is case-sensitive (no `mode: 'insensitive'` support unlike PostgreSQL)
-- `.env.local` must include `CRON_SECRET=any-dev-value` for local cron endpoint testing

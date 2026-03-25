@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03.2-03-PLAN.md
-last_updated: "2026-03-21T14:29:58.470Z"
+stopped_at: Completed 04-07-PLAN.md
+last_updated: "2026-03-23T08:11:21.806Z"
 progress:
-  total_phases: 7
-  completed_phases: 5
-  total_plans: 11
-  completed_plans: 11
+  total_phases: 9
+  completed_phases: 6
+  total_plans: 18
+  completed_plans: 18
 ---
 
 # Project State
@@ -19,11 +19,11 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 03.2 — neon-postgres-migration-vercel-deployment
+**Current focus:** Phase 04 — chat-interface
 
 ## Current Position
 
-Phase: 4
+Phase: 04.1
 Plan: Not started
 
 ## Performance Metrics
@@ -56,6 +56,12 @@ Plan: Not started
 | Phase 03.2 P01 | 72 | 3 tasks | 8 files |
 | Phase 03.2 P02 | 4 | 3 tasks | 2 files |
 | Phase 03.2 P03 | 5 | 3 tasks | 2 files |
+| Phase 04-chat-interface P01 | 6 | 2 tasks | 7 files |
+| Phase 04-chat-interface P02 | 7 | 2 tasks | 10 files |
+| Phase 04-chat-interface P05 | 8 | 3 tasks | 4 files |
+| Phase 04-chat-interface P04 | 9 | 2 tasks | 5 files |
+| Phase 04-chat-interface P06 | 4 | 2 tasks | 5 files |
+| Phase 04-chat-interface P07 | 8 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -95,12 +101,25 @@ Recent decisions affecting current work:
 - [Phase 03.2]: SQLite stores DateTime as Unix ms integers; cutoff comparison must use CUTOFF.getTime() not .toISOString() in raw SQL
 - [Phase 03.2]: Cron schedule: fetch at 05:00 UTC, enrich at 06:00 UTC (1-hour gap for fetch to complete before enrich)
 - [Phase 03.2]: mode: insensitive on Postgres contains replaces case-sensitive SQLite workaround; both title and source.name filters updated
+- [Phase 04-chat-interface]: RateLimit uses upsert with id:0 sentinel for expired-window reset; chat tools cast topics as (string[] | null) ?? [] for safe Json? handling
+- [Phase 04-chat-interface]: useChat() with no args uses DefaultChatTransport defaulting to /api/chat; v6 removed api option from useChat
+- [Phase 04-chat-interface]: convertToModelMessages returns Promise in v6, must be awaited
+- [Phase 04-chat-interface]: Tool parts in v6 use type tool-<toolName> with state output-available and output field, replacing removed tool-invocation type
+- [Phase 04-chat-interface]: CSS Grid embedded layout uses data attribute on html element for decoupled coordination between ChatPanel and .app-content
+- [Phase 04-chat-interface]: useMemo for rate limit derivation instead of useEffect+setState to satisfy react-hooks/set-state-in-effect rule
+- [Phase 04-chat-interface]: plainto_tsquery over to_tsquery for natural language query handling; sendMessage ChatRequestOptions.body for articleContext (useChat body removed in v6)
+- [Phase 04-chat-interface]: SourcesToggle uses raw button: disclosure toggle doesn't fit Button component styling
+- [Phase 04-chat-interface]: Inline SourceCards via custom react-markdown a renderer matching sources by URL
+- [Phase 04-chat-interface]: Storybook configured with @storybook/nextjs; stories colocated with ChatMessage component; globals.css imported in preview.ts for design tokens
 
 ### Pending Todos
 
 1. Add body validation to articles PATCH endpoint (area: api)
 2. Add error handling to sources page fetch (area: ui)
 3. Replace bracket-var Tailwind syntax with v4 shorthand (area: ui)
+4. Rotate leaked CRON_SECRET and scrub from git history (area: general)
+5. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
+6. Update typography implementations to match design system scale (area: ui)
 
 ### Blockers/Concerns
 
@@ -111,9 +130,11 @@ Recent decisions affecting current work:
 
 - Phase 03.1 inserted after Phase 03: Adjust TL;DR source to use tldr-rss middleman (URGENT)
 - Phase 03.2 inserted after Phase 03: Neon Postgres migration + Vercel deployment (URGENT)
+- Phase 04.1 inserted after Phase 04: Source quality filtering: prioritize news over personal content (URGENT)
+- Phase 04.2 inserted after Phase 04: Code optimization via agent-skills: clean up without changing behavior (URGENT)
 
 ## Session Continuity
 
-Last session: 2026-03-21T13:55:44.447Z
-Stopped at: Completed 03.2-03-PLAN.md
+Last session: 2026-03-22T07:39:27.563Z
+Stopped at: Completed 04-07-PLAN.md
 Resume file: None

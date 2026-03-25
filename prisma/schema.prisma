@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -39,4 +40,11 @@ model Article {
   @@index([publishedAt])
   @@index([isRead])
   @@index([enrichedAt])
+}
+
+model RateLimit {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
 }

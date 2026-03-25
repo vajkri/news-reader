@@ -43,8 +43,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Source Quality Filtering
 
-- [ ] **SQF-01**: Dev.to removed from sources; high-quality AI/ML feeds added (OpenAI News, Hugging Face Blog, Hacker News)
-- [ ] **SQF-02**: Article model extended with contentType (5-value enum) and thinContent (boolean), persisted during enrichment
+- [x] **SQF-01**: Dev.to removed from sources; high-quality AI/ML feeds added (OpenAI News, Hugging Face Blog, Hacker News)
+- [x] **SQF-02**: Article model extended with contentType (5-value enum) and thinContent (boolean), persisted during enrichment
 - [ ] **SQF-03**: Enrichment system prompt improved with contentType taxonomy, importance score anchors, and summary quality rules
 - [ ] **SQF-04**: Chat system prompt improved with answer-first behavior and named capabilities per UX research
 - [ ] **SQF-05**: Enrichment model evaluated across 4 candidates and best selected based on quality and cost
@@ -117,8 +117,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAT-02 | Phase 4 | Complete |
 | CHAT-03 | Phase 4 | Complete |
 | CHAT-04 | Phase 4 | Complete |
-| SQF-01 | Phase 04.1 | Pending |
-| SQF-02 | Phase 04.1 | Pending |
+| SQF-01 | Phase 04.1 | Complete |
+| SQF-02 | Phase 04.1 | Complete |
 | SQF-03 | Phase 04.1 | Pending |
 | SQF-04 | Phase 04.1 | Pending |
 | SQF-05 | Phase 04.1 | Pending |

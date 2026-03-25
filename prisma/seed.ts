@@ -16,10 +16,6 @@ const SOURCES = [
 async function main() {
   console.log("Seeding sources…");
 
-  // One-time: remove Dev.to and cascade-delete all its articles (per D-01)
-  await prisma.source.deleteMany({ where: { url: 'https://dev.to/feed' } });
-  console.log('  ~ Removed Dev.to source (articles deleted via cascade)');
-
   // One-time fix: swap TLDR Tech URL from HN to the real TLDR feed.
   // This preserves the existing source.id and all article relations.
   // Safe to rerun: checks existence before updating.

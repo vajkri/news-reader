@@ -50,6 +50,18 @@ export async function fetchFeeds(): Promise<FetchResult> {
               })
             )
           );
+          const rejected = results.filter(
+            (r): r is PromiseRejectedResult => r.status === "rejected"
+          );
+          for (const r of rejected) {
+            const isPrismaConflict =
+              r.reason && typeof r.reason === "object" && r.reason.code === "P2002";
+            if (!isPrismaConflict) {
+              errors.push(
+                `${source.name}: ${r.reason instanceof Error ? r.reason.message : String(r.reason)}`
+              );
+            }
+          }
           added += results.filter((r) => r.status === "fulfilled").length;
         }
       } catch (err) {

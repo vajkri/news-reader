@@ -70,7 +70,7 @@ export function FeedToolbar({
             size="sm"
             onClick={() => onReadFilterChange(val)}
             aria-pressed={readFilter === val}
-            className={`text-xs capitalize ${readFilter === val ? "font-semibold" : ""}`}
+            className={`text-sm capitalize ${readFilter === val ? "font-semibold" : ""}`}
           >
             {val}
           </Button>

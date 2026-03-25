@@ -67,7 +67,7 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-start gap-1 text-sm font-medium hover:underline group ${
+            className={`flex items-start gap-1 text-base font-medium hover:underline group ${
               isRead ? "text-(--muted-foreground)" : "text-(--foreground)"
             }`}
           >

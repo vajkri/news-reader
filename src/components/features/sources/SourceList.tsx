@@ -22,7 +22,7 @@ export function SourceList({ sources, onDeleted, error }: SourceListProps) {
 
   if (sources.length === 0) {
     return (
-      <p className="text-sm text-(--muted-foreground) py-4">
+      <p className="text-base text-(--muted-foreground) py-4">
         No sources yet. Add your first RSS feed above.
       </p>
     );

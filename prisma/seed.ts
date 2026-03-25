@@ -6,13 +6,19 @@ const SOURCES = [
   { name: "TLDR Tech",         url: "https://bullrich.dev/tldr-rss/tech.rss",                             category: "Tech"   },
   { name: "TLDR AI",           url: "https://bullrich.dev/tldr-rss/ai.rss",                               category: "AI"     },
   { name: "TLDR Design",       url: "https://bullrich.dev/tldr-rss/design.rss",                           category: "Design" },
-  { name: "Dev.to",            url: "https://dev.to/feed",                                                category: "Dev"    },
   { name: "TechCrunch AI",     url: "https://techcrunch.com/category/artificial-intelligence/feed/",      category: "AI"     },
   { name: "Smashing Magazine", url: "https://www.smashingmagazine.com/feed/",                             category: "Design" },
+  { name: "OpenAI News",       url: "https://openai.com/news/rss.xml",                                   category: "AI"     },
+  { name: "Hugging Face Blog", url: "https://huggingface.co/blog/feed.xml",                               category: "AI"     },
+  { name: "Hacker News",       url: "https://hnrss.org/frontpage",                                       category: "Tech"   },
 ];
 
 async function main() {
   console.log("Seeding sources…");
+
+  // One-time: remove Dev.to and cascade-delete all its articles (per D-01)
+  await prisma.source.deleteMany({ where: { url: 'https://dev.to/feed' } });
+  console.log('  ~ Removed Dev.to source (articles deleted via cascade)');
 
   // One-time fix: swap TLDR Tech URL from HN to the real TLDR feed.
   // This preserves the existing source.id and all article relations.

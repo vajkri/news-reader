@@ -32,6 +32,8 @@ model Article {
   topics          Json?
   importanceScore Int?
   enrichedAt      DateTime?
+  contentType     String?
+  thinContent     Boolean?
   createdAt   DateTime  @default(now())
   sourceId    Int
   source      Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)

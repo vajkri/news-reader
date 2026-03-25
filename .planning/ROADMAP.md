@@ -151,7 +151,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04.3-01-PLAN.md — Strategy modules (fetch-article-meta, sitemap, scrape scaffold, dispatcher) + unit tests
+- [x] 04.3-01-PLAN.md — Strategy modules (fetch-article-meta, sitemap, scrape scaffold, dispatcher) + unit tests
 - [ ] 04.3-02-PLAN.md — Schema migration (sourceType fields), seed Anthropic News + Claude Blog, wire fetch cron to dispatcher
 
 ### Phase 5: UX Polish

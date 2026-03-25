@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: "Phase 04.1 shipped — PR #16"
-stopped_at: Phase 4.3 context gathered
-last_updated: "2026-03-25T18:46:57.998Z"
+status: Ready to execute
+stopped_at: Completed 04.3-01-PLAN.md
+last_updated: "2026-03-25T19:16:45.028Z"
 progress:
   total_phases: 10
   completed_phases: 7
-  total_plans: 22
-  completed_plans: 22
+  total_plans: 24
+  completed_plans: 23
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing (next to plan)
+**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing
 
 ## Current Position
 
-Phase: 04.2
-Plan: Not started
+Phase: 04.3 (non-rss-source-ingestion-via-sitemap-parsing) — EXECUTING
+Plan: 2 of 2
 
 ## Performance Metrics
 
@@ -66,6 +66,7 @@ Plan: Not started
 | Phase 04.1 P02 | 5 | 2 tasks | 2 files |
 | Phase 04.1 P03 | 10 | 3 tasks | 3 files |
 | Phase 04.1 P04 | 1844 | 2 tasks | 5 files |
+| Phase 04.3 P01 | 5 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,8 @@ Recent decisions affecting current work:
 - [Phase 04.1]: Chat SYSTEM_PROMPT: answer-first rule, 4 named capabilities, fast-failure one-sentence response, removed negative-framed CAPABILITIES AND LIMITATIONS block
 - [Phase 04.1]: deepseek/deepseek-v3.2 selected as enrichment model over gemini-2.5-flash-lite, gemini-3.1-flash-lite-preview, and gpt-4.1-mini based on structured evaluation (2026-03-25)
 - [Phase 04.1]: deepseek/deepseek-v3.2 used for full corpus re-enrichment; Neon HTTP adapter required in all local scripts
+- [Phase 04.3]: vi.clearAllMocks() required in beforeEach for module mock tests; vi.restoreAllMocks() removes vi.mock() stubs causing test failures
+- [Phase 04.3]: Strategy dispatcher uses Record<sourceType, handler> map with default fallback (rss) for easily extensible source type routing
 
 ### Pending Todos
 
@@ -143,6 +146,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-25T18:46:57.993Z
-Stopped at: Phase 4.3 context gathered
-Resume file: .planning/phases/04.3-non-rss-source-ingestion-via-sitemap-parsing/04.3-CONTEXT.md
+Last session: 2026-03-25T19:16:45.023Z
+Stopped at: Completed 04.3-01-PLAN.md
+Resume file: None

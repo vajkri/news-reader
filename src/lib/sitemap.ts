@@ -5,27 +5,50 @@ import type { ParsedArticle } from "./rss";
 
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+// Locale prefixes to skip (sitemap may list /ko-kr/blog/..., /de-de/blog/..., etc.)
+const LOCALE_PREFIX_RE = /^https?:\/\/[^/]+\/[a-z]{2}(-[a-z]{2})?\//;
+
+/**
+ * Returns true if the URL is a locale-prefixed variant (e.g., /ko-kr/blog/...).
+ * We only want the canonical (un-prefixed) URLs to avoid duplicates.
+ */
+function isLocaleUrl(url: string, pathPattern: string): boolean {
+  const pattern = pathPattern.replace(/\*/g, "");
+  // If URL matches the pattern AND has a locale prefix before it, skip it
+  const match = url.match(LOCALE_PREFIX_RE);
+  if (!match) return false;
+  // Check if removing the locale prefix would still match the pattern
+  const withoutLocale = url.replace(match[0], url.match(/^https?:\/\/[^/]+\//)?.[0] ?? "");
+  return withoutLocale.includes(pattern);
+}
+
 /**
  * Fetches a sitemap XML, filters URLs by path pattern and 7-day cutoff,
  * then fetches each candidate article page for Open Graph metadata.
  *
- * For entries with `lastmod`: applies cutoff during sitemap parsing (cheap).
- * For entries without `lastmod` (e.g. claude.com): fetches each page to
- * extract `datePublished` from page HTML, then applies cutoff.
+ * Optimizations:
+ * - Locale-prefixed URLs are filtered out to avoid duplicates
+ * - Known guids (already in DB) are skipped to avoid refetching pages
+ * - No-lastmod entries are capped to 50 newest URLs
  */
 export async function fetchSitemap(
   sitemapUrl: string,
-  pathPattern: string
+  pathPattern: string,
+  knownGuids?: Set<string>
 ): Promise<ParsedArticle[]> {
   const cutoff = Date.now() - MAX_AGE_MS;
 
-  const res = await fetch(sitemapUrl, {
-    headers: { "User-Agent": "NewsReader/1.0 (news aggregator)" },
-    // Disable caching so cron always gets a fresh sitemap
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    next: { revalidate: 0 } as any,
-  });
-  const xml = await res.text();
+  let xml: string;
+  try {
+    const res = await fetch(sitemapUrl, {
+      headers: { "User-Agent": "NewsReader/1.0 (news aggregator)" },
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    xml = await res.text();
+  } catch {
+    return [];
+  }
 
   const parser = new XMLParser({ ignoreAttributes: false });
   const result = parser.parse(xml);
@@ -38,15 +61,22 @@ export async function fetchSitemap(
       ? [rawUrls]
       : [];
 
-  // Filter by path pattern (strip glob wildcard, use simple substring match)
+  // Filter by path pattern, exclude locale variants
   const pattern = pathPattern.replace(/\*/g, "");
-  const candidates = pattern
-    ? urls.filter((u) => u.loc?.includes(pattern))
-    : urls;
+  const candidates = urls.filter((u) => {
+    if (!u.loc?.includes(pattern)) return false;
+    if (isLocaleUrl(u.loc, pathPattern)) return false;
+    return true;
+  });
+
+  // Skip URLs we already have in the database
+  const fresh = knownGuids
+    ? candidates.filter((u) => !knownGuids.has(u.loc))
+    : candidates;
 
   // Split by presence of lastmod
-  const withLastmod = candidates.filter((u) => !!u.lastmod);
-  const withoutLastmod = candidates.filter((u) => !u.lastmod);
+  const withLastmod = fresh.filter((u) => !!u.lastmod);
+  const withoutLastmod = fresh.filter((u) => !u.lastmod);
 
   // For entries with lastmod: apply cutoff before fetching (avoids unnecessary requests)
   const recentWithLastmod = withLastmod.filter(
@@ -63,9 +93,7 @@ export async function fetchSitemap(
     if (r.status === "fulfilled" && r.value) articles.push(r.value);
   }
 
-  // For entries without lastmod: cap to newest 50 URLs (sorted reverse by path,
-  // which approximates recency for date-based URL patterns), then fetch pages
-  // to extract dates and apply the 7-day cutoff.
+  // For entries without lastmod: cap to newest 50 URLs, fetch pages to extract dates
   if (withoutLastmod.length > 0) {
     const MAX_NO_LASTMOD = 50;
     const capped = withoutLastmod
@@ -77,7 +105,6 @@ export async function fetchSitemap(
     );
     for (const r of noLastmodResults) {
       if (r.status === "fulfilled" && r.value) {
-        // Include if no date found (cannot filter) or date is within cutoff
         if (!r.value.publishedAt || r.value.publishedAt.getTime() >= cutoff) {
           articles.push(r.value);
         }

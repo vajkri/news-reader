@@ -46,7 +46,7 @@ describe('fetchArticles', () => {
       sitemapPathPattern: '/news/',
     });
 
-    expect(mockFetchSitemap).toHaveBeenCalledWith('https://x.com/sitemap.xml', '/news/');
+    expect(mockFetchSitemap).toHaveBeenCalledWith('https://x.com/sitemap.xml', '/news/', undefined);
     expect(mockFetchFeed).not.toHaveBeenCalled();
     expect(mockFetchScrape).not.toHaveBeenCalled();
   });
@@ -79,7 +79,7 @@ describe('fetchArticles', () => {
       sitemapPathPattern: null,
     });
 
-    expect(mockFetchSitemap).toHaveBeenCalledWith('https://x.com/sitemap.xml', '');
+    expect(mockFetchSitemap).toHaveBeenCalledWith('https://x.com/sitemap.xml', '', undefined);
   });
 
   it('falls back to source.url for scrape when scrapeUrl is not set', async () => {

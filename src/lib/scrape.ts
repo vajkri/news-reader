@@ -13,6 +13,8 @@ export async function fetchScrape(
 ): Promise<ParsedArticle[]> {
   void listingUrl;
   void linkSelector;
-  console.warn("scrape strategy not yet implemented");
+  if (process.env.NODE_ENV === "development") {
+    console.warn("scrape strategy not yet implemented");
+  }
   return [];
 }

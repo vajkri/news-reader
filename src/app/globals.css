@@ -15,7 +15,7 @@
   --radius: 0.5rem;
   --highlight: #fef9c3;
   --highlight-foreground: #451a03;
-  --container-width: 100dvw;
+  --container-width: 100%;
   --container-max-width: 1460px;
   --container-max-width-reading: 1024px;
   --container-padding: 1.5rem;

@@ -8,9 +8,18 @@ import { SourceRow } from "@/types";
 interface SourceListProps {
   sources: SourceRow[];
   onDeleted: (id: number) => void;
+  error?: string | null;
 }
 
-export function SourceList({ sources, onDeleted }: SourceListProps) {
+export function SourceList({ sources, onDeleted, error }: SourceListProps) {
+  if (error) {
+    return (
+      <p role="alert" className="text-sm text-red-600 dark:text-red-400 py-4">
+        {error}
+      </p>
+    );
+  }
+
   if (sources.length === 0) {
     return (
       <p className="text-sm text-[var(--muted-foreground)] py-4">

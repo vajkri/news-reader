@@ -111,13 +111,22 @@ Plans:
 
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** Curate higher-quality RSS sources, add contentType and thinContent fields to the enrichment pipeline, improve enrichment and chat system prompts using UX research, evaluate enrichment models, and re-enrich the full article corpus
+**Requirements**: SQF-01, SQF-02, SQF-03, SQF-04, SQF-05, SQF-06
 **Depends on:** Phase 4
-**Plans:** 7/7 plans complete
+**Success Criteria** (what must be TRUE):
+  1. Dev.to is removed from sources; OpenAI News, Hugging Face Blog, and Hacker News are added
+  2. Every article in the database has a non-null contentType and thinContent value after re-enrichment
+  3. Enrichment prompt includes contentType taxonomy, importance score anchors, and summary quality rules
+  4. Chat prompt uses answer-first behavior with named capabilities per chatbot-prompt-design skill
+  5. AI_MODEL reflects the winning model from structured evaluation
+**Plans:** 4 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 04.1 to break down)
+- [ ] 04.1-01-PLAN.md — Schema migration (contentType + thinContent), seed.ts source updates, enrichment code + tests
+- [ ] 04.1-02-PLAN.md — Enrichment and chat system prompt rewrites using chatbot-prompt-design skill
+- [ ] 04.1-03-PLAN.md — Model evaluation script, user selects winner, AI_MODEL updated
+- [ ] 04.1-04-PLAN.md — Dev.to article deletion via seed cascade, full corpus re-enrichment script
 
 ### Phase 04.2: Code optimization via agent-skills: clean up without changing behavior (INSERTED)
 
@@ -150,5 +159,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
 | 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
-| 4. Chat Interface | 3/7 | In Progress | - |
+| 4. Chat Interface | 7/7 | Complete | - |
+| 04.1 Source Quality Filtering | 0/4 | In Progress | - |
 | 5. UX Polish | 0/TBD | Not started | - |

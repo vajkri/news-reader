@@ -41,6 +41,15 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CHAT-03**: Chat uses tool-calling pattern to query database (not raw article context)
 - [x] **CHAT-04**: Chat endpoint has rate limiting from day one
 
+### Source Quality Filtering
+
+- [ ] **SQF-01**: Dev.to removed from sources; high-quality AI/ML feeds added (OpenAI News, Hugging Face Blog, Hacker News)
+- [ ] **SQF-02**: Article model extended with contentType (5-value enum) and thinContent (boolean), persisted during enrichment
+- [ ] **SQF-03**: Enrichment system prompt improved with contentType taxonomy, importance score anchors, and summary quality rules
+- [ ] **SQF-04**: Chat system prompt improved with answer-first behavior and named capabilities per UX research
+- [ ] **SQF-05**: Enrichment model evaluated across 4 candidates and best selected based on quality and cost
+- [ ] **SQF-06**: Full article corpus re-enriched with improved prompt and selected model
+
 ### UX / Design
 
 - [ ] **UX-01**: All views redesigned with ADHD-friendly scannable layout (cards, visual hierarchy, no text walls)
@@ -108,14 +117,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAT-02 | Phase 4 | Complete |
 | CHAT-03 | Phase 4 | Complete |
 | CHAT-04 | Phase 4 | Complete |
+| SQF-01 | Phase 04.1 | Pending |
+| SQF-02 | Phase 04.1 | Pending |
+| SQF-03 | Phase 04.1 | Pending |
+| SQF-04 | Phase 04.1 | Pending |
+| SQF-05 | Phase 04.1 | Pending |
+| SQF-06 | Phase 04.1 | Pending |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 21 total
-- Mapped to phases: 21
+- v1 requirements: 27 total
+- Mapped to phases: 27
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-19*
-*Last updated: 2026-03-19 after roadmap creation*
+*Last updated: 2026-03-25 after Phase 04.1 planning*

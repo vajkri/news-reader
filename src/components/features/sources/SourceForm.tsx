@@ -80,7 +80,7 @@ export function SourceForm({ onAdded }: SourceFormProps) {
           {loading ? "Adding…" : "Add source"}
         </Button>
       </div>
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p className="text-sm text-[var(--destructive)]">{error}</p>}
     </form>
   );
 }

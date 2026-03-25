@@ -14,7 +14,7 @@ interface SourceListProps {
 export function SourceList({ sources, onDeleted, error }: SourceListProps) {
   if (error) {
     return (
-      <p role="alert" className="text-sm text-red-600 dark:text-red-400 py-4">
+      <p role="alert" className="text-sm text-[var(--destructive)] py-4">
         {error}
       </p>
     );
@@ -62,7 +62,7 @@ export function SourceList({ sources, onDeleted, error }: SourceListProps) {
                   variant="ghost"
                   size="icon"
                   onClick={() => handleDelete(source.id)}
-                  className="text-[var(--muted-foreground)] hover:text-red-500"
+                  className="text-[var(--muted-foreground)] hover:text-[var(--destructive)]"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

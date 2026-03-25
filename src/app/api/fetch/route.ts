@@ -42,11 +42,11 @@ export async function POST(request: Request): Promise<Response> {
 
         const newArticles = articles.filter((a) => !existingGuids.has(a.guid));
 
-        if (newArticles.length > 0) {
-          for (const article of newArticles) {
-            await prisma.article.upsert({
-              where: { guid: article.guid },
-              create: {
+        let added = 0;
+        for (const article of newArticles) {
+          try {
+            await prisma.article.create({
+              data: {
                 guid: article.guid,
                 title: article.title,
                 link: article.link,
@@ -56,11 +56,15 @@ export async function POST(request: Request): Promise<Response> {
                 readTimeMin: article.readTimeMin,
                 sourceId: source.id,
               },
-              update: {},
             });
+            added++;
+          } catch (e) {
+            // Skip duplicates (race condition with guid unique constraint)
+            if (e instanceof Error && e.message.includes("Unique constraint")) continue;
+            throw e;
           }
         }
-        return newArticles.length;
+        return added;
       } catch (err) {
         errors.push(
           `${source.name}: ${err instanceof Error ? err.message : String(err)}`

@@ -64,6 +64,7 @@ describe('ArticleEnrichmentSchema', () => {
       summary: 'Test summary.',
       topics: ['model releases'],
       importanceScore: 7,
+      contentType: 'news',
       thinContent: false,
     };
     const result = ArticleEnrichmentSchema.safeParse(data);
@@ -76,6 +77,7 @@ describe('ArticleEnrichmentSchema', () => {
       summary: 'Test summary.',
       topics: ['model releases'],
       importanceScore: 11,
+      contentType: 'news',
       thinContent: false,
     };
     const result = ArticleEnrichmentSchema.safeParse(data);
@@ -87,10 +89,35 @@ describe('ArticleEnrichmentSchema', () => {
       summary: 'Test summary.',
       topics: ['model releases'],
       importanceScore: 7,
+      contentType: 'news',
       thinContent: false,
     };
     const result = ArticleEnrichmentSchema.safeParse(data);
     expect(result.success).toBe(false);
+  });
+
+  it('validates contentType enum values', () => {
+    const validData = {
+      articleId: 1,
+      summary: 'Test summary.',
+      topics: ['model releases'],
+      importanceScore: 7,
+      contentType: 'news',
+      thinContent: false,
+    };
+    expect(ArticleEnrichmentSchema.safeParse(validData).success).toBe(true);
+  });
+
+  it('rejects invalid contentType values', () => {
+    const invalidData = {
+      articleId: 1,
+      summary: 'Test summary.',
+      topics: ['model releases'],
+      importanceScore: 7,
+      contentType: 'blog',
+      thinContent: false,
+    };
+    expect(ArticleEnrichmentSchema.safeParse(invalidData).success).toBe(false);
   });
 });
 
@@ -107,6 +134,7 @@ describe('saveEnrichmentResults', () => {
         summary: 'sum',
         topics: ['model releases', 'open source'],
         importanceScore: 8,
+        contentType: 'news' as const,
         thinContent: false,
       },
     ];
@@ -117,6 +145,8 @@ describe('saveEnrichmentResults', () => {
         summary: 'sum',
         topics: ['model releases', 'open source'],
         importanceScore: 8,
+        contentType: 'news',
+        thinContent: false,
         enrichedAt: expect.any(Date),
       },
     });
@@ -132,6 +162,7 @@ describe('saveEnrichmentResults', () => {
         summary: 'sum',
         topics: ['model releases'],
         importanceScore: 5,
+        contentType: 'news' as const,
         thinContent: false,
       },
     ];
@@ -152,6 +183,7 @@ describe('enrichArticlesBatch', () => {
       summary: 'test',
       topics: ['model releases'],
       importanceScore: 7,
+      contentType: 'news' as const,
       thinContent: false,
     };
     mockGenerateText.mockResolvedValue({ output: [mockResult] } as never);

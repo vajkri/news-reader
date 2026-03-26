@@ -1,6 +1,6 @@
 import { fetchAndPersistArticles } from "@/lib/fetch-sources";
 
-export async function POST(request: Request): Promise<Response> {
+export async function GET(request: Request): Promise<Response> {
   const secret = process.env.CRON_SECRET;
   const authHeader = request.headers.get("authorization");
   if (!secret || authHeader !== `Bearer ${secret}`) {

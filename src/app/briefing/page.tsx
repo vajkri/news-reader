@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { parseISO, isValid } from "date-fns";
 import { groupArticlesByTopic } from "@/lib/briefing";
 import type { ArticleRow } from "@/types";
-import { TopicGroup, DateStepper } from "@/components/features/briefing";
+import { TopicGroup, DateStepper, BriefingDebugBox } from "@/components/features/briefing";
 import Link from "next/link";
 
 export const revalidate = 300;
@@ -60,6 +60,11 @@ export default async function BriefingPage({
   const serialized = JSON.parse(JSON.stringify(articles)) as ArticleRow[];
   const topicGroups = groupArticlesByTopic(serialized);
 
+  const latestEnrichedAt = articles.reduce<string | null>((latest, a) => {
+    const enriched = a.enrichedAt ? new Date(a.enrichedAt).toISOString() : null;
+    return enriched && (!latest || enriched > latest) ? enriched : latest;
+  }, null);
+
   return (
     <div className="reading-container py-6">
       <div className="flex items-center justify-between mb-8">
@@ -70,6 +75,13 @@ export default async function BriefingPage({
           <DateStepper />
         </Suspense>
       </div>
+
+      <BriefingDebugBox
+        windowStart={windowStart.toISOString()}
+        windowEnd={windowEnd.toISOString()}
+        articleCount={articles.length}
+        latestEnrichedAt={latestEnrichedAt}
+      />
 
       {topicGroups.length === 0 ? (
         <div className="text-center py-16">

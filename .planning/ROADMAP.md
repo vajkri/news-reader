@@ -109,6 +109,16 @@ Plans:
 - [x] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
 - [x] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
 
+### Phase 04.4: Chat about this: feed item chat buttons (INSERTED)
+
+**Goal:** Each article card in the feed has a "Chat about this" button that opens the chat interface pre-seeded with context about that specific article, so users can ask follow-up questions without manually searching
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.4 to break down)
+
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
 **Goal:** Curate higher-quality RSS sources, add contentType and thinContent fields to the enrichment pipeline, improve enrichment and chat system prompts using UX research, evaluate enrichment models, and re-enrich the full article corpus
@@ -179,4 +189,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
+| 04.4 Feed Chat Buttons          | 0/TBD | Not started | -          |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

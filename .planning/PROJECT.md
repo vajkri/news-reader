@@ -25,6 +25,7 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - ✓ Source quality curation with contentType and thinContent enrichment fields — Validated in Phase 04.1: Source Quality Filtering
 - ✓ Enrichment model evaluation and selection (deepseek/deepseek-v3.2) — Validated in Phase 04.1: Source Quality Filtering
 - ✓ Non-RSS source ingestion via sitemap parsing with strategy pattern dispatch — Validated in Phase 04.3: Non-RSS Source Ingestion
+- ✓ Dev-only debug mode infrastructure with floating toggle, React Context state, and briefing page annotations — Validated in Phase 04.5: Dev Debug Mode Infrastructure
 
 ### Active
 
@@ -91,4 +92,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-25 after Phase 04.3 (Non-RSS Source Ingestion) completion*
+*Last updated: 2026-03-28 after Phase 04.5 (Dev Debug Mode Infrastructure) completion*

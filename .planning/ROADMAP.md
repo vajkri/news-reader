@@ -109,6 +109,23 @@ Plans:
 - [x] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
 - [x] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
 
+### Phase 04.5: Dev debug mode infrastructure (INSERTED)
+
+**Goal:** Deliver a dev-only debug mode infrastructure with a floating toggle, React Context state management, and inline debug annotations on the daily briefing page (timeframe metadata box and per-card JSON output)
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11
+**Depends on:** Phase 4
+**Success Criteria** (what must be TRUE):
+  1. A floating debug toggle button is visible in the bottom-right corner in development mode only
+  2. Clicking the toggle activates debug mode, showing inline annotations on the briefing page
+  3. A debug box between the briefing heading and topic groups shows the timeframe date range and enrichment metadata
+  4. Each BriefingCard displays the full article database record as formatted JSON when debug mode is on
+  5. All debug UI produces zero footprint in production builds
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04.5-01-PLAN.md — DebugProvider context + useDebug hook, DebugToggle floating button, layout wiring, ArticleRow type extension
+- [ ] 04.5-02-PLAN.md — BriefingDebugBox component, per-card debug JSON in BriefingCard, briefing page integration
+
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
 **Goal:** Curate higher-quality RSS sources, add contentType and thinContent fields to the enrichment pipeline, improve enrichment and chat system prompts using UX research, evaluate enrichment models, and re-enrich the full article corpus
@@ -179,4 +196,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
+| 04.5 Dev Debug Mode             | 0/2 | Planning complete | -          |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

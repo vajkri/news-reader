@@ -1,6 +1,7 @@
 import 'server-only';
 import { tool } from 'ai';
 import { z } from 'zod';
+import * as cheerio from 'cheerio';
 import { prisma } from './prisma';
 
 interface RawSearchResult {
@@ -138,5 +139,85 @@ export const recentArticlesTool = tool({
       include: { source: { select: { name: true, category: true } } },
     });
     return articles.map(mapArticleResponse);
+  },
+});
+
+export const fetchArticleContentTool = tool({
+  description:
+    'Fetch the full content of an article by its URL. Use when the user asks to "read this for me" or wants a detailed summary of a specific article. Returns the extracted text content from the page.',
+  inputSchema: z.object({
+    url: z.string().url().describe('The article URL to fetch'),
+    title: z.string().describe('The article title for context'),
+  }),
+  execute: async ({ url, title }) => {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; NewsReaderBot/1.0)',
+          'Accept': 'text/html',
+        },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (!response.ok) {
+        return {
+          title,
+          url,
+          content: null,
+          error: `Failed to fetch: HTTP ${response.status}`,
+        };
+      }
+
+      const html = await response.text();
+      const $ = cheerio.load(html);
+
+      // Remove non-content elements
+      $(
+        'script, style, nav, header, footer, aside, iframe, noscript, ' +
+        '.ad, .advertisement, .social-share, .comments, ' +
+        '[role="banner"], [role="navigation"], [role="complementary"]'
+      ).remove();
+
+      // Try to find article content in common containers
+      let contentEl = $('article').first();
+      if (!contentEl.length) contentEl = $('[role="main"]').first();
+      if (!contentEl.length) contentEl = $('main').first();
+      if (!contentEl.length) contentEl = $('.post-content, .article-content, .entry-content, .story-body').first();
+      if (!contentEl.length) contentEl = $('body');
+
+      const text = contentEl
+        .find('p, h1, h2, h3, h4, li, blockquote')
+        .map((_, el) => $(el).text().trim())
+        .get()
+        .filter((t: string) => t.length > 20)
+        .join('\n\n');
+
+      if (text.length < 100) {
+        return {
+          title,
+          url,
+          content: null,
+          error: 'Could not extract meaningful content from this page. It may be behind a paywall or use heavy JavaScript rendering.',
+        };
+      }
+
+      // Truncate to ~8000 chars to stay within reasonable token limits
+      const truncated = text.length > 8000 ? text.slice(0, 8000) + '\n\n[Content truncated]' : text;
+
+      return {
+        title,
+        url,
+        content: truncated,
+        error: null,
+      };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      return {
+        title,
+        url,
+        content: null,
+        error: `Fetch failed: ${message}`,
+      };
+    }
   },
 });

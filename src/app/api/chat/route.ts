@@ -5,6 +5,7 @@ import {
   searchArticlesTool,
   articlesByTopicTool,
   recentArticlesTool,
+  fetchArticleContentTool,
 } from '@/lib/chat-tools';
 import { rateLimit } from '@/lib/rate-limit';
 
@@ -47,6 +48,18 @@ const SYSTEM_PROMPT = `You are the news assistant for an AI industry news tracke
 - "What's new" / "latest" / "this week" questions: use recentArticles.
 - Specific company, product, or keyword: use searchArticles.
 - Browse by category: use articlesByTopic.
+
+## "Read this for me" Requests
+When the user says "Read this for me" or asks for a detailed summary of a specific article:
+1. First use searchArticles to find the article and get its URL.
+2. Then use fetchArticleContent with the article URL to get the full text.
+3. Generate a detailed but scannable summary from the fetched content:
+   - Start with one bold sentence capturing the main point.
+   - Follow with 3-5 short paragraphs covering key information.
+   - Use bullet points for lists of features, changes, or takeaways.
+   - End with a "Why it matters" sentence.
+   - Target length: 1-2 minute read.
+   - If fetchArticleContent returns an error, explain that the article could not be fetched and offer the existing enrichment summary instead.
 
 ## When You Cannot Help
 - If no tool results match the query, say so in one sentence: "I don't have any articles about that in the database." Do not apologize or pad the response.
@@ -97,8 +110,9 @@ export async function POST(request: Request): Promise<Response> {
       searchArticles: searchArticlesTool,
       articlesByTopic: articlesByTopicTool,
       recentArticles: recentArticlesTool,
+      fetchArticleContent: fetchArticleContentTool,
     },
-    stopWhen: stepCountIs(3), // tool-call -> tool-result -> final answer
+    stopWhen: stepCountIs(4), // search -> result -> fetch -> summarize
   });
 
   return result.toUIMessageStreamResponse();

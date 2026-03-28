@@ -120,11 +120,11 @@ Plans:
   3. A debug box between the briefing heading and topic groups shows the timeframe date range and enrichment metadata
   4. Each BriefingCard displays the full article database record as formatted JSON when debug mode is on
   5. All debug UI produces zero footprint in production builds
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 04.5-01-PLAN.md — DebugProvider context + useDebug hook, DebugToggle floating button, layout wiring, ArticleRow type extension
-- [ ] 04.5-02-PLAN.md — BriefingDebugBox component, per-card debug JSON in BriefingCard, briefing page integration
+- [x] 04.5-02-PLAN.md — BriefingDebugBox component, per-card debug JSON in BriefingCard, briefing page integration
 
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
@@ -196,5 +196,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
-| 04.5 Dev Debug Mode             | 1/2 | In Progress|  |
+| 04.5 Dev Debug Mode             | 2/2 | Complete   | 2026-03-28 |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

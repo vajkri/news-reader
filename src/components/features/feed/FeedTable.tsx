@@ -254,8 +254,11 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
                   <td className="px-3 py-2.5" style={{ width: 90 }}>
                     <div className="h-4 w-16 rounded bg-(--muted)" />
                   </td>
-                  <td className="px-3 py-2.5" style={{ width: 80 }}>
-                    <div className="h-7 w-14 rounded bg-(--muted)" />
+                  <td className="px-3 py-2.5" style={{ width: 100 }}>
+                    <div className="flex items-center gap-1">
+                      <div className="h-8 w-8 rounded bg-(--muted)" />
+                      <div className="h-8 w-8 rounded bg-(--muted)" />
+                    </div>
                   </td>
                 </tr>
               ))

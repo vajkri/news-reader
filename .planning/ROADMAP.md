@@ -114,10 +114,11 @@ Plans:
 **Goal:** Each article card in the feed has a "Chat about this" button that opens the chat interface pre-seeded with context about that specific article, so users can ask follow-up questions without manually searching
 **Requirements**: TBD
 **Depends on:** Phase 4
-**Plans:** 0 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 04.4 to break down)
+- [x] 04.4-01-PLAN.md -- Feed Actions column (read toggle + chat button), ChatPanel "Read this for me" chip with Sparkles icon
+- [x] 04.4-02-PLAN.md -- fetchArticleContent chat tool (cheerio URL extraction), system prompt ADHD-friendly summary guidance
 
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
@@ -189,5 +190,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
-| 04.4 Feed Chat Buttons          | 0/TBD | Not started | -          |
+| 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

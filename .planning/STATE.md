@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: "Phase 04.3 shipped — PR #17"
-stopped_at: Phase 04.4 context gathered
-last_updated: "2026-03-28T12:38:42.716Z"
+status: "Phase 04.4 complete — feed chat buttons + read-this-for-me"
+stopped_at: Phase 04.4 executed
+last_updated: "2026-03-28T14:00:00.000Z"
 progress:
   total_phases: 11
-  completed_phases: 8
-  total_plans: 24
-  completed_plans: 24
+  completed_phases: 9
+  total_plans: 26
+  completed_plans: 26
 ---
 
 # Project State
@@ -19,7 +19,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.3 — non-rss-source-ingestion-via-sitemap-parsing
+**Current focus:** Phase 04.4 — chat-about-this-feed-item-chat-buttons (complete)
 
 ## Current Position
 
@@ -126,6 +126,10 @@ Recent decisions affecting current work:
 - [Phase 04.3]: Strategy dispatcher uses Record<sourceType, handler> map with default fallback (rss) for easily extensible source type routing
 - [Phase 04.3]: Manual migration applied via Neon HTTP (TCP/5432 blocked); recorded in _prisma_migrations table
 - [Phase 04.3]: Existing RSS sources need no sourceType in seed.ts: schema default 'rss' applies; upsert update:{} does not overwrite
+- [Phase 04.4]: Actions column replaces standalone Status column; consolidates read toggle (Circle/CircleCheck icons) + "Chat about this" (MessageCircle icon) buttons
+- [Phase 04.4]: ChipConfig type exported from PromptChips.tsx; supports label + optional icon ComponentType; used by both CONTEXTUAL_CHIPS and GENERIC_CHIPS
+- [Phase 04.4]: fetchArticleContentTool uses cheerio for HTML extraction with 10s timeout and 8000-char truncation; returns { title, url, content, error }
+- [Phase 04.4]: Chat route stepCountIs increased from 3 to 4 to accommodate search -> result -> fetch -> summarize flow
 
 ### Pending Todos
 
@@ -150,6 +154,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-28T12:38:42.711Z
-Stopped at: Phase 04.4 context gathered
-Resume file: .planning/phases/04.4-chat-about-this-feed-item-chat-buttons/04.4-CONTEXT.md
+Last session: 2026-03-28T14:00:00.000Z
+Stopped at: Phase 04.4 executed, ready for PR
+Resume file: .planning/phases/04.4-chat-about-this-feed-item-chat-buttons/04.4-02-PLAN.md

@@ -153,7 +153,7 @@ export const fetchArticleContentTool = tool({
     try {
       const response = await fetch(url, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; NewsReaderBot/1.0)',
+          'User-Agent': 'Mozilla/5.0 (compatible; NewsReader/1.0; +https://news-reader.app)',
           'Accept': 'text/html',
         },
         signal: AbortSignal.timeout(10000),

@@ -25,6 +25,8 @@ const ChatRequestSchema = z.object({
       title: z.string(),
       source: z.string(),
       publishedAt: z.string().nullable(),
+      link: z.string().optional(),
+      fetchable: z.boolean().optional(),
     })
     .optional(),
 });
@@ -51,15 +53,25 @@ const SYSTEM_PROMPT = `You are the news assistant for an AI industry news tracke
 
 ## "Read this for me" Requests
 When the user says "Read this for me" or asks for a detailed summary of a specific article:
-1. First use searchArticles to find the article and get its URL.
-2. Then use fetchArticleContent with the article URL to get the full text.
-3. Generate a detailed but scannable summary from the fetched content:
-   - Start with one bold sentence capturing the main point.
-   - Follow with 3-5 short paragraphs covering key information.
-   - Use bullet points for lists of features, changes, or takeaways.
-   - End with a "Why it matters" sentence.
-   - Target length: 1-2 minute read.
-   - If fetchArticleContent returns an error, explain that the article could not be fetched and offer the existing enrichment summary instead.
+
+**Check the CONTEXT below for a "fetchable" flag.**
+
+If fetchable is FALSE or the CONTEXT says "not fetchable":
+- Do NOT call fetchArticleContent. It will fail.
+- Immediately ask: "This source blocks automated reading. Could you copy-paste the article text here? I'll turn it into a clean, scannable summary for you."
+- When the user pastes text, summarize it using the format below.
+
+If fetchable is TRUE (or not specified):
+1. If the article URL is in the CONTEXT, call fetchArticleContent directly with that URL. Do NOT search first.
+2. If no URL is in the context, use searchArticles to find the article and get its URL, then call fetchArticleContent.
+3. If fetchArticleContent fails unexpectedly, ask the user to paste the article text as a fallback.
+
+**Summary format** (for both fetched and pasted content):
+- Start with one bold sentence capturing the main point.
+- Follow with 3-5 short paragraphs covering key information.
+- Use bullet points for lists of features, changes, or takeaways.
+- End with a "Why it matters" sentence.
+- Target length: 1-2 minute read.
 
 ## When You Cannot Help
 - If no tool results match the query, say so in one sentence: "I don't have any articles about that in the database." Do not apologize or pad the response.
@@ -98,7 +110,8 @@ export async function POST(request: Request): Promise<Response> {
   // Build system prompt with optional article context (D-05)
   let systemPrompt = SYSTEM_PROMPT;
   if (articleContext?.title) {
-    systemPrompt += `\n\nCONTEXT: The user is asking about a specific article: "${articleContext.title}" from ${articleContext.source}${articleContext.publishedAt ? `, published ${articleContext.publishedAt}` : ''}. Prioritize information about this article. Use the searchArticles tool with relevant keywords from the article title to find it. The user already sees the article title and source in the UI, so do NOT re-introduce or re-cite it at the top of your response. Jump straight into answering their question.`;
+    const fetchableNote = articleContext.fetchable === false ? ' This source is not fetchable.' : '';
+    systemPrompt += `\n\nCONTEXT: The user is asking about a specific article: "${articleContext.title}" from ${articleContext.source}${articleContext.publishedAt ? `, published ${articleContext.publishedAt}` : ''}${articleContext.link ? `. URL: ${articleContext.link}` : ''}.${fetchableNote} Prioritize information about this article. Use the searchArticles tool with relevant keywords from the article title to find it. The user already sees the article title and source in the UI, so do NOT re-introduce or re-cite it at the top of your response. Jump straight into answering their question.`;
   }
 
   // Stream with tool-calling (D-01, D-02, D-03)

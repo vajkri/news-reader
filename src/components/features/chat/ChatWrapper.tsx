@@ -15,6 +15,7 @@ export function ChatWrapper(): React.ReactElement {
     title: string;
     source: string;
     publishedAt: string | null;
+    link?: string;
   } | null>(null);
 
   // Cmd+K / Ctrl+K keyboard shortcut (D-09) + Escape to close
@@ -40,6 +41,7 @@ export function ChatWrapper(): React.ReactElement {
         title: string;
         source: string;
         publishedAt: string | null;
+        link?: string;
       }>
     ): void => {
       setArticleContext(e.detail);

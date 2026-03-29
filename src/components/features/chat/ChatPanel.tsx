@@ -16,19 +16,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { PromptChips, type ChipConfig } from './PromptChips';
-
-// Domains known to block server-side fetching (403 regardless of UA)
-const UNFETCHABLE_DOMAINS = ['openai.com', 'medium.com', 'uxdesign.cc', 'towardsdatascience.com', 'betterprogramming.pub'];
-
-function isLinkFetchable(link?: string): boolean {
-  if (!link) return false;
-  try {
-    const host = new URL(link).hostname.replace(/^www\./, '');
-    return !UNFETCHABLE_DOMAINS.some(d => host === d || host.endsWith(`.${d}`));
-  } catch {
-    return false;
-  }
-}
+import { isLinkFetchable } from '@/lib/unfetchable-domains';
 
 interface ArticleContext {
   id: number;
@@ -263,7 +251,7 @@ export function ChatPanel({
                   source: articleContext.source,
                   publishedAt: articleContext.publishedAt,
                   link: articleContext.link,
-                  fetchable: isLinkFetchable(articleContext.link),
+                  fetchable: articleContext.link ? isLinkFetchable(articleContext.link) : undefined,
                 },
               },
             }

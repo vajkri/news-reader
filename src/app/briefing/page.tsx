@@ -20,6 +20,7 @@ export default async function BriefingPage({
   const y = selectedDate.getUTCFullYear();
   const m = selectedDate.getUTCMonth();
   const d = selectedDate.getUTCDate();
+  // Look at yesterday's articles: enrichment runs overnight, so today's briefing covers the prior day
   const windowStart = new Date(Date.UTC(y, m, d - 1, 0, 0, 0, 0));
   const windowEnd = new Date(Date.UTC(y, m, d - 1, 23, 59, 59, 999));
 

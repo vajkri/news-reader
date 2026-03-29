@@ -151,6 +151,21 @@ export const fetchArticleContentTool = tool({
   }),
   execute: async ({ url, title }) => {
     try {
+      // SSRF protection: only allow external HTTP(S) URLs
+      const parsed = new URL(url);
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        return { title, url, content: null, error: 'Only HTTP(S) URLs are supported' };
+      }
+      if (
+        ['localhost', '127.0.0.1', '0.0.0.0'].includes(parsed.hostname) ||
+        parsed.hostname.startsWith('169.254.') ||
+        parsed.hostname.startsWith('10.') ||
+        parsed.hostname.startsWith('192.168.') ||
+        parsed.hostname.endsWith('.internal')
+      ) {
+        return { title, url, content: null, error: 'Internal URLs are not allowed' };
+      }
+
       const response = await fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; NewsReader/1.0; +https://news-reader.app)',

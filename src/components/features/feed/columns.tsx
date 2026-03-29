@@ -145,6 +145,7 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
               variant="ghost"
               size="sm"
               onClick={() => onToggleRead(id, !isRead)}
+              // min-w prevents layout shift between "Read" (4ch) and "Unread" (6ch) labels
               className="min-w-[5.25rem] justify-start gap-1.5 text-xs text-(--muted-foreground) hover:text-(--foreground)"
             >
               {isRead ? <CircleCheck size={14} /> : <Circle size={14} className="text-blue-600 dark:text-blue-400" />}

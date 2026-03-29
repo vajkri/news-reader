@@ -15,7 +15,15 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Secure the codebase, fix corpus limits, configure dev environment (completed 2026-03-19)
 - [x] **Phase 2: AI Enrichment** - Automatically summarize, classify, and score every article (completed 2026-03-19)
 - [x] **Phase 3: Daily Briefing** - Deliver the core product promise: a scannable daily AI digest (completed 2026-03-21)
-- [ ] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language
+- [x] **Phase 03.1: TL;DR Source Fix** - Replace mislabeled TLDR source, add TLDR AI/Design feeds (completed 2026-03-20)
+- [x] **Phase 03.2: Neon Postgres Migration** - SQLite to Neon, data migration, Vercel deployment (completed 2026-03-21)
+- [x] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language (completed 2026-03-27)
+- [x] **Phase 04.1: Source Quality Filtering** - Content type taxonomy, enrichment prompt overhaul, model evaluation (completed 2026-03-25)
+- [ ] **Phase 04.2: Code Optimization** - Clean up without changing behavior
+- [x] **Phase 04.3: Sitemap Ingestion** - Non-RSS source ingestion via sitemap parsing (completed 2026-03-25)
+- [x] **Phase 04.4: Feed Chat Buttons** - "Chat about this" on feed items (completed 2026-03-28)
+- [x] **Phase 04.5: Debug Mode** - Dev-only debug toggle and briefing annotations (completed 2026-03-28)
+- [ ] **Phase 04.6: Enrichment Reliability** - Fix enrichment pipeline for daily article volume
 - [ ] **Phase 5: UX Polish** - Apply ADHD-friendly design consistently across all views
 
 ## Phase Details
@@ -33,9 +41,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 01-01-PLAN.md — Dev environment setup, CLAUDE.md rewrite, cron auth, .section-container, Input fix
-- [ ] 01-02-PLAN.md — Component reorganization, layout migration, Server Component conversion, caching
-- [ ] 01-03-PLAN.md — Articles API search, infinite scroll, search UI with keyboard shortcuts and highlighting
+- [x] 01-01-PLAN.md — Dev environment setup, CLAUDE.md rewrite, cron auth, .section-container, Input fix
+- [x] 01-02-PLAN.md — Component reorganization, layout migration, Server Component conversion, caching
+- [x] 01-03-PLAN.md — Articles API search, infinite scroll, search UI with keyboard shortcuts and highlighting
 
 ### Phase 2: AI Enrichment
 **Goal**: Every new article automatically receives an AI-generated summary, topic classification, and importance score before it appears in any user-facing view
@@ -50,8 +58,8 @@ Plans:
 **Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md — Schema migration, AI dependencies, enrichment logic (Zod schema, batch AI call, DB save)
-- [ ] 02-02-PLAN.md — Enrichment cron route, vercel.json cron config, Vitest setup, unit tests
+- [x] 02-01-PLAN.md — Schema migration, AI dependencies, enrichment logic (Zod schema, batch AI call, DB save)
+- [x] 02-02-PLAN.md — Enrichment cron route, vercel.json cron config, Vitest setup, unit tests
 
 ### Phase 3: Daily Briefing
 **Goal**: Users open the briefing page and immediately understand the most important AI news of the day without reading a single full article
@@ -75,7 +83,7 @@ Plans:
 **Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 03.1-01-PLAN.md — Update seed.ts with URL-swap preamble and new TLDR/HN sources, verify DB state
+- [x] 03.1-01-PLAN.md — Update seed.ts with URL-swap preamble and new TLDR/HN sources, verify DB state
 
 ### Phase 03.2: Neon Postgres migration + Vercel deployment (INSERTED)
 
@@ -98,7 +106,7 @@ Plans:
   2. User can continue a conversation with follow-up questions and receive contextually aware responses in the same session
   3. The chat endpoint rejects requests after exceeding a defined rate limit, returning an appropriate error message rather than silently continuing
   4. Chat responses are grounded only in collected articles — the model does not fabricate news events not present in the corpus
-**Plans:** 7 plans
+**Plans:** 7/7 plans complete
 
 Plans:
 - [x] 04-01-PLAN.md — Prisma RateLimit model, rate-limit library, chat-tools library, CHAT_MODEL constant, unit tests
@@ -108,17 +116,6 @@ Plans:
 - [x] 04-05-PLAN.md — [gap closure] ChatPanel responsive fixes (hydration, widths, scroll-lock, Escape), embedded desktop layout, context clearing, rate limit error
 - [x] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
 - [x] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
-
-### Phase 04.4: Chat about this: feed item chat buttons (INSERTED)
-
-**Goal:** Each article card in the feed has a "Chat about this" button that opens the chat interface pre-seeded with context about that specific article, so users can ask follow-up questions without manually searching
-**Requirements**: TBD
-**Depends on:** Phase 4
-**Plans:** 2/2 plans complete
-
-Plans:
-- [x] 04.4-01-PLAN.md -- Feed Actions column (read toggle + chat button), ChatPanel "Read this for me" chip with Sparkles icon
-- [x] 04.4-02-PLAN.md -- fetchArticleContent chat tool (cheerio URL extraction), system prompt ADHD-friendly summary guidance
 
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
@@ -165,6 +162,44 @@ Plans:
 - [x] 04.3-01-PLAN.md — Strategy modules (fetch-article-meta, sitemap, scrape scaffold, dispatcher) + unit tests
 - [x] 04.3-02-PLAN.md — Schema migration (sourceType fields), seed Anthropic News + Claude Blog, wire fetch cron to dispatcher
 
+### Phase 04.4: Chat about this: feed item chat buttons (INSERTED)
+
+**Goal:** Each article card in the feed has a "Chat about this" button that opens the chat interface pre-seeded with context about that specific article, so users can ask follow-up questions without manually searching
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 2/2 plans complete
+
+Plans:
+- [x] 04.4-01-PLAN.md -- Feed Actions column (read toggle + chat button), ChatPanel "Read this for me" chip with Sparkles icon
+- [x] 04.4-02-PLAN.md -- fetchArticleContent chat tool (cheerio URL extraction), system prompt ADHD-friendly summary guidance
+
+### Phase 04.5: Dev debug mode infrastructure (INSERTED)
+
+**Goal:** Deliver a dev-only debug mode infrastructure with a floating toggle, React Context state management, and inline debug annotations on the daily briefing page (timeframe metadata box and per-card JSON output)
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11
+**Depends on:** Phase 4
+**Success Criteria** (what must be TRUE):
+  1. A floating debug toggle button is visible in the bottom-right corner in development mode only
+  2. Clicking the toggle activates debug mode, showing inline annotations on the briefing page
+  3. A debug box between the briefing heading and topic groups shows the timeframe date range and enrichment metadata
+  4. Each BriefingCard displays the full article database record as formatted JSON when debug mode is on
+  5. All debug UI produces zero footprint in production builds
+**Plans:** 2/2 plans complete
+
+Plans:
+- [x] 04.5-01-PLAN.md — DebugProvider context + useDebug hook, DebugToggle floating button, layout wiring, ArticleRow type extension
+- [x] 04.5-02-PLAN.md — BriefingDebugBox component, per-card debug JSON in BriefingCard, briefing page integration
+
+### Phase 04.6: Enrichment pipeline reliability (INSERTED)
+
+**Goal:** Fix enrichment to handle daily article volume reliably: increase batch limits, optimize for manual/local runs, fix ordering to prioritize recent articles, consider removing cron dependency in favor of on-demand enrichment, ensure all articles in briefing window are enriched before briefing renders
+**Requirements**: TBD
+**Depends on:** Phase 04.5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.6 to break down)
+
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
 **Depends on**: Phase 4
@@ -186,9 +221,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Daily Briefing | 2/2 | Complete   | 2026-03-21 |
 | 03.1 TL;DR Source Fix | 1/1 | Complete    | 2026-03-20 |
 | 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
-| 4. Chat Interface | 7/7 | Complete | - |
+| 4. Chat Interface | 7/7 | Complete | 2026-03-27 |
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
+| 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
+| 04.6 Enrichment Reliability   | 0/TBD | Not started | -          |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

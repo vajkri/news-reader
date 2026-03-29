@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
+import { useDebug } from "@/contexts/debug";
 
 const TIER_BORDER: Record<string, string> = {
   critical: "border-l-red-600",
@@ -14,6 +15,7 @@ const TIER_BORDER: Record<string, string> = {
 };
 
 export function BriefingCard({ article }: { article: BriefingArticle }): React.ReactElement {
+  const { debugMode } = useDebug();
   const parts = splitSummary(article.summary);
 
   return (
@@ -91,6 +93,13 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
           Chat about this
         </Button>
       </div>
+      {debugMode && (
+        <pre
+          className="text-[0.75rem] font-[family-name:var(--font-geist-mono)] bg-(--muted) text-(--muted-foreground) p-3 overflow-x-auto rounded-b-[0.625rem] border-t border-(--border)"
+        >
+          {JSON.stringify(article, null, 2)}
+        </pre>
+      )}
     </article>
   );
 }

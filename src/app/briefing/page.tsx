@@ -3,10 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { parseISO, isValid } from "date-fns";
 import { groupArticlesByTopic } from "@/lib/briefing";
 import type { ArticleRow } from "@/types";
-import { TopicGroup, DateStepper } from "@/components/features/briefing";
+import { TopicGroup, DateStepper, BriefingDebugBox } from "@/components/features/briefing";
 import Link from "next/link";
 
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export default async function BriefingPage({
   searchParams,
@@ -35,6 +35,22 @@ export default async function BriefingPage({
 
   const MAX_BRIEFING_ARTICLES = 20;
 
+  // Diagnostic: count articles in window ignoring enrichedAt/score filters (dev only)
+  const [totalInWindow, unenrichedInWindow, lowScoreInWindow] =
+    process.env.NODE_ENV === 'development'
+      ? await Promise.all([
+          prisma.article.count({
+            where: { publishedAt: { gte: windowStart, lte: windowEnd } },
+          }),
+          prisma.article.count({
+            where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: null },
+          }),
+          prisma.article.count({
+            where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: { not: null }, importanceScore: { lt: 4 } },
+          }),
+        ])
+      : [0, 0, 0];
+
   // Critical (9-10) and important (7-8) articles fill up to the cap
   const priorityArticles = await prisma.article.findMany({
     where: { ...dateFilter, importanceScore: { gte: 7 } },
@@ -59,6 +75,11 @@ export default async function BriefingPage({
   const serialized = JSON.parse(JSON.stringify(articles)) as ArticleRow[];
   const topicGroups = groupArticlesByTopic(serialized);
 
+  const latestEnrichedAt = articles.reduce<string | null>((latest, a) => {
+    const enriched = a.enrichedAt ? new Date(a.enrichedAt).toISOString() : null;
+    return enriched && (!latest || enriched > latest) ? enriched : latest;
+  }, null);
+
   return (
     <div className="reading-container py-6">
       <div className="flex items-center justify-between mb-8">
@@ -69,6 +90,16 @@ export default async function BriefingPage({
           <DateStepper />
         </Suspense>
       </div>
+
+      <BriefingDebugBox
+        windowStart={windowStart.toISOString()}
+        windowEnd={windowEnd.toISOString()}
+        articleCount={articles.length}
+        latestEnrichedAt={latestEnrichedAt}
+        totalInWindow={totalInWindow}
+        unenrichedInWindow={unenrichedInWindow}
+        lowScoreInWindow={lowScoreInWindow}
+      />
 
       {topicGroups.length === 0 ? (
         <div className="text-center py-16">

@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: "Phase 04.4 shipped — PR #19"
-stopped_at: Phase 04.4 executed, ready for PR
-last_updated: "2026-03-29T06:47:34.340Z"
+status: "Phase 04.5 shipped — PR #20"
+stopped_at: Phase 04.5 UAT verified, 5/5 passed
+last_updated: "2026-03-29T07:25:04.763Z"
 progress:
-  total_phases: 11
-  completed_phases: 9
-  total_plans: 26
-  completed_plans: 26
+  total_phases: 13
+  completed_phases: 10
+  total_plans: 28
+  completed_plans: 28
 ---
 
 # Project State
@@ -19,55 +19,44 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.4 — chat-about-this-feed-item-chat-buttons (complete)
+**Current focus:** Phase 04.6 — enrichment-pipeline-reliability (not planned yet)
 
 ## Current Position
 
-Phase: 5
+Phase: 04.6
 Plan: Not started
 
 ## Performance Metrics
 
-**Velocity:**
+| Phase | Plan | Duration (min) | Tasks | Files |
+|-------|------|---------------|-------|-------|
+| 01 Foundation | P01 | 8 | 4 | 6 |
+| 01 Foundation | P02 | 5 | 2 | 11 |
+| 01 Foundation | P03 | 5 | 3 | 4 |
+| 02 AI Enrichment | P01 | 395 | 2 | 6 |
+| 02 AI Enrichment | P02 | 3 | 2 | 6 |
+| 03 Daily Briefing | P01 | 2 | 2 | 4 |
+| 03 Daily Briefing | P02 | 2 | 2 | 6 |
+| 03.2 Neon Migration | P01 | 72 | 3 | 8 |
+| 03.2 Neon Migration | P02 | 4 | 3 | 2 |
+| 03.2 Neon Migration | P03 | 5 | 3 | 2 |
+| 04 Chat Interface | P01 | 6 | 2 | 7 |
+| 04 Chat Interface | P02 | 7 | 2 | 10 |
+| 04 Chat Interface | P04 | 9 | 2 | 5 |
+| 04 Chat Interface | P05 | 8 | 3 | 4 |
+| 04 Chat Interface | P06 | 4 | 2 | 5 |
+| 04 Chat Interface | P07 | 8 | 2 | 5 |
+| 04.1 Source Quality | P01 | 10 | 2 | 5 |
+| 04.1 Source Quality | P02 | 5 | 2 | 2 |
+| 04.1 Source Quality | P03 | 10 | 3 | 3 |
+| 04.1 Source Quality | P04 | 1844 | 2 | 5 |
+| 04.3 Sitemap Ingestion | P01 | 5 | 2 | 9 |
+| 04.3 Sitemap Ingestion | P02 | 7 | 2 | 4 |
+| 04.5 Debug Mode | P01 | 3 | 2 | 5 |
+| 04.5 Debug Mode | P02 | 2 | 2 | 4 |
 
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: —
-- Trend: —
-
-*Updated after each plan completion*
-| Phase 01 P01 | 8 | 4 tasks | 6 files |
-| Phase 01-foundation P02 | 5 | 2 tasks | 11 files |
-| Phase 01-foundation P03 | 5 | 3 tasks | 4 files |
-| Phase 02-ai-enrichment P01 | 395 | 2 tasks | 6 files |
-| Phase 02-ai-enrichment P02 | 3 | 2 tasks | 6 files |
-| Phase 03-daily-briefing P01 | 2 | 2 tasks | 4 files |
-| Phase 03-daily-briefing P02 | 2 | 2 tasks | 6 files |
-| Phase 03.2 P01 | 72 | 3 tasks | 8 files |
-| Phase 03.2 P02 | 4 | 3 tasks | 2 files |
-| Phase 03.2 P03 | 5 | 3 tasks | 2 files |
-| Phase 04-chat-interface P01 | 6 | 2 tasks | 7 files |
-| Phase 04-chat-interface P02 | 7 | 2 tasks | 10 files |
-| Phase 04-chat-interface P05 | 8 | 3 tasks | 4 files |
-| Phase 04-chat-interface P04 | 9 | 2 tasks | 5 files |
-| Phase 04-chat-interface P06 | 4 | 2 tasks | 5 files |
-| Phase 04-chat-interface P07 | 8 | 2 tasks | 5 files |
-| Phase 04.1 P01 | 10 | 2 tasks | 5 files |
-| Phase 04.1 P02 | 5 | 2 tasks | 2 files |
-| Phase 04.1 P03 | 10 | 3 tasks | 3 files |
-| Phase 04.1 P04 | 1844 | 2 tasks | 5 files |
-| Phase 04.3 P01 | 5 | 2 tasks | 9 files |
-| Phase 04.3 P02 | 7 | 2 tasks | 4 files |
+**Total plans completed:** 24
+**Total phases completed:** 12 (1, 2, 3, 03.1, 03.2, 4, 04.1, 04.3, 04.4, 04.5)
 
 ## Accumulated Context
 
@@ -80,7 +69,7 @@ Recent decisions affecting current work:
 - [Init]: Vercel AI SDK v6 + AI Gateway for provider-agnostic LLM integration
 - [Init]: Authentication deferred to v2 — articles/sources remain shared corpus with no userId
 - [Init]: Better Auth chosen over NextAuth/Auth.js (maintenance transferred); relevant for v2 planning
-- [Init]: SQLite production persistence on Vercel needs confirmation before Phase 2 (see research gap)
+- [Init]: SQLite replaced by Neon Postgres in Phase 03.2; no longer a concern
 - [Phase 01]: CLAUDE.md rewritten for this project: zinc palette, Geist fonts, shadcn/ui Button default/outline/ghost/destructive variants, 60/30/10 color rule
 - [Phase 01]: section-container uses 1800px max-width and 1.5rem padding; cron endpoint secured with CRON_SECRET Bearer auth returning 401
 - [Phase 01-foundation]: Feed page is a Server Component; FeedTable remains use client; server fetches sources via Prisma, serializes dates via JSON round-trip
@@ -130,18 +119,19 @@ Recent decisions affecting current work:
 - [Phase 04.4]: ChipConfig type exported from PromptChips.tsx; supports label + optional icon ComponentType; used by both CONTEXTUAL_CHIPS and GENERIC_CHIPS
 - [Phase 04.4]: fetchArticleContentTool uses cheerio for HTML extraction with 10s timeout and 8000-char truncation; returns { title, url, content, error }
 - [Phase 04.4]: Chat route stepCountIs increased from 3 to 4 to accommodate search -> result -> fetch -> summarize flow
+- [Phase 04.5]: DebugToggle uses inner component pattern for rules-of-hooks compliance; React 19 Context value prop
+- [Phase 04.5]: BriefingDebugBox receives computed props from server component; per-card debug JSON uses full BriefingArticle object with no collapse/expand
 
 ### Pending Todos
 
 1. Add body validation to articles PATCH endpoint (area: api)
 2. Rotate leaked CRON_SECRET and scrub from git history (area: general)
-3. Evaluate enrichment model and prompt for better briefing quality (area: ai-enrichment)
-4. Update typography implementations to match design system scale (area: ui)
+3. Update typography implementations to match design system scale (area: ui)
+4. Restore briefing page caching (ISR or 'use cache') after force-dynamic removal; currently every request hits DB (area: performance, consider at end of 04.6)
 
 ### Blockers/Concerns
 
-- [Phase 1 prerequisite] SQLite on Vercel uses ephemeral filesystem (better-sqlite3); must confirm persistence strategy (Turso/LibSQL) during Phase 1 — if DB isn't persistent, no feature work is safe to ship
-- [Research flag] Chat rate limiting (Phase 4): Upstash Ratelimit may require Vercel Pro tier; verify before planning Phase 4
+- Enrichment pipeline unreliable: batch limit of 15 insufficient for ~50 daily articles; cron-only approach may not be viable (Phase 04.6)
 
 ### Roadmap Evolution
 
@@ -151,9 +141,11 @@ Recent decisions affecting current work:
 - Phase 04.2 inserted after Phase 04: Code optimization via agent-skills: clean up without changing behavior (URGENT)
 - Phase 04.3 inserted after Phase 04: Non-RSS source ingestion via sitemap parsing (URGENT)
 - Phase 04.4 inserted after Phase 04: Chat about this: feed item chat buttons (URGENT)
+- Phase 04.5 inserted after Phase 04: Dev debug mode infrastructure (URGENT)
+- Phase 04.6 inserted after Phase 04.5: Enrichment pipeline reliability (URGENT)
 
 ## Session Continuity
 
-Last session: 2026-03-28T14:00:00.000Z
-Stopped at: Phase 04.4 executed, ready for PR
-Resume file: .planning/phases/04.4-chat-about-this-feed-item-chat-buttons/04.4-02-PLAN.md
+Last session: 2026-03-29T09:00:00.000Z
+Stopped at: Phase 04.5 shipped (PR #20), 04.6 inserted and ready for planning
+Resume file: None

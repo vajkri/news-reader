@@ -18,6 +18,8 @@ function makeArticle(overrides: Partial<ArticleRow>): ArticleRow {
     topics: null,
     importanceScore: 5,
     enrichedAt: '2026-03-19T01:00:00Z',
+    contentType: null,
+    thinContent: null,
     sourceId: 1,
     source: { name: 'Test Source', category: null },
     ...overrides,

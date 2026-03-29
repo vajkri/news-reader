@@ -29,11 +29,13 @@ import {
   ArticleEnrichmentSchema,
   saveEnrichmentResults,
   enrichArticlesBatch,
+  fetchUnenrichedArticles,
   SEED_TOPICS,
   BATCH_LIMIT,
 } from '@/lib/enrich';
 
 const mockGenerateText = vi.mocked(generateText);
+const mockPrismaFindMany = vi.mocked(prisma.article.findMany);
 const mockPrismaUpdate = vi.mocked(prisma.article.update);
 
 describe('buildBatchPrompt', () => {
@@ -202,12 +204,33 @@ describe('enrichArticlesBatch', () => {
   });
 });
 
+describe('fetchUnenrichedArticles', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('queries with enrichedAt null, createdAt gte cutoff, publishedAt desc order', async () => {
+    mockPrismaFindMany.mockResolvedValue([]);
+    await fetchUnenrichedArticles();
+    expect(mockPrismaFindMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          enrichedAt: null,
+          createdAt: { gte: expect.any(Date) },
+        }),
+        orderBy: { publishedAt: 'desc' },
+        take: BATCH_LIMIT,
+      })
+    );
+  });
+});
+
 describe('constants', () => {
   it('SEED_TOPICS contains exactly 7 categories', () => {
     expect(SEED_TOPICS.length).toBe(7);
   });
 
-  it('BATCH_LIMIT equals 15', () => {
-    expect(BATCH_LIMIT).toBe(15);
+  it('BATCH_LIMIT equals 25', () => {
+    expect(BATCH_LIMIT).toBe(25);
   });
 });

@@ -79,7 +79,7 @@ Set thinContent=true ONLY if the RSS description is fewer than 50 words OR consi
 ## Output
 Return results for ALL articles in the batch. Include the articleId in each result.`;
 
-export const BATCH_LIMIT = 15;
+export const BATCH_LIMIT = 25;
 
 export type UnenrichedArticle = {
   id: number;
@@ -89,15 +89,19 @@ export type UnenrichedArticle = {
 };
 
 export async function fetchUnenrichedArticles(): Promise<UnenrichedArticle[]> {
+  const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
   return prisma.article.findMany({
-    where: { enrichedAt: null },
+    where: {
+      enrichedAt: null,
+      createdAt: { gte: cutoff },
+    },
     select: {
       id: true,
       title: true,
       description: true,
       source: { select: { name: true } },
     },
-    orderBy: { publishedAt: 'asc' },
+    orderBy: { publishedAt: 'desc' },
     take: BATCH_LIMIT,
   });
 }

@@ -243,3 +243,55 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
 | 04.6 Enrichment Reliability   | 0/6 | In progress | -          |
 | 5. UX Polish                    | 0/TBD | Not started | -          |
+| 6. AWS Deployment (CDK/ECS/CI)  | 0/TBD | Not started | -          |
+
+### Phase 6: AWS deployment with CDK, ECS, and CI/CD pipeline
+
+**Goal:** Deploy the same Next.js application to AWS as a secondary hosting environment alongside Vercel, using ECS Fargate for compute, CDK (TypeScript) for infrastructure-as-code, and GitHub Actions for CI/CD. The two deployments share the same Neon Postgres database and run simultaneously from the same codebase. This phase exists purely for hands-on AWS learning and platform comparison, not for high availability or failover.
+
+**Motivation:** Build demonstrable AWS experience targeting a specific role that requires: ECS, RDS, IAM, networking, CI/CD pipelines, and IaC. The frontend-lean candidate profile means CDK in TypeScript is the right IaC choice (same language across the stack). Hosting the same app on both Vercel and AWS enables direct UI/DX comparison.
+
+**Depends on:** Phase 5 (UX Polish, so the app being deployed is in its final v1 state)
+
+**Requirements:**
+- AWS-INFRA-01: CDK stack defines VPC with public/private subnets, NAT gateway, and security groups
+- AWS-INFRA-02: ECS Fargate service runs the Next.js app behind an Application Load Balancer (ALB)
+- AWS-INFRA-03: ECR repository stores Docker images built from a multi-stage Dockerfile
+- AWS-INFRA-04: IAM roles follow least-privilege: ECS task role, execution role, GitHub Actions deploy role
+- AWS-INFRA-05: Environment variables (DATABASE_URL, AI API keys) stored in AWS SSM Parameter Store or Secrets Manager, injected into ECS task definition
+- AWS-CICD-01: GitHub Actions workflow builds, tests, pushes Docker image to ECR, and deploys to ECS on push to main
+- AWS-CICD-02: Pipeline stages: lint, test, build Docker image, push to ECR, update ECS service
+- AWS-CICD-03: Vercel deployment continues to work unchanged (vercel.json, Git integration untouched)
+- AWS-CRON-01: EventBridge scheduled rules replace Vercel cron jobs (/api/fetch every 4h, /api/enrich 30min after fetch)
+- AWS-DB-01: Both deployments connect to the same Neon Postgres database (shared corpus)
+- AWS-DOCKER-01: Multi-stage Dockerfile uses Next.js standalone output for minimal image size
+- AWS-DOCKER-02: Dockerfile works for local testing via docker compose before deploying to AWS
+- AWS-NET-01: ALB health check endpoint returns 200 (new /api/health route)
+- AWS-NET-02: HTTPS via ACM certificate on ALB (or HTTP-only for learning MVP, upgrade later)
+
+**Success Criteria** (what must be TRUE):
+  1. `cdk deploy` provisions the full stack: VPC, ECS cluster, Fargate service, ALB, ECR, IAM roles
+  2. The app is reachable at the ALB DNS name (or custom domain) and renders the same UI as Vercel
+  3. GitHub Actions pipeline deploys a new version to ECS automatically on push to main
+  4. Cron jobs (fetch + enrich) run on schedule via EventBridge and process articles into the shared Neon database
+  5. `cdk destroy` tears down all AWS resources cleanly (no orphaned resources)
+  6. Vercel deployment is completely unaffected; both run simultaneously
+
+**Suggested plan breakdown** (to be confirmed during /gsd:plan-phase):
+- Plan 1: Dockerfile (multi-stage, standalone output) + /api/health endpoint + local docker compose verification
+- Plan 2: CDK stack scaffolding (VPC, subnets, security groups, ECR, IAM roles)
+- Plan 3: CDK ECS Fargate service + ALB + health check + environment variable injection from SSM
+- Plan 4: GitHub Actions CI/CD pipeline (lint, test, Docker build, ECR push, ECS deploy)
+- Plan 5: EventBridge scheduled rules for fetch/enrich crons + verification
+- Plan 6: End-to-end verification (both deployments serving same data, crons working on both)
+
+**Nice-to-have extensions** (if time permits, not required for phase completion):
+- RDS Postgres instance alongside Neon (for RDS experience; Prisma connection string swap)
+- CloudWatch container insights + X-Ray tracing (observability)
+- Custom domain via Route 53
+- CDK pipeline (self-mutating pipeline that deploys CDK changes)
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 6 to break down)

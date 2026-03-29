@@ -7,6 +7,9 @@ interface BriefingDebugBoxProps {
   windowEnd: string;
   articleCount: number;
   latestEnrichedAt: string | null;
+  totalInWindow: number;
+  unenrichedInWindow: number;
+  lowScoreInWindow: number;
 }
 
 export function BriefingDebugBox({
@@ -14,6 +17,9 @@ export function BriefingDebugBox({
   windowEnd,
   articleCount,
   latestEnrichedAt,
+  totalInWindow,
+  unenrichedInWindow,
+  lowScoreInWindow,
 }: BriefingDebugBoxProps): React.ReactElement | null {
   const { debugMode } = useDebug();
 
@@ -37,6 +43,15 @@ export function BriefingDebugBox({
         <dd className="text-(--muted-foreground)">
           {latestEnrichedAt ? new Date(latestEnrichedAt).toLocaleString() : 'N/A'}
         </dd>
+
+        <dt className="text-(--foreground-secondary) font-semibold">Total in window (any status)</dt>
+        <dd className="text-(--muted-foreground)">{totalInWindow}</dd>
+
+        <dt className="text-(--foreground-secondary) font-semibold">Unenriched in window</dt>
+        <dd className="text-(--muted-foreground)">{unenrichedInWindow}</dd>
+
+        <dt className="text-(--foreground-secondary) font-semibold">Enriched but score &lt; 4</dt>
+        <dd className="text-(--muted-foreground)">{lowScoreInWindow}</dd>
       </dl>
     </div>
   );

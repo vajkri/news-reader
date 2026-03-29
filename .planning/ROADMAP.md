@@ -137,6 +137,16 @@ Plans:
 - [x] 04.5-01-PLAN.md — DebugProvider context + useDebug hook, DebugToggle floating button, layout wiring, ArticleRow type extension
 - [x] 04.5-02-PLAN.md — BriefingDebugBox component, per-card debug JSON in BriefingCard, briefing page integration
 
+### Phase 04.5.1: Enrichment pipeline reliability (INSERTED)
+
+**Goal:** Fix enrichment to handle daily article volume reliably: increase batch limits, optimize for manual/local runs, fix ordering to prioritize recent articles, consider removing cron dependency in favor of on-demand enrichment, ensure all articles in briefing window are enriched before briefing renders
+**Requirements**: TBD
+**Depends on:** Phase 04.5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.5.1 to break down)
+
 ### Phase 04.1: Source quality filtering: prioritize news over personal content (INSERTED)
 
 **Goal:** Curate higher-quality RSS sources, add contentType and thinContent fields to the enrichment pipeline, improve enrichment and chat system prompts using UX research, evaluate enrichment models, and re-enrich the full article corpus

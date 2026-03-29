@@ -6,7 +6,7 @@ import type { ArticleRow } from "@/types";
 import { TopicGroup, DateStepper, BriefingDebugBox } from "@/components/features/briefing";
 import Link from "next/link";
 
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export default async function BriefingPage({
   searchParams,
@@ -34,6 +34,19 @@ export default async function BriefingPage({
   const includeSource = { source: { select: { name: true, category: true } } };
 
   const MAX_BRIEFING_ARTICLES = 20;
+
+  // Diagnostic: count articles in window ignoring enrichedAt/score filters
+  const [totalInWindow, unenrichedInWindow, lowScoreInWindow] = await Promise.all([
+    prisma.article.count({
+      where: { publishedAt: { gte: windowStart, lte: windowEnd } },
+    }),
+    prisma.article.count({
+      where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: null },
+    }),
+    prisma.article.count({
+      where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: { not: null }, importanceScore: { lt: 4 } },
+    }),
+  ]);
 
   // Critical (9-10) and important (7-8) articles fill up to the cap
   const priorityArticles = await prisma.article.findMany({
@@ -80,6 +93,9 @@ export default async function BriefingPage({
         windowEnd={windowEnd.toISOString()}
         articleCount={articles.length}
         latestEnrichedAt={latestEnrichedAt}
+        totalInWindow={totalInWindow}
+        unenrichedInWindow={unenrichedInWindow}
+        lowScoreInWindow={lowScoreInWindow}
       />
 
       {topicGroups.length === 0 ? (

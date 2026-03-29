@@ -1,23 +1,26 @@
 'use client';
 
-import { Bug, BugOff } from 'lucide-react';
+import { Bug } from 'lucide-react';
 import { useDebug } from '@/contexts/debug';
-import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 
 function DebugToggleInner(): React.ReactElement {
   const { debugMode, toggleDebug } = useDebug();
 
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      onClick={toggleDebug}
-      className={`fixed bottom-4 right-4 z-50 ${debugMode ? 'opacity-100' : 'opacity-60'} hover:opacity-100`}
-      aria-label={debugMode ? 'Disable debug mode' : 'Enable debug mode'}
-      aria-pressed={debugMode}
+    <div
+      className="fixed bottom-[72px] left-[20px] z-50 flex items-center gap-2 rounded-full border border-(--border) bg-(--card) px-2.5 py-1.5 shadow-md [--primary:var(--debug-active)] [--muted:var(--debug-inactive)]"
     >
-      {debugMode ? <BugOff size={16} /> : <Bug size={16} />}
-    </Button>
+      <Bug
+        size={14}
+        className={debugMode ? 'text-(--debug-active)' : 'text-(--debug-inactive)'}
+      />
+      <Switch
+        checked={debugMode}
+        onCheckedChange={toggleDebug}
+        aria-label={debugMode ? 'Disable debug mode' : 'Enable debug mode'}
+      />
+    </div>
   );
 }
 

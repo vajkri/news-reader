@@ -156,6 +156,7 @@ Recent decisions affecting current work:
 - Phase 04.3 inserted after Phase 04: Non-RSS source ingestion via sitemap parsing (URGENT)
 - Phase 04.4 inserted after Phase 04: Chat about this: feed item chat buttons (URGENT)
 - Phase 04.5 inserted after Phase 04: Dev debug mode infrastructure (URGENT)
+- Phase 04.5.1 inserted after Phase 04.5: Enrichment pipeline reliability (URGENT)
 
 ## Session Continuity
 

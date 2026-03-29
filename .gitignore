@@ -51,6 +51,7 @@ next-env.d.ts
 *.db-wal
 *.db-shm
 
+.claude/worktrees/
 .env*.local
 .superpowers/
 .planning/assets/

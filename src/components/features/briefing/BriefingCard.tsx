@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { useDebug } from "@/contexts/debug";
+import { FeedbackButtons } from "./FeedbackButtons";
 
 const TIER_BORDER: Record<string, string> = {
   critical: "border-l-red-600",
@@ -86,7 +87,7 @@ export function BriefingCard({ article, isNew, isArchive }: BriefingCardProps): 
         </div>
       </a>
       {!isArchive && (
-        <div className="px-6 pb-3 pt-0">
+        <div className="px-6 pb-3 pt-0 flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
@@ -109,6 +110,7 @@ export function BriefingCard({ article, isNew, isArchive }: BriefingCardProps): 
             <MessageCircle size={14} />
             Chat about this
           </Button>
+          <FeedbackButtons articleId={article.id} sourceId={article.sourceId} />
         </div>
       )}
       {debugMode && (

@@ -8,3 +8,4 @@ export { ArchiveBanner } from "./ArchiveBanner";
 export { StatusBar } from "./StatusBar";
 export { EnrichNowButton } from "./EnrichNowButton";
 export { PendingSection } from "./PendingSection";
+export { FeedbackButtons } from "./FeedbackButtons";

@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { useDebug } from "@/contexts/debug";
+import { FeedbackButtons } from "./FeedbackButtons";
 
 const TIER_BORDER: Record<string, string> = {
   critical: "border-l-red-600",
@@ -14,7 +15,13 @@ const TIER_BORDER: Record<string, string> = {
   notable: "border-l-blue-500",
 };
 
-export function BriefingCard({ article }: { article: BriefingArticle }): React.ReactElement {
+interface BriefingCardProps {
+  article: BriefingArticle;
+  isNew?: boolean;
+  isArchive?: boolean;
+}
+
+export function BriefingCard({ article, isNew, isArchive }: BriefingCardProps): React.ReactElement {
   const { debugMode } = useDebug();
   const parts = splitSummary(article.summary);
 
@@ -52,9 +59,19 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
             )}
           </div>
 
-          <h3 className="text-lg font-semibold text-(--foreground) leading-[1.4] tracking-[-0.01em]">
-            {article.title}
-          </h3>
+          <div className="flex items-start gap-2 mt-1">
+            <h3 className="text-lg font-semibold text-(--foreground) leading-[1.4] tracking-[-0.01em]">
+              {article.title}
+            </h3>
+            {isNew && (
+              <span
+                aria-label="New article"
+                className="text-xs font-bold uppercase tracking-[0.5px] text-green-500 bg-[rgba(34,197,94,0.1)] px-1.5 py-0.5 rounded-[3px] shrink-0 mt-1"
+              >
+                New
+              </span>
+            )}
+          </div>
 
           {parts?.takeaway && (
             <p className="text-base font-medium text-(--foreground-secondary) leading-normal mt-2">
@@ -69,30 +86,33 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
           )}
         </div>
       </a>
-      <div className="px-6 pb-3 pt-0">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-(--muted-foreground) hover:text-(--foreground) gap-1.5 text-[0.8125rem]"
-          onClick={(e) => {
-            e.stopPropagation();
-            window.dispatchEvent(
-              new CustomEvent('chat-about-this', {
-                detail: {
-                  id: article.id,
-                  title: article.title,
-                  source: article.source.name,
-                  publishedAt: article.publishedAt,
-                  link: article.link,
-                },
-              })
-            );
-          }}
-        >
-          <MessageCircle size={14} />
-          Chat about this
-        </Button>
-      </div>
+      {!isArchive && (
+        <div className="px-6 pb-3 pt-0 flex items-center justify-between">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-(--muted-foreground) hover:text-(--foreground) gap-1.5 text-[0.8125rem]"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.dispatchEvent(
+                new CustomEvent('chat-about-this', {
+                  detail: {
+                    id: article.id,
+                    title: article.title,
+                    source: article.source.name,
+                    publishedAt: article.publishedAt,
+                    link: article.link,
+                  },
+                })
+              );
+            }}
+          >
+            <MessageCircle size={14} />
+            Chat about this
+          </Button>
+          <FeedbackButtons articleId={article.id} sourceId={article.sourceId} />
+        </div>
+      )}
       {debugMode && (
         <pre
           className="text-[0.75rem] font-[family-name:var(--font-geist-mono)] bg-(--muted) text-(--muted-foreground) p-3 overflow-x-auto rounded-b-[0.625rem] border-t border-(--border)"

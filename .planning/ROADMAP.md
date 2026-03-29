@@ -192,13 +192,27 @@ Plans:
 
 ### Phase 04.6: Enrichment pipeline reliability (INSERTED)
 
-**Goal:** Fix enrichment to handle daily article volume reliably: increase batch limits, optimize for manual/local runs, fix ordering to prioritize recent articles, consider removing cron dependency in favor of on-demand enrichment, ensure all articles in briefing window are enriched before briefing renders
-**Requirements**: TBD
+**Goal:** Redesign the enrichment pipeline and briefing model for reliability: increase batch size to 25, flip to newest-first ordering with 48h staleness cutoff, replace Vercel cron with GitHub Actions every-4-hour schedule, rewrite briefing as watermark-based "catch me up" view with new/reviewed sections, add on-demand enrichment from the briefing page, and close the feedback loop with up/down voting that calibrates the enrichment prompt
+**Requirements**: EPR-01, EPR-02, EPR-03, EPR-04, EPR-05, EPR-06, EPR-07, EPR-08
 **Depends on:** Phase 04.5
-**Plans:** 0 plans
+**Success Criteria** (what must be TRUE):
+  1. BATCH_LIMIT is 25 and enrichment processes newest articles first with 48h staleness cutoff
+  2. GitHub Actions workflow runs fetch+enrich every 4 hours; vercel.json has no cron entries
+  3. Briefing page shows articles since last watermark as "new" with a New badge, older articles dimmed as "reviewed"
+  4. Archive mode via DateStepper shows frozen top 15 by importance with an Archive banner
+  5. User can trigger on-demand enrichment from the briefing page via EnrichNow button
+  6. Pending unenriched articles appear in an amber section with "Awaiting enrichment" labels
+  7. Each new article has up/down feedback buttons with reason checkboxes
+  8. Accumulated feedback patterns are injected into the enrichment system prompt for calibration
+**Plans:** 6 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 04.6 to break down)
+- [ ] 04.6-01-PLAN.md — Schema migration (UserPreference + ArticleFeedback), enrichment pipeline fixes (BATCH_LIMIT 25, DESC ordering, 48h staleness)
+- [ ] 04.6-02-PLAN.md — GitHub Actions workflow (every 4h fetch+enrich), remove Vercel cron entries
+- [ ] 04.6-03-PLAN.md — Watermark library + tests, SectionDivider/CaughtUpState/ArchiveBanner components, briefing page rewrite
+- [ ] 04.6-04-PLAN.md — triggerEnrichment server action, StatusBar, EnrichNowButton, PendingSection components
+- [ ] 04.6-05-PLAN.md — Feedback API route + tests, FeedbackButtons component, BriefingCard integration
+- [ ] 04.6-06-PLAN.md — Calibration prompt injection (buildCalibrationContext), wire StatusBar/PendingSection into briefing page
 
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
@@ -227,5 +241,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
-| 04.6 Enrichment Reliability   | 0/TBD | Not started | -          |
+| 04.6 Enrichment Reliability   | 0/6 | In progress | -          |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

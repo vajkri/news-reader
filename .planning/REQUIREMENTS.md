@@ -59,6 +59,17 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SITE-05**: Anthropic News and Claude Blog added as sitemap sources
 - [x] **SITE-06**: Fetch cron dispatches to correct strategy based on source.sourceType
 
+### Enrichment Pipeline Reliability
+
+- [ ] **EPR-01**: BATCH_LIMIT increased to 25, enrichment orders newest-first with 48h staleness cutoff
+- [ ] **EPR-02**: UserPreference and ArticleFeedback Prisma models with migration applied
+- [ ] **EPR-03**: GitHub Actions workflow replaces Vercel cron (every 4h, fetch+enrich, manual dispatch)
+- [ ] **EPR-04**: Briefing uses watermark-based "catch me up" model with new/reviewed sections and caught-up state
+- [ ] **EPR-05**: Archive mode shows frozen top 15 by publishedAt date with archive banner, no feedback/enrich
+- [ ] **EPR-06**: On-demand enrichment via EnrichNow button with StatusBar and PendingSection
+- [ ] **EPR-07**: Feedback API and UI with up/down buttons, reason checkboxes, denormalized storage
+- [ ] **EPR-08**: Calibration prompt injection from accumulated feedback patterns
+
 ### UX / Design
 
 - [ ] **UX-01**: All views redesigned with ADHD-friendly scannable layout (cards, visual hierarchy, no text walls)
@@ -138,14 +149,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SITE-04 | Phase 04.3 | Complete |
 | SITE-05 | Phase 04.3 | Complete |
 | SITE-06 | Phase 04.3 | Complete |
+| EPR-01 | Phase 04.6 | Pending |
+| EPR-02 | Phase 04.6 | Pending |
+| EPR-03 | Phase 04.6 | Pending |
+| EPR-04 | Phase 04.6 | Pending |
+| EPR-05 | Phase 04.6 | Pending |
+| EPR-06 | Phase 04.6 | Pending |
+| EPR-07 | Phase 04.6 | Pending |
+| EPR-08 | Phase 04.6 | Pending |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 33 total
-- Mapped to phases: 33
+- v1 requirements: 41 total
+- Mapped to phases: 41
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-19*
-*Last updated: 2026-03-25 after Phase 04.3 planning*
+*Last updated: 2026-03-29 after Phase 04.6 planning*

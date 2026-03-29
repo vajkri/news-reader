@@ -134,36 +134,37 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
     },
     {
       id: "actions",
-      header: "",
-      size: 100,
+      header: "Actions",
+      size: 190,
       cell: ({ row }) => {
-        const { id, title, isRead, publishedAt } = row.original;
+        const { id, title, link, isRead, publishedAt } = row.original;
         const sourceName = row.original.source.name;
         return (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
               onClick={() => onToggleRead(id, !isRead)}
-              aria-label={isRead ? "Mark as unread" : "Mark as read"}
-              className="text-(--muted-foreground) hover:text-(--foreground)"
+              className="min-w-[5.25rem] justify-start gap-1.5 text-xs text-(--muted-foreground) hover:text-(--foreground)"
             >
               {isRead ? <CircleCheck size={14} /> : <Circle size={14} className="text-blue-600 dark:text-blue-400" />}
+              {isRead ? "Read" : "Unread"}
             </Button>
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
               onClick={() => {
                 window.dispatchEvent(
                   new CustomEvent("chat-about-this", {
-                    detail: { id, title, source: sourceName, publishedAt },
+                    detail: { id, title, source: sourceName, publishedAt, link },
                   })
                 );
               }}
               aria-label={`Chat about ${title}`}
-              className="text-(--muted-foreground) hover:text-(--foreground)"
+              className="gap-1.5 text-xs text-(--muted-foreground) hover:text-(--foreground)"
             >
               <MessageCircle size={14} />
+              Chat
             </Button>
           </div>
         );

@@ -109,6 +109,17 @@ Plans:
 - [x] 04-06-PLAN.md — [gap closure] Markdown rendering with react-markdown, inline SourceCards via custom link renderer, deferred toggle, user bubble contrast
 - [x] 04-07-PLAN.md — [gap closure] Storybook setup with ChatMessage stories for prototyping
 
+### Phase 04.4: Chat about this: feed item chat buttons (INSERTED)
+
+**Goal:** Each article card in the feed has a "Chat about this" button that opens the chat interface pre-seeded with context about that specific article, so users can ask follow-up questions without manually searching
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 2/2 plans complete
+
+Plans:
+- [x] 04.4-01-PLAN.md -- Feed Actions column (read toggle + chat button), ChatPanel "Read this for me" chip with Sparkles icon
+- [x] 04.4-02-PLAN.md -- fetchArticleContent chat tool (cheerio URL extraction), system prompt ADHD-friendly summary guidance
+
 ### Phase 04.5: Dev debug mode infrastructure (INSERTED)
 
 **Goal:** Deliver a dev-only debug mode infrastructure with a floating toggle, React Context state management, and inline debug annotations on the daily briefing page (timeframe metadata box and per-card JSON output)
@@ -196,5 +207,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
 | 04.2 Code Optimization         | 0/TBD | Not started | -          |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
+| 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
 | 5. UX Polish                    | 0/TBD | Not started | -          |

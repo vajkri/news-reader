@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Completed 04.5-02-PLAN.md
-last_updated: "2026-03-28T14:19:20.569Z"
+status: "Phase 04.5 UAT complete"
+stopped_at: Phase 04.5 UAT verified, 5/5 passed
+last_updated: "2026-03-29T08:00:00.000Z"
 progress:
   total_phases: 11
   completed_phases: 9
@@ -19,7 +19,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.5 — dev-debug-mode-infrastructure
+**Current focus:** Phase 04.5 — dev-debug-mode-infrastructure (UAT complete)
 
 ## Current Position
 
@@ -128,6 +128,10 @@ Recent decisions affecting current work:
 - [Phase 04.3]: Strategy dispatcher uses Record<sourceType, handler> map with default fallback (rss) for easily extensible source type routing
 - [Phase 04.3]: Manual migration applied via Neon HTTP (TCP/5432 blocked); recorded in _prisma_migrations table
 - [Phase 04.3]: Existing RSS sources need no sourceType in seed.ts: schema default 'rss' applies; upsert update:{} does not overwrite
+- [Phase 04.4]: Actions column replaces standalone Status column; consolidates read toggle (Circle/CircleCheck icons) + "Chat about this" (MessageCircle icon) buttons
+- [Phase 04.4]: ChipConfig type exported from PromptChips.tsx; supports label + optional icon ComponentType; used by both CONTEXTUAL_CHIPS and GENERIC_CHIPS
+- [Phase 04.4]: fetchArticleContentTool uses cheerio for HTML extraction with 10s timeout and 8000-char truncation; returns { title, url, content, error }
+- [Phase 04.4]: Chat route stepCountIs increased from 3 to 4 to accommodate search -> result -> fetch -> summarize flow
 - [Phase 04.5]: DebugToggle uses inner component pattern for rules-of-hooks compliance; React 19 Context value prop
 - [Phase 04.5]: BriefingDebugBox receives computed props from server component; per-card debug JSON uses full BriefingArticle object with no collapse/expand
 
@@ -150,10 +154,11 @@ Recent decisions affecting current work:
 - Phase 04.1 inserted after Phase 04: Source quality filtering: prioritize news over personal content (URGENT)
 - Phase 04.2 inserted after Phase 04: Code optimization via agent-skills: clean up without changing behavior (URGENT)
 - Phase 04.3 inserted after Phase 04: Non-RSS source ingestion via sitemap parsing (URGENT)
+- Phase 04.4 inserted after Phase 04: Chat about this: feed item chat buttons (URGENT)
 - Phase 04.5 inserted after Phase 04: Dev debug mode infrastructure (URGENT)
 
 ## Session Continuity
 
-Last session: 2026-03-28T14:12:37.104Z
-Stopped at: Completed 04.5-02-PLAN.md
+Last session: 2026-03-29T08:00:00.000Z
+Stopped at: Phase 04.5 UAT verified, 5/5 passed
 Resume file: None

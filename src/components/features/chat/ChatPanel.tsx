@@ -15,13 +15,15 @@ import { Sparkles, Plus, X, PanelRight, PanelBottom, Loader2 } from 'lucide-reac
 import { formatDistanceToNow } from 'date-fns';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
-import { PromptChips } from './PromptChips';
+import { PromptChips, type ChipConfig } from './PromptChips';
+import { isLinkFetchable } from '@/lib/unfetchable-domains';
 
 interface ArticleContext {
   id: number;
   title: string;
   source: string;
   publishedAt: string | null;
+  link?: string;
 }
 
 interface ChatPanelProps {
@@ -39,11 +41,11 @@ const GENERIC_CHIPS = [
   'Summarize model releases',
 ];
 
-const CONTEXTUAL_CHIPS = [
-  'Summarize this article',
-  'Why does this matter?',
-  'Related articles',
-  'Compare to competitors',
+const CONTEXTUAL_CHIPS: ChipConfig[] = [
+  { label: 'Read this for me', icon: Sparkles },
+  { label: 'Why does this matter?' },
+  { label: 'Related articles' },
+  { label: 'Compare to competitors' },
 ];
 
 interface ToolResultArticle {
@@ -248,6 +250,8 @@ export function ChatPanel({
                   title: articleContext.title,
                   source: articleContext.source,
                   publishedAt: articleContext.publishedAt,
+                  link: articleContext.link,
+                  fetchable: articleContext.link ? isLinkFetchable(articleContext.link) : undefined,
                 },
               },
             }
@@ -258,8 +262,8 @@ export function ChatPanel({
   );
 
   const handleChipClick = useCallback(
-    (chip: string) => {
-      handleSend(chip);
+    (chip: ChipConfig) => {
+      handleSend(chip.label);
     },
     [handleSend]
   );
@@ -272,7 +276,9 @@ export function ChatPanel({
   const isLoading = status === 'submitted' || status === 'streaming';
   const showEmptyState = messages.length === 0 && !isLoading;
 
-  const chips = articleContext ? CONTEXTUAL_CHIPS : GENERIC_CHIPS;
+  const chips: ChipConfig[] = articleContext
+    ? CONTEXTUAL_CHIPS
+    : GENERIC_CHIPS.map((label) => ({ label }));
   const placeholder = articleContext
     ? 'Ask anything about this article...'
     : 'Ask about any topic, source, or time period...';

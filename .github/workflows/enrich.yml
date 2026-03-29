@@ -1,0 +1,22 @@
+name: Fetch and Enrich
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-and-enrich:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch articles
+        run: |
+          curl -f -s \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ vars.APP_URL }}/api/fetch"
+
+      - name: Enrich articles
+        run: |
+          curl -f -s \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ vars.APP_URL }}/api/enrich"

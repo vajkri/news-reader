@@ -92,4 +92,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-28 after Phase 04.5 (Dev Debug Mode Infrastructure) completion*
+*Last updated: 2026-03-29 after Phase 04.6 (Enrichment Pipeline Reliability) completion*

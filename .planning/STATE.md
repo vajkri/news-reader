@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 04.6-02-PLAN.md
-last_updated: "2026-03-29T16:26:54.127Z"
+stopped_at: Completed 04.6-01-PLAN.md
+last_updated: "2026-03-29T16:31:50.748Z"
 progress:
   total_phases: 14
   completed_phases: 10
   total_plans: 34
-  completed_plans: 29
+  completed_plans: 30
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04.6 (enrichment-pipeline-reliability) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Plan: 2 of 6
 **Total plans completed:** 24
 **Total phases completed:** 12 (1, 2, 3, 03.1, 03.2, 4, 04.1, 04.3, 04.4, 04.5)
 | Phase 04.6 P02 | 5 | 2 tasks | 2 files |
+| Phase 04.6 P01 | 10 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -124,6 +125,8 @@ Recent decisions affecting current work:
 - [Phase 04.5]: BriefingDebugBox receives computed props from server component; per-card debug JSON uses full BriefingArticle object with no collapse/expand
 - [Phase 04.6]: GitHub Actions replaces Vercel Cron Jobs: every 4h schedule vs once daily, not tied to Vercel plan limits, supports manual dispatch
 - [Phase 04.6]: vars.APP_URL as GitHub repo variable + secrets.CRON_SECRET for GitHub Actions calling Vercel API routes
+- [Phase 04.6]: Migration applied via prisma migrate deploy (non-interactive env); migration SQL hand-authored from schema diff
+- [Phase 04.6]: createdAt used for staleness filter in fetchUnenrichedArticles, not publishedAt; createdAt = row-insert time reflecting when article was fetched
 
 ### Pending Todos
 
@@ -150,6 +153,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-29T16:26:54.122Z
-Stopped at: Completed 04.6-02-PLAN.md
+Last session: 2026-03-29T16:31:50.743Z
+Stopped at: Completed 04.6-01-PLAN.md
 Resume file: None

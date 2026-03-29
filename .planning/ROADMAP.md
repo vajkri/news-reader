@@ -204,10 +204,10 @@ Plans:
   6. Pending unenriched articles appear in an amber section with "Awaiting enrichment" labels
   7. Each new article has up/down feedback buttons with reason checkboxes
   8. Accumulated feedback patterns are injected into the enrichment system prompt for calibration
-**Plans:** 1/6 plans executed
+**Plans:** 2/6 plans executed
 
 Plans:
-- [ ] 04.6-01-PLAN.md — Schema migration (UserPreference + ArticleFeedback), enrichment pipeline fixes (BATCH_LIMIT 25, DESC ordering, 48h staleness)
+- [x] 04.6-01-PLAN.md — Schema migration (UserPreference + ArticleFeedback), enrichment pipeline fixes (BATCH_LIMIT 25, DESC ordering, 48h staleness)
 - [x] 04.6-02-PLAN.md — GitHub Actions workflow (every 4h fetch+enrich), remove Vercel cron entries
 - [ ] 04.6-03-PLAN.md — Watermark library + tests, SectionDivider/CaughtUpState/ArchiveBanner components, briefing page rewrite
 - [ ] 04.6-04-PLAN.md — triggerEnrichment server action, StatusBar, EnrichNowButton, PendingSection components
@@ -241,7 +241,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
-| 04.6 Enrichment Reliability   | 1/6 | In Progress|  |
+| 04.6 Enrichment Reliability   | 2/6 | In Progress|  |
 | 5. UX Polish                    | 0/TBD | Not started | -          |
 | 6. AWS Deployment (CDK/ECS/CI)  | 0/TBD | Not started | -          |
 

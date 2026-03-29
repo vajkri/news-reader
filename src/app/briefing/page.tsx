@@ -35,18 +35,21 @@ export default async function BriefingPage({
 
   const MAX_BRIEFING_ARTICLES = 20;
 
-  // Diagnostic: count articles in window ignoring enrichedAt/score filters
-  const [totalInWindow, unenrichedInWindow, lowScoreInWindow] = await Promise.all([
-    prisma.article.count({
-      where: { publishedAt: { gte: windowStart, lte: windowEnd } },
-    }),
-    prisma.article.count({
-      where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: null },
-    }),
-    prisma.article.count({
-      where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: { not: null }, importanceScore: { lt: 4 } },
-    }),
-  ]);
+  // Diagnostic: count articles in window ignoring enrichedAt/score filters (dev only)
+  const [totalInWindow, unenrichedInWindow, lowScoreInWindow] =
+    process.env.NODE_ENV === 'development'
+      ? await Promise.all([
+          prisma.article.count({
+            where: { publishedAt: { gte: windowStart, lte: windowEnd } },
+          }),
+          prisma.article.count({
+            where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: null },
+          }),
+          prisma.article.count({
+            where: { publishedAt: { gte: windowStart, lte: windowEnd }, enrichedAt: { not: null }, importanceScore: { lt: 4 } },
+          }),
+        ])
+      : [0, 0, 0];
 
   // Critical (9-10) and important (7-8) articles fill up to the cap
   const priorityArticles = await prisma.article.findMany({

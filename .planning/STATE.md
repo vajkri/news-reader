@@ -127,6 +127,7 @@ Recent decisions affecting current work:
 1. Add body validation to articles PATCH endpoint (area: api)
 2. Rotate leaked CRON_SECRET and scrub from git history (area: general)
 3. Update typography implementations to match design system scale (area: ui)
+4. Restore briefing page caching (ISR or 'use cache') after force-dynamic removal; currently every request hits DB (area: performance, consider at end of 04.6)
 
 ### Blockers/Concerns
 

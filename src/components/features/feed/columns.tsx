@@ -4,7 +4,7 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
-import { Clock, ExternalLink } from "lucide-react";
+import { Circle, CircleCheck, Clock, ExternalLink, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArticleRow } from "@/types";
@@ -133,24 +133,41 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
       },
     },
     {
-      id: "isRead",
-      header: "Status",
-      size: 80,
+      id: "actions",
+      header: "Actions",
+      size: 190,
       cell: ({ row }) => {
-        const { id, isRead } = row.original;
+        const { id, title, link, isRead, publishedAt } = row.original;
+        const sourceName = row.original.source.name;
         return (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onToggleRead(id, !isRead)}
-            className={`text-xs ${
-              isRead
-                ? "text-(--muted-foreground)"
-                : "text-blue-600 dark:text-blue-400 font-semibold"
-            }`}
-          >
-            {isRead ? "Read" : "Unread"}
-          </Button>
+          <div className="flex items-center gap-1.5">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onToggleRead(id, !isRead)}
+              // min-w prevents layout shift between "Read" (4ch) and "Unread" (6ch) labels
+              className="min-w-[5.25rem] justify-start gap-1.5 text-xs text-(--muted-foreground) hover:text-(--foreground)"
+            >
+              {isRead ? <CircleCheck size={14} /> : <Circle size={14} className="text-blue-600 dark:text-blue-400" />}
+              {isRead ? "Read" : "Unread"}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                window.dispatchEvent(
+                  new CustomEvent("chat-about-this", {
+                    detail: { id, title, source: sourceName, publishedAt, link },
+                  })
+                );
+              }}
+              aria-label={`Chat about ${title}`}
+              className="gap-1.5 text-xs text-(--muted-foreground) hover:text-(--foreground)"
+            >
+              <MessageCircle size={14} />
+              Chat
+            </Button>
+          </div>
         );
       },
     },

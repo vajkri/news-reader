@@ -81,6 +81,7 @@ export function BriefingCard({ article }: { article: BriefingArticle }): React.R
                   title: article.title,
                   source: article.source.name,
                   publishedAt: article.publishedAt,
+                  link: article.link,
                 },
               })
             );

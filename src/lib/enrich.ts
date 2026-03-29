@@ -97,7 +97,7 @@ export async function fetchUnenrichedArticles(): Promise<UnenrichedArticle[]> {
       description: true,
       source: { select: { name: true } },
     },
-    orderBy: { publishedAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     take: BATCH_LIMIT,
   });
 }

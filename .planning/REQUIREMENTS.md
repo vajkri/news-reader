@@ -63,7 +63,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **EPR-01**: BATCH_LIMIT increased to 25, enrichment orders newest-first with 48h staleness cutoff
 - [ ] **EPR-02**: UserPreference and ArticleFeedback Prisma models with migration applied
-- [ ] **EPR-03**: GitHub Actions workflow replaces Vercel cron (every 4h, fetch+enrich, manual dispatch)
+- [x] **EPR-03**: GitHub Actions workflow replaces Vercel cron (every 4h, fetch+enrich, manual dispatch)
 - [ ] **EPR-04**: Briefing uses watermark-based "catch me up" model with new/reviewed sections and caught-up state
 - [ ] **EPR-05**: Archive mode shows frozen top 15 by publishedAt date with archive banner, no feedback/enrich
 - [ ] **EPR-06**: On-demand enrichment via EnrichNow button with StatusBar and PendingSection
@@ -151,7 +151,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SITE-06 | Phase 04.3 | Complete |
 | EPR-01 | Phase 04.6 | Pending |
 | EPR-02 | Phase 04.6 | Pending |
-| EPR-03 | Phase 04.6 | Pending |
+| EPR-03 | Phase 04.6 | Complete |
 | EPR-04 | Phase 04.6 | Pending |
 | EPR-05 | Phase 04.6 | Pending |
 | EPR-06 | Phase 04.6 | Pending |

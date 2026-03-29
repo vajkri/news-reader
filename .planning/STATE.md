@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: "Phase 04.5 shipped — PR #20"
-stopped_at: Phase 04.6 context gathered
-last_updated: "2026-03-29T11:35:39.100Z"
+status: Ready to execute
+stopped_at: Completed 04.6-02-PLAN.md
+last_updated: "2026-03-29T16:26:54.127Z"
 progress:
-  total_phases: 13
+  total_phases: 14
   completed_phases: 10
-  total_plans: 28
-  completed_plans: 28
+  total_plans: 34
+  completed_plans: 29
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.6 — enrichment-pipeline-reliability (not planned yet)
+**Current focus:** Phase 04.6 — enrichment-pipeline-reliability
 
 ## Current Position
 
-Phase: 04.6
-Plan: Not started
+Phase: 04.6 (enrichment-pipeline-reliability) — EXECUTING
+Plan: 2 of 6
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Plan: Not started
 
 **Total plans completed:** 24
 **Total phases completed:** 12 (1, 2, 3, 03.1, 03.2, 4, 04.1, 04.3, 04.4, 04.5)
+| Phase 04.6 P02 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -121,6 +122,8 @@ Recent decisions affecting current work:
 - [Phase 04.4]: Chat route stepCountIs increased from 3 to 4 to accommodate search -> result -> fetch -> summarize flow
 - [Phase 04.5]: DebugToggle uses inner component pattern for rules-of-hooks compliance; React 19 Context value prop
 - [Phase 04.5]: BriefingDebugBox receives computed props from server component; per-card debug JSON uses full BriefingArticle object with no collapse/expand
+- [Phase 04.6]: GitHub Actions replaces Vercel Cron Jobs: every 4h schedule vs once daily, not tied to Vercel plan limits, supports manual dispatch
+- [Phase 04.6]: vars.APP_URL as GitHub repo variable + secrets.CRON_SECRET for GitHub Actions calling Vercel API routes
 
 ### Pending Todos
 
@@ -143,9 +146,10 @@ Recent decisions affecting current work:
 - Phase 04.4 inserted after Phase 04: Chat about this: feed item chat buttons (URGENT)
 - Phase 04.5 inserted after Phase 04: Dev debug mode infrastructure (URGENT)
 - Phase 04.6 inserted after Phase 04.5: Enrichment pipeline reliability (URGENT)
+- Phase 6 added: AWS deployment with CDK, ECS, and CI/CD pipeline (learning-driven, hands-on AWS experience for role targeting ECS/IAM/networking/IaC)
 
 ## Session Continuity
 
-Last session: 2026-03-29T11:35:39.095Z
-Stopped at: Phase 04.6 context gathered
-Resume file: .planning/phases/04.6-enrichment-pipeline-reliability/04.6-CONTEXT.md
+Last session: 2026-03-29T16:26:54.122Z
+Stopped at: Completed 04.6-02-PLAN.md
+Resume file: None

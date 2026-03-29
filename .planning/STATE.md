@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 04.6-01-PLAN.md
-last_updated: "2026-03-29T16:31:50.748Z"
+stopped_at: Completed 04.6-03-PLAN.md
+last_updated: "2026-03-29T16:39:27.211Z"
 progress:
   total_phases: 14
   completed_phases: 10
   total_plans: 34
-  completed_plans: 30
+  completed_plans: 32
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04.6 (enrichment-pipeline-reliability) — EXECUTING
-Plan: 3 of 6
+Plan: 4 of 6
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Plan: 3 of 6
 **Total phases completed:** 12 (1, 2, 3, 03.1, 03.2, 4, 04.1, 04.3, 04.4, 04.5)
 | Phase 04.6 P02 | 5 | 2 tasks | 2 files |
 | Phase 04.6 P01 | 10 | 2 tasks | 4 files |
+| Phase 04.6 P03 | 4 | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -127,6 +128,9 @@ Recent decisions affecting current work:
 - [Phase 04.6]: vars.APP_URL as GitHub repo variable + secrets.CRON_SECRET for GitHub Actions calling Vercel API routes
 - [Phase 04.6]: Migration applied via prisma migrate deploy (non-interactive env); migration SQL hand-authored from schema diff
 - [Phase 04.6]: createdAt used for staleness filter in fetchUnenrichedArticles, not publishedAt; createdAt = row-insert time reflecting when article was fetched
+- [Phase 04.6]: Watermark stored in UserPreference DB table using existing upsert pattern (same as RateLimit)
+- [Phase 04.6]: Archive detection: date param present AND not today via isToday() check
+- [Phase 04.6]: First visit seeds watermark to 24h ago to prevent backlog overwhelm
 
 ### Pending Todos
 
@@ -153,6 +157,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-29T16:31:50.743Z
-Stopped at: Completed 04.6-01-PLAN.md
+Last session: 2026-03-29T16:39:27.206Z
+Stopped at: Completed 04.6-03-PLAN.md
 Resume file: None

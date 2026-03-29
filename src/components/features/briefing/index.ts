@@ -5,3 +5,6 @@ export { DateStepper } from "./DateStepper";
 export { SectionDivider } from "./SectionDivider";
 export { CaughtUpState } from "./CaughtUpState";
 export { ArchiveBanner } from "./ArchiveBanner";
+export { StatusBar } from "./StatusBar";
+export { EnrichNowButton } from "./EnrichNowButton";
+export { PendingSection } from "./PendingSection";

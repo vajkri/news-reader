@@ -23,7 +23,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 04.3: Sitemap Ingestion** - Non-RSS source ingestion via sitemap parsing (completed 2026-03-25)
 - [x] **Phase 04.4: Feed Chat Buttons** - "Chat about this" on feed items (completed 2026-03-28)
 - [x] **Phase 04.5: Debug Mode** - Dev-only debug toggle and briefing annotations (completed 2026-03-28)
-- [ ] **Phase 04.6: Enrichment Reliability** - Fix enrichment pipeline for daily article volume
+- [x] **Phase 04.6: Enrichment Reliability** - Fix enrichment pipeline for daily article volume (completed 2026-03-29)
 - [ ] **Phase 5: UX Polish** - Apply ADHD-friendly design consistently across all views
 
 ## Phase Details
@@ -204,7 +204,7 @@ Plans:
   6. Pending unenriched articles appear in an amber section with "Awaiting enrichment" labels
   7. Each new article has up/down feedback buttons with reason checkboxes
   8. Accumulated feedback patterns are injected into the enrichment system prompt for calibration
-**Plans:** 4/6 plans executed
+**Plans:** 6/6 plans complete
 
 Plans:
 - [x] 04.6-01-PLAN.md — Schema migration (UserPreference + ArticleFeedback), enrichment pipeline fixes (BATCH_LIMIT 25, DESC ordering, 48h staleness)
@@ -241,7 +241,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
-| 04.6 Enrichment Reliability   | 4/6 | In Progress|  |
+| 04.6 Enrichment Reliability   | 4/6 | Complete    | 2026-03-29 |
 | 5. UX Polish                    | 0/TBD | Not started | -          |
 | 6. AWS Deployment (CDK/ECS/CI)  | 0/TBD | Not started | -          |
 

@@ -16,6 +16,7 @@ export interface ArticleRow {
   enrichedAt: string | null;
   contentType: string | null;
   thinContent: boolean | null;
+  createdAt: string;
   sourceId: number;
   source: {
     name: string;

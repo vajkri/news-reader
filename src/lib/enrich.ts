@@ -81,6 +81,59 @@ Return results for ALL articles in the batch. Include the articleId in each resu
 
 export const BATCH_LIMIT = 25;
 
+const SOURCE_SIGNAL_THRESHOLD = 3; // 3+ same-direction votes from a source
+const REASON_SIGNAL_THRESHOLD = 5; // 5+ votes for a reason type
+
+export async function buildCalibrationContext(): Promise<string> {
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const feedback = await prisma.articleFeedback.findMany({
+    where: { createdAt: { gte: thirtyDaysAgo } },
+    include: { source: { select: { name: true } } },
+  });
+
+  if (feedback.length === 0) return '';
+
+  const lines: string[] = [];
+
+  // Source-level signals: 3+ same-direction votes from a source
+  const sourceVotes = new Map<string, { up: number; down: number }>();
+  for (const f of feedback) {
+    const key = f.source.name;
+    const entry = sourceVotes.get(key) ?? { up: 0, down: 0 };
+    if (f.direction === 'up') entry.up++;
+    else entry.down++;
+    sourceVotes.set(key, entry);
+  }
+
+  for (const [sourceName, counts] of sourceVotes) {
+    if (counts.down >= SOURCE_SIGNAL_THRESHOLD) {
+      lines.push(`- User frequently downvotes articles from "${sourceName}". Score these lower unless genuinely significant.`);
+    }
+    if (counts.up >= SOURCE_SIGNAL_THRESHOLD) {
+      lines.push(`- User frequently upvotes articles from "${sourceName}". These tend to be relevant.`);
+    }
+  }
+
+  // Reason-level signals: 5+ votes citing a specific reason
+  const reasonCounts = new Map<string, number>();
+  for (const f of feedback) {
+    const reasons = f.reasons as string[];
+    for (const reason of reasons) {
+      reasonCounts.set(reason, (reasonCounts.get(reason) ?? 0) + 1);
+    }
+  }
+
+  for (const [reason, count] of reasonCounts) {
+    if (count >= REASON_SIGNAL_THRESHOLD) {
+      lines.push(`- User feedback pattern (${count} votes): "${reason}". Adjust scoring to reflect this preference.`);
+    }
+  }
+
+  if (lines.length === 0) return '';
+
+  return `\n\n## User Calibration Signals\nBased on accumulated user feedback, apply these adjustments:\n${lines.join('\n')}`;
+}
+
 export type UnenrichedArticle = {
   id: number;
   title: string;
@@ -120,10 +173,11 @@ export type EnrichmentResult = z.infer<typeof ArticleEnrichmentSchema>;
 export async function enrichArticlesBatch(
   articles: UnenrichedArticle[]
 ): Promise<EnrichmentResult[]> {
+  const calibration = await buildCalibrationContext();
   const { output } = await generateText({
     model: AI_MODEL,
     output: Output.array({ element: ArticleEnrichmentSchema }),
-    system: SYSTEM_PROMPT,
+    system: SYSTEM_PROMPT + calibration,
     prompt: buildBatchPrompt(articles),
     maxOutputTokens: 4096,
   });

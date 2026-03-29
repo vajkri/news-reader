@@ -10,6 +10,8 @@ import {
   SectionDivider,
   CaughtUpState,
   ArchiveBanner,
+  StatusBar,
+  PendingSection,
 } from "@/components/features/briefing";
 import { getWatermark, updateWatermark } from "@/lib/watermark";
 
@@ -113,8 +115,32 @@ export default async function BriefingPage({
     include: includeSource,
   });
 
+  // Pending articles: fetched within 48h but not yet enriched
+  const pendingCutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
+  const pendingArticles = await prisma.article.findMany({
+    where: {
+      enrichedAt: null,
+      createdAt: { gte: pendingCutoff },
+    },
+    orderBy: { publishedAt: 'desc' },
+    select: {
+      id: true,
+      title: true,
+      publishedAt: true,
+      source: { select: { name: true } },
+    },
+  });
+
+  // Last enriched timestamp from any enriched article (for StatusBar display)
+  const lastEnrichedRecord = await prisma.article.findFirst({
+    where: { enrichedAt: { not: null } },
+    orderBy: { enrichedAt: 'desc' },
+    select: { enrichedAt: true },
+  });
+  const lastEnrichedAt = lastEnrichedRecord?.enrichedAt?.toISOString() ?? null;
+
   // Diagnostic counts (dev only)
-  const [totalEnriched, pendingCount] =
+  const [totalEnriched, devPendingCount] =
     process.env.NODE_ENV === 'development'
       ? await Promise.all([
           prisma.article.count({
@@ -134,11 +160,6 @@ export default async function BriefingPage({
 
   const watermarkLabel = format(watermark, 'h:mm a');
 
-  const latestEnrichedAt = newArticles.reduce<string | null>((latest, a) => {
-    const enriched = a.enrichedAt ? new Date(a.enrichedAt).toISOString() : null;
-    return enriched && (!latest || enriched > latest) ? enriched : latest;
-  }, null);
-
   return (
     <div className="reading-container py-6">
       <div className="flex items-center justify-between mb-8">
@@ -154,11 +175,20 @@ export default async function BriefingPage({
         windowStart={todayStart.toISOString()}
         windowEnd={todayEnd.toISOString()}
         articleCount={newArticles.length + reviewedArticles.length}
-        latestEnrichedAt={latestEnrichedAt}
+        latestEnrichedAt={lastEnrichedAt}
         totalInWindow={totalEnriched}
-        unenrichedInWindow={pendingCount}
+        unenrichedInWindow={devPendingCount}
         lowScoreInWindow={0}
       />
+
+      <StatusBar
+        newCount={newArticles.length}
+        lastVisit={watermark}
+        lastEnrichedAt={lastEnrichedAt}
+        pendingCount={pendingArticles.length}
+      />
+
+      <PendingSection articles={JSON.parse(JSON.stringify(pendingArticles))} />
 
       {newArticles.length === 0 ? (
         <>

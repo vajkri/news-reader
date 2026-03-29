@@ -68,7 +68,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **EPR-05**: Archive mode shows frozen top 15 by publishedAt date with archive banner, no feedback/enrich
 - [ ] **EPR-06**: On-demand enrichment via EnrichNow button with StatusBar and PendingSection
 - [ ] **EPR-07**: Feedback API and UI with up/down buttons, reason checkboxes, denormalized storage
-- [ ] **EPR-08**: Calibration prompt injection from accumulated feedback patterns
+- [x] **EPR-08**: Calibration prompt injection from accumulated feedback patterns
 
 ### UX / Design
 
@@ -156,7 +156,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EPR-05 | Phase 04.6 | Complete |
 | EPR-06 | Phase 04.6 | Pending |
 | EPR-07 | Phase 04.6 | Pending |
-| EPR-08 | Phase 04.6 | Pending |
+| EPR-08 | Phase 04.6 | Complete |
 | UX-01 | Phase 5 | Pending |
 | UX-02 | Phase 5 | Pending |
 

@@ -15,6 +15,9 @@ vi.mock('@/lib/prisma', () => ({
       findMany: vi.fn(),
       update: vi.fn(),
     },
+    articleFeedback: {
+      findMany: vi.fn(),
+    },
   },
 }));
 
@@ -30,6 +33,7 @@ import {
   saveEnrichmentResults,
   enrichArticlesBatch,
   fetchUnenrichedArticles,
+  buildCalibrationContext,
   SEED_TOPICS,
   BATCH_LIMIT,
 } from '@/lib/enrich';
@@ -37,6 +41,7 @@ import {
 const mockGenerateText = vi.mocked(generateText);
 const mockPrismaFindMany = vi.mocked(prisma.article.findMany);
 const mockPrismaUpdate = vi.mocked(prisma.article.update);
+const mockFeedbackFindMany = vi.mocked(prisma.articleFeedback.findMany);
 
 describe('buildBatchPrompt', () => {
   it('formats articles correctly', () => {
@@ -177,6 +182,8 @@ describe('saveEnrichmentResults', () => {
 describe('enrichArticlesBatch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Default: no feedback (empty calibration context)
+    mockFeedbackFindMany.mockResolvedValue([]);
   });
 
   it('calls generateText with correct parameters', async () => {
@@ -232,5 +239,90 @@ describe('constants', () => {
 
   it('BATCH_LIMIT equals 25', () => {
     expect(BATCH_LIMIT).toBe(25);
+  });
+});
+
+describe('buildCalibrationContext', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns empty string when no feedback exists', async () => {
+    mockFeedbackFindMany.mockResolvedValue([]);
+    const result = await buildCalibrationContext();
+    expect(result).toBe('');
+  });
+
+  it('returns empty string when feedback is below source threshold (2 downvotes, needs 3)', async () => {
+    mockFeedbackFindMany.mockResolvedValue([
+      { direction: 'down', reasons: [], source: { name: 'TechBlog' } },
+      { direction: 'down', reasons: [], source: { name: 'TechBlog' } },
+    ] as never);
+    const result = await buildCalibrationContext();
+    expect(result).toBe('');
+  });
+
+  it('returns calibration section when 3+ downvotes from same source', async () => {
+    mockFeedbackFindMany.mockResolvedValue([
+      { direction: 'down', reasons: [], source: { name: 'SpammyBlog' } },
+      { direction: 'down', reasons: [], source: { name: 'SpammyBlog' } },
+      { direction: 'down', reasons: [], source: { name: 'SpammyBlog' } },
+    ] as never);
+    const result = await buildCalibrationContext();
+    expect(result).toContain('SpammyBlog');
+    expect(result).toContain('User Calibration Signals');
+    expect(result).toContain('downvotes');
+  });
+
+  it('returns calibration section when 3+ upvotes from same source', async () => {
+    mockFeedbackFindMany.mockResolvedValue([
+      { direction: 'up', reasons: [], source: { name: 'GreatSource' } },
+      { direction: 'up', reasons: [], source: { name: 'GreatSource' } },
+      { direction: 'up', reasons: [], source: { name: 'GreatSource' } },
+    ] as never);
+    const result = await buildCalibrationContext();
+    expect(result).toContain('GreatSource');
+    expect(result).toContain('upvotes');
+  });
+
+  it('returns reason-level signal when 5+ votes cite a reason', async () => {
+    mockFeedbackFindMany.mockResolvedValue([
+      { direction: 'down', reasons: ['Not relevant to me'], source: { name: 'A' } },
+      { direction: 'down', reasons: ['Not relevant to me'], source: { name: 'B' } },
+      { direction: 'down', reasons: ['Not relevant to me'], source: { name: 'C' } },
+      { direction: 'down', reasons: ['Not relevant to me'], source: { name: 'D' } },
+      { direction: 'down', reasons: ['Not relevant to me'], source: { name: 'E' } },
+    ] as never);
+    const result = await buildCalibrationContext();
+    expect(result).toContain('Not relevant to me');
+    expect(result).toContain('5 votes');
+  });
+
+  it('enrichArticlesBatch calls generateText with system prompt containing calibration context', async () => {
+    mockFeedbackFindMany.mockResolvedValue([
+      { direction: 'down', reasons: [], source: { name: 'SpamSource' } },
+      { direction: 'down', reasons: [], source: { name: 'SpamSource' } },
+      { direction: 'down', reasons: [], source: { name: 'SpamSource' } },
+    ] as never);
+    const mockResult = {
+      articleId: 1,
+      summary: 'test',
+      topics: ['model releases'],
+      importanceScore: 7,
+      contentType: 'news' as const,
+      thinContent: false,
+    };
+    mockGenerateText.mockResolvedValue({ output: [mockResult] } as never);
+
+    const articles = [
+      { id: 1, title: 'Test', description: 'Desc', source: { name: 'Source' } },
+    ];
+    await enrichArticlesBatch(articles);
+
+    expect(mockGenerateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        system: expect.stringContaining('SpamSource'),
+      })
+    );
   });
 });

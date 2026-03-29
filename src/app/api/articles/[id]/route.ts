@@ -15,7 +15,6 @@ export async function PATCH(
   const article = await prisma.article.update({
     where: { id: articleId },
     data: { isRead: body.isRead },
-    include: { source: { select: { name: true, category: true } } },
   });
 
   return NextResponse.json(article);

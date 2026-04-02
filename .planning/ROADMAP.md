@@ -147,11 +147,11 @@ Plans:
   3. SourceList delete handler checks response.ok and surfaces failures to the user
   4. next.config.ts includes optimizePackageImports for lucide-react
   5. All existing tests pass unchanged
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 04.2-01-PLAN.md — Type safety fixes (thumbnail.ts, rss.ts), Zod body validation (articles PATCH), SourceList delete error handling
-- [ ] 04.2-02-PLAN.md — optimizePackageImports for lucide-react in next.config.ts
+- [x] 04.2-02-PLAN.md — optimizePackageImports for lucide-react in next.config.ts
 
 ### Phase 04.3: Non-RSS source ingestion via sitemap parsing (INSERTED)
 
@@ -244,7 +244,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
 | 4. Chat Interface | 7/7 | Complete | 2026-03-27 |
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
-| 04.2 Code Optimization         | 0/2 | Not started | -          |
+| 04.2 Code Optimization         | 1/2 | In Progress|  |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |

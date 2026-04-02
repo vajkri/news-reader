@@ -1,22 +1,36 @@
 import 'server-only';
+import { createHmac, timingSafeEqual } from 'crypto';
 
-// One-time tokens for SSE stream auth (CRON_SECRET never leaves server).
-// In-memory Set: works on single-instance / dev server. On multi-instance
-// serverless (Vercel), token creator and consumer may hit different isolates.
-// Acceptable for single-user app; swap to KV/DB if this becomes multi-user.
-const streamTokens = new Set<string>();
+// Stateless HMAC-signed tokens for SSE stream auth.
+// Works across Turbopack module boundaries and serverless isolates
+// because verification only needs the secret, not shared memory.
+const TTL_MS = 5 * 60 * 1000;
 
-export function createToken(): string {
-  const token = crypto.randomUUID();
-  streamTokens.add(token);
-  setTimeout(() => streamTokens.delete(token), 5 * 60 * 1000);
-  return token;
+function getSecret(): string {
+  const secret = process.env.CRON_SECRET;
+  if (!secret) throw new Error('CRON_SECRET not configured');
+  return secret;
 }
 
-export function consumeToken(token: string): boolean {
-  if (streamTokens.has(token)) {
-    streamTokens.delete(token);
-    return true;
-  }
-  return false;
+function sign(payload: string): string {
+  return createHmac('sha256', getSecret()).update(payload).digest('hex');
+}
+
+export function createToken(): string {
+  const timestamp = Date.now().toString();
+  const signature = sign(timestamp);
+  return `${timestamp}.${signature}`;
+}
+
+export function verifyToken(token: string): boolean {
+  const parts = token.split('.');
+  if (parts.length !== 2) return false;
+
+  const [timestamp, signature] = parts;
+  const age = Date.now() - Number(timestamp);
+  if (isNaN(age) || age < 0 || age > TTL_MS) return false;
+
+  const expected = sign(timestamp);
+  return expected.length === signature.length &&
+    timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 }

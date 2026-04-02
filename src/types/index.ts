@@ -15,6 +15,7 @@ export interface ArticleRow {
   importanceScore: number | null;
   enrichedAt: string | null;
   approvedAt: string | null;
+  duplicateOf: number | null;
   contentType: string | null;
   thinContent: boolean | null;
   createdAt: string;

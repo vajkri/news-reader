@@ -1,0 +1,16 @@
+name: Cleanup Duplicates
+
+on:
+  schedule:
+    - cron: '30 6 * * *'  # Daily at 6:30 AM UTC
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect and mark duplicate articles
+        run: |
+          curl -f -s \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ vars.APP_URL }}/api/cleanup-dupes"

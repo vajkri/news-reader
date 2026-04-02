@@ -37,6 +37,12 @@ export const ArticleEnrichmentSchema = z.object({
     .describe(
       'True if RSS description is too short or generic for a meaningful summary'
     ),
+  duplicateOf: z
+    .number()
+    .nullable()
+    .describe(
+      'If this article covers the same news event as another article in this batch, set to the articleId of the best-quality version. The best version gets null. Duplicates get importanceScore=1.'
+    ),
 });
 
 const SYSTEM_PROMPT = `You are an analyst briefing tool for an AI-focused frontend developer's news tracker.
@@ -75,6 +81,13 @@ Key distinction: "announcement" is FROM the company. "news" is ABOUT the company
 
 ## Thin Content
 Set thinContent=true ONLY if the RSS description is fewer than 50 words OR consists entirely of generic boilerplate with no article-specific content.
+
+## Duplicate Detection
+Multiple articles in the batch may cover the SAME news event (e.g., same funding round, same product launch, same research paper).
+- Group articles about the same event.
+- Pick the BEST quality version as the winner (set duplicateOf=null). Prefer TLDR sources when quality is comparable; they are the user's favorite.
+- For all other duplicates: set duplicateOf to the winner's articleId AND set importanceScore=1.
+- Only flag true duplicates (same event/news). Articles on similar topics but different events are NOT duplicates.
 
 ## Output
 Return results for ALL articles in the batch. Include the articleId in each result.`;
@@ -141,7 +154,7 @@ export type UnenrichedArticle = {
   source: { name: string };
 };
 
-export async function fetchUnenrichedArticles(): Promise<UnenrichedArticle[]> {
+export async function fetchUnenrichedArticles(batchSize?: number): Promise<UnenrichedArticle[]> {
   const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
   return prisma.article.findMany({
     where: {
@@ -155,7 +168,7 @@ export async function fetchUnenrichedArticles(): Promise<UnenrichedArticle[]> {
       source: { select: { name: true } },
     },
     orderBy: { publishedAt: 'desc' },
-    take: BATCH_LIMIT,
+    take: batchSize ?? BATCH_LIMIT,
   });
 }
 
@@ -202,6 +215,7 @@ export async function saveEnrichmentResults(
           importanceScore: result.importanceScore,
           contentType: result.contentType,
           thinContent: result.thinContent,
+          duplicateOf: result.duplicateOf,
           enrichedAt: new Date(),
         },
       })

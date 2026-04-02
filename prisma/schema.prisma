@@ -38,6 +38,7 @@ model Article {
   importanceScore Int?
   enrichedAt      DateTime?
   approvedAt      DateTime?
+  duplicateOf     Int?
   contentType     String?
   thinContent     Boolean?
   createdAt   DateTime  @default(now())

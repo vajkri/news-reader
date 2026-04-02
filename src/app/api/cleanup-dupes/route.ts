@@ -104,10 +104,17 @@ Each article MUST appear in at most one group. For each group, pick the most com
   for (const group of validatedGroups) {
     for (const dupeId of group.duplicateIds) {
       try {
-        await prisma.article.update({
-          where: { id: dupeId },
-          data: { duplicateOf: group.winnerId, importanceScore: 1 },
-        });
+        // Re-point orphans and mark dupe atomically
+        await prisma.$transaction([
+          prisma.article.updateMany({
+            where: { duplicateOf: dupeId },
+            data: { duplicateOf: group.winnerId },
+          }),
+          prisma.article.update({
+            where: { id: dupeId },
+            data: { duplicateOf: group.winnerId, importanceScore: 1 },
+          }),
+        ]);
         marked++;
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') continue;

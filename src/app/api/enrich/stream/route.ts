@@ -61,7 +61,6 @@ export async function GET(request: Request): Promise<Response> {
                   importanceScore: result.importanceScore,
                   contentType: result.contentType,
                   thinContent: result.thinContent,
-                  duplicateOf: result.duplicateOf,
                   enrichedAt: new Date(),
                 },
               });
@@ -74,7 +73,6 @@ export async function GET(request: Request): Promise<Response> {
                 summary: result.summary,
                 score: result.importanceScore,
                 contentType: result.contentType,
-                duplicateOf: result.duplicateOf,
                 totalSoFar: totalEnriched,
               })));
             } catch (error) {

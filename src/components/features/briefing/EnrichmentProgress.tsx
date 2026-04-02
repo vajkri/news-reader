@@ -12,7 +12,6 @@ interface EnrichedArticle {
   source: string;
   summary: string;
   score: number;
-  duplicateOf: number | null;
 }
 
 interface ProcessingArticle {
@@ -67,7 +66,6 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
             source: data.source as string,
             summary: data.summary as string,
             score: data.score as number,
-            duplicateOf: (data.duplicateOf as number | null) ?? null,
           }]);
           setTotalSoFar(data.totalSoFar as number);
           break;
@@ -189,19 +187,14 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
       {enriched.length > 0 && (
         <div className="space-y-1.5">
           {enriched.slice(-10).map((a) => {
-            const isDupe = a.duplicateOf !== null;
             const tier = scoreTier(a.score);
             const tierStyle = TIER_COLORS[tier] ?? '';
             return (
-              <div key={a.id} className={`flex items-center gap-2 py-1.5 pl-3 border-l-[3px] ${isDupe ? 'border-(--border) opacity-40' : 'border-green-500'}`}>
+              <div key={a.id} className="flex items-center gap-2 py-1.5 pl-3 border-l-[3px] border-green-500">
                 <p className="text-sm text-(--foreground) truncate flex-1">{a.title}</p>
-                {isDupe ? (
-                  <span className="text-[13px] text-(--muted-foreground) shrink-0">duplicate</span>
-                ) : (
-                  <span className={`text-[13px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${tierStyle}`}>
-                    {a.score}/10
-                  </span>
-                )}
+                <span className={`text-[13px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${tierStyle}`}>
+                  {a.score}/10
+                </span>
               </div>
             );
           })}

@@ -55,7 +55,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
 const noop = () => {};
 
 const meta = {
-  title: 'Sources/SourcesPage',
+  title: 'Pages/Sources',
   parameters: {
     layout: 'fullscreen',
   },

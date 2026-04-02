@@ -5,7 +5,7 @@ import { ChatInput } from './ChatInput';
 import type { ChatMessageProps } from './ChatMessage';
 
 const meta = {
-  title: 'Chat/ChatMessage',
+  title: 'Components/Chat/ChatMessage',
   component: ChatMessage,
   parameters: {
     layout: 'padded',

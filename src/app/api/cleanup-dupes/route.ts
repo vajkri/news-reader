@@ -73,11 +73,15 @@ Only return groups where you are confident the articles cover the exact same eve
 
     const validDupes = group.duplicateIds.filter((id) => validIds.has(id) && id !== group.winnerId);
     for (const dupeId of validDupes) {
-      await prisma.article.update({
-        where: { id: dupeId },
-        data: { duplicateOf: group.winnerId, importanceScore: 1 },
-      });
-      marked++;
+      try {
+        await prisma.article.update({
+          where: { id: dupeId },
+          data: { duplicateOf: group.winnerId, importanceScore: 1 },
+        });
+        marked++;
+      } catch {
+        // Race condition: article may have been deleted between query and update
+      }
     }
   }
 

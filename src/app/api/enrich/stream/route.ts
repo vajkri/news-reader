@@ -4,6 +4,7 @@ import {
   type EnrichmentResult,
 } from '@/lib/enrich';
 import { prisma } from '@/lib/prisma';
+import { consumeToken } from '@/lib/stream-tokens';
 
 export const maxDuration = 300;
 
@@ -12,13 +13,11 @@ function sseEvent(event: string, data: Record<string, unknown>): string {
 }
 
 export async function GET(request: Request): Promise<Response> {
-  const secret = process.env.CRON_SECRET;
-  const authHeader = request.headers.get('authorization');
-  if (!secret || authHeader !== `Bearer ${secret}`) {
+  const url = new URL(request.url);
+  const token = url.searchParams.get('token');
+  if (!token || !consumeToken(token)) {
     return new Response('Unauthorized', { status: 401 });
   }
-
-  const url = new URL(request.url);
   const batchSize = Math.min(parseInt(url.searchParams.get('batch') ?? '5', 10) || 5, 25);
   const loop = url.searchParams.get('loop') !== 'false';
 

@@ -36,7 +36,7 @@ export function TriageSection({ articles: initial }: TriageSectionProps): React.
   async function handleApproveAll() {
     setSubmitting(true);
     const remaining = [...articles];
-    let approved = 0;
+    const failedIds = new Set<number>();
     for (const article of remaining) {
       try {
         const res = await fetch(`/api/articles/${article.id}/approve`, {
@@ -44,13 +44,14 @@ export function TriageSection({ articles: initial }: TriageSectionProps): React.
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ score: scores[article.id] ?? article.importanceScore }),
         });
-        if (res.ok) approved++;
+        if (!res.ok) failedIds.add(article.id);
       } catch {
-        // Continue approving remaining articles on network failure
+        failedIds.add(article.id);
       }
     }
-    setApprovedCount((c) => c + approved);
-    setArticles(approved === remaining.length ? [] : remaining.slice(approved));
+    const succeeded = remaining.length - failedIds.size;
+    setApprovedCount((c) => c + succeeded);
+    setArticles(failedIds.size === 0 ? [] : remaining.filter((a) => failedIds.has(a.id)));
     setSubmitting(false);
   }
 

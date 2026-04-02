@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { getEnrichStreamUrl } from '@/lib/actions';
+import { createEnrichStreamToken } from '@/lib/actions';
 
 interface EnrichedArticle {
   id: number;
@@ -54,88 +54,74 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
     setProcessing([]);
     setTotalSoFar(0);
 
-    try {
-      const config = await getEnrichStreamUrl(loop);
-      if ('error' in config) {
-        setError(config.error);
-        setRunning(false);
-        return;
+    function onEvent(event: string, data: Record<string, unknown>) {
+      switch (event) {
+        case 'batch-start':
+          setProcessing(data.articles as ProcessingArticle[]);
+          break;
+        case 'article-enriched':
+          setProcessing((prev) => prev.filter((a) => a.id !== data.id));
+          setEnriched((prev) => [...prev, {
+            id: data.id as number,
+            title: data.title as string,
+            source: data.source as string,
+            summary: data.summary as string,
+            score: data.score as number,
+            duplicateOf: (data.duplicateOf as number | null) ?? null,
+          }]);
+          setTotalSoFar(data.totalSoFar as number);
+          break;
+        case 'batch-complete':
+          setProcessing([]);
+          break;
+        case 'batch-error':
+          setError(data.error as string);
+          break;
+        case 'done':
+          setTotalSoFar(data.totalEnriched as number);
+          break;
+        case 'error':
+          setError(data.error as string);
+          break;
       }
-      const res = await fetch(config.url, { headers: config.headers });
-      if (!res.ok || !res.body) {
-        setError(`Failed to start enrichment: ${res.status}`);
-        setRunning(false);
-        return;
-      }
+    }
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
+    const tokenResult = await createEnrichStreamToken();
+    if ('error' in tokenResult) {
+      setError(tokenResult.error);
+      setRunning(false);
+      return;
+    }
 
-      while (true) {
-        const { done: streamDone, value } = await reader.read();
-        if (streamDone) break;
+    const url = `/api/enrich/stream?batch=5&loop=${loop}&token=${tokenResult.token}`;
+    const es = new EventSource(url);
 
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() ?? '';
-
-        let currentEvent = '';
-        for (const line of lines) {
-          if (line.startsWith('event: ')) {
-            currentEvent = line.slice(7);
-          } else if (line.startsWith('data: ') && currentEvent) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              handleEvent(currentEvent, data);
-            } catch {
-              // Malformed SSE event; skip and continue
-            }
-            currentEvent = '';
-          }
+    const events = ['batch-start', 'article-enriched', 'batch-complete', 'batch-error', 'done', 'error'] as const;
+    for (const event of events) {
+      es.addEventListener(event, (e: MessageEvent) => {
+        try {
+          onEvent(event, JSON.parse(e.data));
+        } catch {
+          // Malformed event data; skip
         }
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Connection lost');
+      });
     }
 
-    setRunning(false);
-    setDone(true);
-    // Auto-refresh so triage section picks up newly enriched articles
-    router.refresh();
+    es.addEventListener('done', () => {
+      es.close();
+      setRunning(false);
+      setDone(true);
+      router.refresh();
+    });
+
+    es.addEventListener('error', () => {
+      es.close();
+      setError('Connection lost');
+      setRunning(false);
+      setDone(true);
+      router.refresh();
+    });
   }, [router]);
-
-  function handleEvent(event: string, data: Record<string, unknown>) {
-    switch (event) {
-      case 'batch-start':
-        setProcessing(data.articles as ProcessingArticle[]);
-        break;
-      case 'article-enriched':
-        setProcessing((prev) => prev.filter((a) => a.id !== data.id));
-        setEnriched((prev) => [...prev, {
-          id: data.id as number,
-          title: data.title as string,
-          source: data.source as string,
-          summary: data.summary as string,
-          score: data.score as number,
-          duplicateOf: (data.duplicateOf as number | null) ?? null,
-        }]);
-        setTotalSoFar(data.totalSoFar as number);
-        break;
-      case 'batch-complete':
-        setProcessing([]);
-        break;
-      case 'batch-error':
-        setError(data.error as string);
-        break;
-      case 'done':
-        setTotalSoFar(data.totalEnriched as number);
-        break;
-      case 'error':
-        setError(data.error as string);
-        break;
-    }
-  }
 
   // Not running, not done: show enrich button
   if (!running && !done) {

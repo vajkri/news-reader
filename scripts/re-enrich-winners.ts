@@ -21,6 +21,7 @@ function createPrismaClient(): PrismaClient {
 }
 
 const prisma = createPrismaClient();
+// Matches AI_MODEL in src/lib/ai.ts (can't import due to server-only)
 const AI_MODEL = 'deepseek/deepseek-v3.2';
 const ARTICLE_IDS = [951, 978, 1001];
 

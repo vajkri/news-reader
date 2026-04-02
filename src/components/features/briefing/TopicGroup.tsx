@@ -30,10 +30,9 @@ function TopicIcon({ topic }: { topic: string }) {
 interface TopicGroupProps {
   group: TopicGroupData;
   isNew?: boolean;
-  isArchive?: boolean;
 }
 
-export function TopicGroup({ group, isNew, isArchive }: TopicGroupProps) {
+export function TopicGroup({ group, isNew }: TopicGroupProps) {
   return (
     <section className="space-y-4">
       <h2 className="flex items-center gap-2 text-lg font-semibold text-(--foreground)">
@@ -45,7 +44,7 @@ export function TopicGroup({ group, isNew, isArchive }: TopicGroupProps) {
       </h2>
       <div className="space-y-4">
         {group.articles.map((article) => (
-          <BriefingCard key={article.id} article={article} isNew={isNew} isArchive={isArchive} />
+          <BriefingCard key={article.id} article={article} isNew={isNew} />
         ))}
       </div>
     </section>

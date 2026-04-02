@@ -18,10 +18,9 @@ const TIER_BORDER: Record<string, string> = {
 interface BriefingCardProps {
   article: BriefingArticle;
   isNew?: boolean;
-  isArchive?: boolean;
 }
 
-export function BriefingCard({ article, isNew, isArchive }: BriefingCardProps): React.ReactElement {
+export function BriefingCard({ article, isNew }: BriefingCardProps): React.ReactElement {
   const { debugMode } = useDebug();
   const parts = splitSummary(article.summary);
 
@@ -86,8 +85,7 @@ export function BriefingCard({ article, isNew, isArchive }: BriefingCardProps): 
           )}
         </div>
       </a>
-      {!isArchive && (
-        <div className="px-6 pb-3 pt-0 flex items-center justify-between">
+      <div className="px-6 pb-3 pt-0 flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
@@ -112,7 +110,6 @@ export function BriefingCard({ article, isNew, isArchive }: BriefingCardProps): 
           </Button>
           <FeedbackButtons articleId={article.id} sourceId={article.sourceId} />
         </div>
-      )}
       {debugMode && (
         <pre
           className="text-[0.75rem] font-[family-name:var(--font-geist-mono)] bg-(--muted) text-(--muted-foreground) p-3 overflow-x-auto rounded-b-[0.625rem] border-t border-(--border)"

@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+
+const PatchArticleSchema = z.object({
+  isRead: z.boolean(),
+});
 
 export async function PATCH(
   request: NextRequest,
@@ -12,9 +17,14 @@ export async function PATCH(
   }
 
   const body = await request.json();
+  const parsed = PatchArticleSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
+
   const article = await prisma.article.update({
     where: { id: articleId },
-    data: { isRead: body.isRead },
+    data: { isRead: parsed.data.isRead },
   });
 
   return NextResponse.json(article);

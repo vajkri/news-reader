@@ -16,11 +16,13 @@ export async function GET(request: Request): Promise<Response> {
     return new Response('Unauthorized', { status: 401 });
   }
 
+  const url = new URL(request.url);
+  const singleBatch = url.searchParams.has('single');
+
   const startTime = Date.now();
   let totalEnriched = 0;
   const allErrors: string[] = [];
 
-  // Process batches until all done or time budget exhausted
   while (Date.now() - startTime < TIME_BUDGET_MS) {
     const articles = await fetchUnenrichedArticles();
 
@@ -35,6 +37,8 @@ export async function GET(request: Request): Promise<Response> {
       allErrors.push(error instanceof Error ? error.message : String(error));
       break;
     }
+
+    if (singleBatch) break;
   }
 
   return NextResponse.json({

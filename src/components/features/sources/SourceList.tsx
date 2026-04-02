@@ -30,7 +30,11 @@ export function SourceList({ sources, onDeleted, error }: SourceListProps) {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this source and all its articles?")) return;
-    await fetch(`/api/sources/${id}`, { method: "DELETE" });
+    const response = await fetch(`/api/sources/${id}`, { method: "DELETE" });
+    if (!response.ok) {
+      alert("Failed to delete source. Please try again.");
+      return;
+    }
     onDeleted(id);
   };
 

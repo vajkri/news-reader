@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
+// No auth required: single-user app, append-only writes (same threat model as /api/feedback)
 interface ApproveBody {
   score?: number;
   dismissed?: boolean;
@@ -29,7 +30,12 @@ export async function POST(
     return NextResponse.json({ error: 'Article not yet enriched' }, { status: 400 });
   }
 
-  const body = (await request.json()) as ApproveBody;
+  let body: ApproveBody;
+  try {
+    body = (await request.json()) as ApproveBody;
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
   const dismissed = body.dismissed === true;
   const finalScore = dismissed ? 1 : (body.score ?? article.importanceScore);
 
@@ -46,12 +52,12 @@ export async function POST(
   const aiScore = article.importanceScore ?? 5;
   const userScore = finalScore ?? aiScore;
   if (userScore !== aiScore || dismissed) {
-    const direction = dismissed ? 'down' : userScore > aiScore ? 'up' : userScore < aiScore ? 'down' : 'up';
+    const direction = dismissed ? 'down' : userScore > aiScore ? 'up' : 'down';
     const reasons = dismissed
-      ? ['not_relevant']
-      : userScore !== aiScore
-        ? ['score_override']
-        : [];
+      ? ['Not relevant to me']
+      : userScore > aiScore
+        ? ['Important industry shift']
+        : ['Not actually important'];
 
     await prisma.articleFeedback.create({
       data: {

@@ -63,18 +63,21 @@ Only return groups where you are confident the articles cover the exact same eve
     return NextResponse.json({ duplicatesFound: 0 });
   }
 
+  // Validate AI output: only allow IDs that exist in our input batch
+  const validIds = new Set(articles.map((a) => a.id));
+
   let marked = 0;
   for (const group of output.groups) {
-    for (const dupeId of group.duplicateIds) {
-      try {
-        await prisma.article.update({
-          where: { id: dupeId },
-          data: { duplicateOf: group.winnerId, importanceScore: 1 },
-        });
-        marked++;
-      } catch {
-        // Article may not exist, skip
-      }
+    if (!validIds.has(group.winnerId)) continue;
+    if (group.duplicateIds.includes(group.winnerId)) continue;
+
+    const validDupes = group.duplicateIds.filter((id) => validIds.has(id) && id !== group.winnerId);
+    for (const dupeId of validDupes) {
+      await prisma.article.update({
+        where: { id: dupeId },
+        data: { duplicateOf: group.winnerId, importanceScore: 1 },
+      });
+      marked++;
     }
   }
 

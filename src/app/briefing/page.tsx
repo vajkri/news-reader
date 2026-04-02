@@ -220,7 +220,7 @@ export default async function BriefingPage({
           {reviewedTopicGroups.length > 0 && (
             <>
               <SectionDivider label="Already reviewed" variant="reviewed" />
-              <div className="space-y-16 opacity-50">
+              <div className="space-y-16 text-(--muted-foreground)">
                 {reviewedTopicGroups.map((group) => (
                   <TopicGroup key={group.topic} group={group} />
                 ))}
@@ -240,7 +240,7 @@ export default async function BriefingPage({
           {reviewedTopicGroups.length > 0 && (
             <>
               <SectionDivider label="Already reviewed" variant="reviewed" />
-              <div className="space-y-16 opacity-50">
+              <div className="space-y-16 text-(--muted-foreground)">
                 {reviewedTopicGroups.map((group) => (
                   <TopicGroup key={group.topic} group={group} />
                 ))}

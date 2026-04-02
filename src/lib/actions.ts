@@ -12,6 +12,16 @@ export async function fetchFeeds(): Promise<FetchResult> {
   return fetchAndPersistArticles();
 }
 
+export async function getEnrichStreamUrl(loop: boolean = true): Promise<{ url: string; headers: Record<string, string> } | { error: string }> {
+  const secret = process.env.CRON_SECRET;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+  if (!secret) return { error: 'CRON_SECRET not configured' };
+  return {
+    url: `${appUrl}/api/enrich/stream?batch=5&loop=${loop}`,
+    headers: { Authorization: `Bearer ${secret}` },
+  };
+}
+
 interface EnrichResult {
   ok: boolean;
   enriched?: number;

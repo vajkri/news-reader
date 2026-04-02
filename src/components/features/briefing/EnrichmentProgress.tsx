@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { getEnrichStreamUrl } from '@/lib/actions';
 
 interface EnrichedArticle {
   id: number;
@@ -54,7 +55,13 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
     setTotalSoFar(0);
 
     try {
-      const res = await fetch(`/api/enrich/stream?batch=5&loop=${loop}`);
+      const config = await getEnrichStreamUrl(loop);
+      if ('error' in config) {
+        setError(config.error);
+        setRunning(false);
+        return;
+      }
+      const res = await fetch(config.url, { headers: config.headers });
       if (!res.ok || !res.body) {
         setError(`Failed to start enrichment: ${res.status}`);
         setRunning(false);
@@ -78,8 +85,12 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
           if (line.startsWith('event: ')) {
             currentEvent = line.slice(7);
           } else if (line.startsWith('data: ') && currentEvent) {
-            const data = JSON.parse(line.slice(6));
-            handleEvent(currentEvent, data);
+            try {
+              const data = JSON.parse(line.slice(6));
+              handleEvent(currentEvent, data);
+            } catch {
+              // Malformed SSE event; skip and continue
+            }
             currentEvent = '';
           }
         }
@@ -161,12 +172,12 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
   return (
     <div>
       {/* Counter in status area */}
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-3" role="status" aria-live="polite">
         <Loader2 size={14} className="animate-spin text-amber-500" />
         <span className="text-sm font-semibold text-amber-500">
           Enriching... ({totalSoFar}/{pendingCount})
         </span>
-        {error && <span className="text-sm text-red-500">{error}</span>}
+        {error && <span className="text-sm text-red-500" role="alert">{error}</span>}
       </div>
 
       {/* Processing articles (current batch) */}
@@ -193,9 +204,9 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
               <div key={a.id} className={`flex items-center gap-2 py-1.5 pl-3 border-l-[3px] ${isDupe ? 'border-(--border) opacity-40' : 'border-green-500'}`}>
                 <p className="text-sm text-(--foreground) truncate flex-1">{a.title}</p>
                 {isDupe ? (
-                  <span className="text-[11px] text-(--muted-foreground) shrink-0">duplicate</span>
+                  <span className="text-[13px] text-(--muted-foreground) shrink-0">duplicate</span>
                 ) : (
-                  <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${tierStyle}`}>
+                  <span className={`text-[13px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${tierStyle}`}>
                     {a.score}/10
                   </span>
                 )}

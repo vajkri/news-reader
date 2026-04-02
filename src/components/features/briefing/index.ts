@@ -11,3 +11,4 @@ export { PendingSection } from "./PendingSection";
 export { FeedbackButtons } from "./FeedbackButtons";
 export { TriageCard } from "./TriageCard";
 export { TriageSection } from "./TriageSection";
+export { EnrichmentProgress } from "./EnrichmentProgress";

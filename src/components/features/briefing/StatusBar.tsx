@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { EnrichNowButton } from './EnrichNowButton';
+import { EnrichmentProgress } from './EnrichmentProgress';
 
 interface StatusBarProps {
   newCount: number;
@@ -42,7 +42,7 @@ export function StatusBar({
           Last enriched: {enrichedTime}
         </span>
       </div>
-      <EnrichNowButton pendingCount={pendingCount} />
+      {pendingCount > 0 && <EnrichmentProgress pendingCount={pendingCount} />}
     </div>
   );
 }

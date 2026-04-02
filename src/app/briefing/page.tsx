@@ -207,7 +207,12 @@ export default async function BriefingPage({
         pendingCount={pendingArticles.length}
       />
 
-      <TriageSection articles={JSON.parse(JSON.stringify(triageArticles))} />
+      <TriageSection
+        key={triageArticles.map((a) => a.id).join(',')}
+        articles={JSON.parse(JSON.stringify(triageArticles))}
+      />
+
+      <PendingSection articles={JSON.parse(JSON.stringify(pendingArticles))} />
 
       {newArticles.length === 0 ? (
         <>
@@ -244,8 +249,6 @@ export default async function BriefingPage({
           )}
         </>
       )}
-
-      <PendingSection articles={JSON.parse(JSON.stringify(pendingArticles))} />
     </div>
   );
 }

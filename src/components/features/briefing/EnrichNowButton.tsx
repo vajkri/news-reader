@@ -31,6 +31,8 @@ export function EnrichNowButton({ pendingCount }: EnrichNowButtonProps): React.R
       total += result.enriched ?? 0;
       setEnrichedSoFar(total);
       if (!result.enriched || result.enriched === 0) break;
+      // Yield to event loop so React flushes the counter update
+      await new Promise((r) => setTimeout(r, 0));
     }
 
     setRunning(false);

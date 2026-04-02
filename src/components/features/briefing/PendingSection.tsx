@@ -1,3 +1,8 @@
+'use client';
+
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+
 interface PendingArticle {
   id: number;
   title: string;
@@ -9,10 +14,17 @@ interface PendingSectionProps {
   articles: PendingArticle[];
 }
 
+const COLLAPSED_LIMIT = 5;
+
 export function PendingSection({
   articles,
 }: PendingSectionProps): React.ReactElement | null {
+  const [expanded, setExpanded] = useState(false);
+
   if (articles.length === 0) return null;
+
+  const visible = expanded ? articles : articles.slice(0, COLLAPSED_LIMIT);
+  const hiddenCount = articles.length - COLLAPSED_LIMIT;
 
   return (
     <section className="mb-6 opacity-60">
@@ -20,7 +32,7 @@ export function PendingSection({
         Pending enrichment ({articles.length})
       </h2>
       <div className="space-y-2">
-        {articles.map((article) => (
+        {visible.map((article) => (
           <div
             key={article.id}
             className="flex items-baseline justify-between gap-4 py-2 pl-4 border-l-[3px] border-amber-600 dark:border-amber-500"
@@ -36,6 +48,17 @@ export function PendingSection({
           </div>
         ))}
       </div>
+      {hiddenCount > 0 && (
+        <div className="text-center mt-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? 'Show less' : `Show all ${articles.length} articles`}
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

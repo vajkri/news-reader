@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateText, Output } from 'ai';
 import { AI_MODEL } from '@/lib/ai';
+import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 export const maxDuration = 120;
@@ -33,6 +34,7 @@ export async function GET(request: Request): Promise<Response> {
       id: true,
       title: true,
       summary: true,
+      publishedAt: true,
       importanceScore: true,
       source: { select: { name: true } },
     },
@@ -44,50 +46,79 @@ export async function GET(request: Request): Promise<Response> {
     return NextResponse.json({ duplicatesFound: 0, message: 'Not enough articles to compare' });
   }
 
+  // Build lookup maps for code-level validation
+  const articleMap = new Map(articles.map((a) => [a.id, a]));
+
   const articleList = articles
-    .map((a) => `ID: ${a.id} | Source: ${a.source.name} | Title: ${a.title}`)
+    .map((a) => `ID: ${a.id} | Source: ${a.source.name} | Published: ${a.publishedAt?.toISOString().slice(0, 10) ?? 'unknown'} | Title: ${a.title}${a.summary ? ` | Summary: ${a.summary.slice(0, 300)}` : ''}`)
     .join('\n');
 
   const { output } = await generateText({
     model: AI_MODEL,
     output: Output.object({ schema: DuplicateDetectionSchema }),
-    system: `You detect duplicate news articles. Articles covering the SAME news event (same funding round, same product launch, same research paper) are duplicates. Similar topics but different events are NOT duplicates.
+    system: `You identify duplicate news articles. Two articles are duplicates ONLY when they describe the identical real-world event with matching key facts: same company, same action, same figures, same date.
 
-For each duplicate group, pick the best-quality article as the winner. Prefer TLDR sources when quality is comparable.
+<not_duplicates>
+- Same topic, different events: "OpenAI raises $3B" vs "AI funding trends" are NOT duplicates.
+- Same company, different news: "xAI cofounder leaves" vs "AI startups venture returns" are NOT duplicates.
+- Overlapping keywords without matching facts: NOT duplicates.
+</not_duplicates>
 
-Only return groups where you are confident the articles cover the exact same event.`,
-    prompt: `Find duplicate groups in these articles:\n\n${articleList}`,
+Each article MUST appear in at most one group. For each group, pick the most comprehensive article as winner. Prefer TLDR sources when quality is comparable. Return ONLY groups where you are certain.`,
+    prompt: `Identify duplicate groups. Be strict; false positives are worse than missed duplicates.\n\n${articleList}`,
   });
 
   if (!output || output.groups.length === 0) {
     return NextResponse.json({ duplicatesFound: 0 });
   }
 
-  // Validate AI output: only allow IDs that exist in our input batch
-  const validIds = new Set(articles.map((a) => a.id));
+  // Code-level validation: enforce hard constraints the AI may violate
+  const claimed = new Set<number>();
+  const validatedGroups: typeof output.groups = [];
+
+  for (const group of output.groups) {
+    const winner = articleMap.get(group.winnerId);
+    if (!winner || claimed.has(group.winnerId)) continue;
+
+    const validDupes = group.duplicateIds.filter((dupeId) => {
+      if (dupeId === group.winnerId || claimed.has(dupeId)) return false;
+      const dupe = articleMap.get(dupeId);
+      if (!dupe) return false;
+      // Same source: never duplicates
+      if (dupe.source.name === winner.source.name) return false;
+      // 48h window: reject if either date is missing or published too far apart
+      if (!winner.publishedAt || !dupe.publishedAt) return false;
+      const diffMs = Math.abs(winner.publishedAt.getTime() - dupe.publishedAt.getTime());
+      if (diffMs > 48 * 60 * 60 * 1000) return false;
+      return true;
+    });
+
+    if (validDupes.length === 0) continue;
+
+    claimed.add(group.winnerId);
+    validDupes.forEach((id) => claimed.add(id));
+    validatedGroups.push({ winnerId: group.winnerId, duplicateIds: validDupes });
+  }
 
   let marked = 0;
-  for (const group of output.groups) {
-    if (!validIds.has(group.winnerId)) continue;
-    if (group.duplicateIds.includes(group.winnerId)) continue;
-
-    const validDupes = group.duplicateIds.filter((id) => validIds.has(id) && id !== group.winnerId);
-    for (const dupeId of validDupes) {
+  for (const group of validatedGroups) {
+    for (const dupeId of group.duplicateIds) {
       try {
         await prisma.article.update({
           where: { id: dupeId },
           data: { duplicateOf: group.winnerId, importanceScore: 1 },
         });
         marked++;
-      } catch {
-        // Race condition: article may have been deleted between query and update
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') continue;
+        throw e;
       }
     }
   }
 
   return NextResponse.json({
-    duplicatesFound: output.groups.length,
+    duplicatesFound: validatedGroups.length,
     articlesMarked: marked,
-    groups: output.groups,
+    groups: validatedGroups,
   });
 }

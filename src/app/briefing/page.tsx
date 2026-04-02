@@ -44,6 +44,7 @@ export default async function BriefingPage({
     const archiveArticles = await prisma.article.findMany({
       where: {
         enrichedAt: { not: null },
+        duplicateOf: null,
         publishedAt: { gte: dayStart, lte: dayEnd },
       },
       orderBy: { importanceScore: 'desc' },
@@ -97,6 +98,7 @@ export default async function BriefingPage({
     where: {
       enrichedAt: { not: null, gt: watermark },
       approvedAt: { not: null },
+      duplicateOf: null,
     },
     orderBy: { importanceScore: 'desc' },
     take: 15,
@@ -108,6 +110,7 @@ export default async function BriefingPage({
     where: {
       enrichedAt: { not: null },
       approvedAt: null,
+      duplicateOf: null,
     },
     orderBy: { importanceScore: 'desc' },
     select: {
@@ -127,6 +130,7 @@ export default async function BriefingPage({
   const reviewedArticles = await prisma.article.findMany({
     where: {
       enrichedAt: { not: null, lte: watermark },
+      duplicateOf: null,
       publishedAt: { gte: todayStart, lte: todayEnd },
     },
     orderBy: { importanceScore: 'desc' },

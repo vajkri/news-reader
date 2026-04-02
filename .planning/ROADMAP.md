@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 03.2: Neon Postgres Migration** - SQLite to Neon, data migration, Vercel deployment (completed 2026-03-21)
 - [x] **Phase 4: Chat Interface** - Let users query the enriched article corpus in natural language (completed 2026-03-27)
 - [x] **Phase 04.1: Source Quality Filtering** - Content type taxonomy, enrichment prompt overhaul, model evaluation (completed 2026-03-25)
-- [ ] **Phase 04.2: Code Optimization** - Clean up without changing behavior
+- [x] **Phase 04.2: Code Optimization** - Clean up without changing behavior (completed 2026-04-02)
 - [x] **Phase 04.3: Sitemap Ingestion** - Non-RSS source ingestion via sitemap parsing (completed 2026-03-25)
 - [x] **Phase 04.4: Feed Chat Buttons** - "Chat about this" on feed items (completed 2026-03-28)
 - [x] **Phase 04.5: Debug Mode** - Dev-only debug toggle and briefing annotations (completed 2026-03-28)
@@ -147,11 +147,11 @@ Plans:
   3. SourceList delete handler checks response.ok and surfaces failures to the user
   4. next.config.ts includes optimizePackageImports for lucide-react
   5. All existing tests pass unchanged
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 04.2-01-PLAN.md — Type safety fixes (thumbnail.ts, rss.ts), Zod body validation (articles PATCH), SourceList delete error handling
-- [ ] 04.2-02-PLAN.md — optimizePackageImports for lucide-react in next.config.ts
+- [x] 04.2-02-PLAN.md — optimizePackageImports for lucide-react in next.config.ts
 
 ### Phase 04.3: Non-RSS source ingestion via sitemap parsing (INSERTED)
 
@@ -244,7 +244,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 03.2 Neon Postgres Migration | 3/3 | Complete    | 2026-03-21 |
 | 4. Chat Interface | 7/7 | Complete | 2026-03-27 |
 | 04.1 Source Quality Filtering | 4/4 | Complete    | 2026-03-25 |
-| 04.2 Code Optimization         | 0/2 | Not started | -          |
+| 04.2 Code Optimization         | 1/2 | Complete    | 2026-04-02 |
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |

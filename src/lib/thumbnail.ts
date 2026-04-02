@@ -1,21 +1,34 @@
 import "server-only";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function extractThumbnailFromItem(item: any): string | null {
+interface MediaElement {
+  $?: { url?: string };
+}
+
+interface RssItem {
+  enclosure?: { url?: string };
+  "media:content"?: MediaElement | MediaElement[];
+  "media:thumbnail"?: MediaElement | MediaElement[];
+  "itunes:image"?: { $?: { href?: string } };
+}
+
+export function extractThumbnailFromItem(item: RssItem): string | null {
   // 1. RSS enclosure
   if (item.enclosure?.url) return item.enclosure.url;
   // 2. media:content
-  if (item["media:content"]?.["$"]?.url) return item["media:content"]["$"].url;
-  if (Array.isArray(item["media:content"])) {
-    const first = item["media:content"][0];
+  const mediaContent = item["media:content"];
+  if (Array.isArray(mediaContent)) {
+    const first = mediaContent[0];
     if (first?.["$"]?.url) return first["$"].url;
+  } else if (mediaContent?.["$"]?.url) {
+    return mediaContent["$"].url;
   }
   // 3. media:thumbnail
-  if (item["media:thumbnail"]?.["$"]?.url)
-    return item["media:thumbnail"]["$"].url;
-  if (Array.isArray(item["media:thumbnail"])) {
-    const first = item["media:thumbnail"][0];
+  const mediaThumbnail = item["media:thumbnail"];
+  if (Array.isArray(mediaThumbnail)) {
+    const first = mediaThumbnail[0];
     if (first?.["$"]?.url) return first["$"].url;
+  } else if (mediaThumbnail?.["$"]?.url) {
+    return mediaThumbnail["$"].url;
   }
   // 4. itunes:image
   if (item["itunes:image"]?.["$"]?.href)

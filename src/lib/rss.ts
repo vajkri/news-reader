@@ -3,11 +3,16 @@ import Parser from "rss-parser";
 import { estimateReadTime } from "./readtime";
 import { extractThumbnailFromItem } from "./thumbnail";
 
+interface MediaElement {
+  $?: { url?: string };
+}
+
 type CustomItem = {
-  "media:content": unknown;
-  "media:thumbnail": unknown;
-  "itunes:image": unknown;
+  "media:content": MediaElement | MediaElement[];
+  "media:thumbnail": MediaElement | MediaElement[];
+  "itunes:image": { $?: { href?: string } };
   enclosure?: { url?: string; type?: string };
+  "content:encoded"?: string;
 };
 
 const parser = new Parser<Record<string, unknown>, CustomItem>({
@@ -57,8 +62,7 @@ export async function fetchFeed(feedUrl: string): Promise<ParsedArticle[]> {
     return true;
   }).map((item) => {
     const guid = item.guid ?? item.link ?? item.title ?? String(Date.now());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const description = (item as any)["content:encoded"] ?? item.content ?? item.summary ?? null;
+    const description = item["content:encoded"] ?? item.content ?? item.summary ?? null;
     const rawTitle = item.title ?? "Untitled";
     const { title, readTimeMin: titleReadTime } = extractReadTime(rawTitle);
     return {

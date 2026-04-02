@@ -68,7 +68,7 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 - **User has ADHD**: Every design decision must prioritize scannability — short text blocks, visual hierarchy, card-based layouts, no dense paragraphs
 - **Open-source**: Built for a broad audience (anyone overwhelmed by AI news), not just the creator. Must be configurable and self-hostable
 - **AI ecosystem focus**: Primary interest areas include model releases, developer tools (Claude Code, GitHub Copilot, SDKs), and industry moves (acquisitions, policy)
-- **Existing concerns**: Codebase has known issues with missing cron authorization, unvalidated image URLs, error handling gaps, and no test coverage for RSS parsing (documented in `.planning/codebase/CONCERNS.md`)
+- **Existing concerns**: Codebase has known issues with unvalidated image URLs and limited test coverage for RSS parsing (documented in `.planning/codebase/CONCERNS.md`). Type safety gaps, error handling gaps, and missing API validation were addressed in Phase 04.2
 
 ## Constraints
 
@@ -92,4 +92,4 @@ Surface only what matters from the AI news firehose, so users can stay informed 
 | ADHD-friendly design as constraint, not feature | Accessibility drives all design — not a toggle, it's the default for everyone | — Pending |
 
 ---
-*Last updated: 2026-03-29 after Phase 04.6 (Enrichment Pipeline Reliability) completion*
+*Last updated: 2026-04-02 after Phase 04.2 (Code Optimization) completion*

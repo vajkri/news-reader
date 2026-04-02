@@ -12,6 +12,7 @@ import {
   ArchiveBanner,
   StatusBar,
   PendingSection,
+  TriageSection,
 } from "@/components/features/briefing";
 import { getWatermark, updateWatermark } from "@/lib/watermark";
 
@@ -78,7 +79,7 @@ export default async function BriefingPage({
         ) : (
           <div className="space-y-16">
             {topicGroups.map((group) => (
-              <TopicGroup key={group.topic} group={group} isArchive />
+              <TopicGroup key={group.topic} group={group} />
             ))}
           </div>
         )}
@@ -91,13 +92,31 @@ export default async function BriefingPage({
   // Update watermark to now (record this visit)
   await updateWatermark(new Date());
 
-  // Query new articles: enriched after watermark, no limit (catch-me-up shows ALL new)
+  // Query new articles: enriched AND approved after watermark, top 15 by importance
   const newArticles = await prisma.article.findMany({
     where: {
       enrichedAt: { not: null, gt: watermark },
+      approvedAt: { not: null },
     },
     orderBy: { importanceScore: 'desc' },
+    take: 15,
     include: includeSource,
+  });
+
+  // Triage queue: enriched but not yet approved
+  const triageArticles = await prisma.article.findMany({
+    where: {
+      enrichedAt: { not: null },
+      approvedAt: null,
+    },
+    orderBy: { importanceScore: 'desc' },
+    select: {
+      id: true,
+      title: true,
+      summary: true,
+      importanceScore: true,
+      source: { select: { name: true } },
+    },
   });
 
   // Query reviewed articles: enriched at or before watermark, published today, top 15
@@ -188,7 +207,7 @@ export default async function BriefingPage({
         pendingCount={pendingArticles.length}
       />
 
-      <PendingSection articles={JSON.parse(JSON.stringify(pendingArticles))} />
+      <TriageSection articles={JSON.parse(JSON.stringify(triageArticles))} />
 
       {newArticles.length === 0 ? (
         <>
@@ -225,6 +244,8 @@ export default async function BriefingPage({
           )}
         </>
       )}
+
+      <PendingSection articles={JSON.parse(JSON.stringify(pendingArticles))} />
     </div>
   );
 }

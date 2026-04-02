@@ -9,3 +9,5 @@ export { StatusBar } from "./StatusBar";
 export { EnrichNowButton } from "./EnrichNowButton";
 export { PendingSection } from "./PendingSection";
 export { FeedbackButtons } from "./FeedbackButtons";
+export { TriageCard } from "./TriageCard";
+export { TriageSection } from "./TriageSection";

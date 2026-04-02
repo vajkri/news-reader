@@ -14,6 +14,7 @@ export interface ArticleRow {
   topics: Prisma.JsonValue | null;
   importanceScore: number | null;
   enrichedAt: string | null;
+  approvedAt: string | null;
   contentType: string | null;
   thinContent: boolean | null;
   createdAt: string;

@@ -320,12 +320,19 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
         </table>
       </div>
 
-      {/* Infinite scroll sentinel */}
-      {hasMore && !loading && (
+      {/* Infinite scroll sentinel or pagination error */}
+      {error && !loading && page > 1 ? (
+        <div className="flex items-center gap-2 px-4 py-3">
+          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => loadPage(page)}>
+            Retry
+          </Button>
+        </div>
+      ) : hasMore && !loading ? (
         <div ref={sentinelRef} className="h-10 flex items-center justify-center" aria-hidden="true">
           <div className="h-4 w-4 border-2 border-(--muted-foreground) border-t-transparent rounded-full animate-spin" aria-label="Loading more articles" />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

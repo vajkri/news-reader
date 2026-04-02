@@ -322,7 +322,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
 
       {/* Infinite scroll sentinel or pagination error */}
       {error && !loading && page > 1 ? (
-        <div className="flex items-center gap-2 px-4 py-3">
+        <div className="flex items-center justify-center gap-2 px-4 py-3">
           <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => loadPage(page)}>
             Retry

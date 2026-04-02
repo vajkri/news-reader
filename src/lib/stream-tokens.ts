@@ -1,5 +1,5 @@
 import 'server-only';
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 
 // Stateless HMAC-signed tokens for SSE stream auth.
 // Works across Turbopack module boundaries and serverless isolates
@@ -22,7 +22,7 @@ export function createToken(): string {
   return `${timestamp}.${signature}`;
 }
 
-export function consumeToken(token: string): boolean {
+export function verifyToken(token: string): boolean {
   const parts = token.split('.');
   if (parts.length !== 2) return false;
 
@@ -30,5 +30,7 @@ export function consumeToken(token: string): boolean {
   const age = Date.now() - Number(timestamp);
   if (isNaN(age) || age < 0 || age > TTL_MS) return false;
 
-  return sign(timestamp) === signature;
+  const expected = sign(timestamp);
+  return expected.length === signature.length &&
+    timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 }

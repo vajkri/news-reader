@@ -54,6 +54,7 @@
     "@types/react-dom": "^19",
     "ajv": "^8.18.0",
     "ajv-keywords": "^5.1.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.7",
     "storybook": "^10.3.1",

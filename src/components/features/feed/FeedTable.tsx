@@ -27,6 +27,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
   const [loading, setLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchResult, setFetchResult] = useState<FetchResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Filters
   const [sourceFilter, setSourceFilter] = useState("");
@@ -53,23 +54,30 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
 
   const loadPage = useCallback(async (pageNum: number) => {
     if (pageNum === 1) setLoading(true);
-    const params = new URLSearchParams();
-    if (sourceFilter) params.set("sourceId", sourceFilter);
-    if (categoryFilter) params.set("category", categoryFilter);
-    if (readFilter !== "all") params.set("isRead", String(readFilter === "read"));
-    if (debouncedSearch) params.set("search", debouncedSearch);
-    params.set("sort", sortBy);
-    params.set("page", String(pageNum));
-    params.set("limit", "50");
+    setError(null);
+    try {
+      const params = new URLSearchParams();
+      if (sourceFilter) params.set("sourceId", sourceFilter);
+      if (categoryFilter) params.set("category", categoryFilter);
+      if (readFilter !== "all") params.set("isRead", String(readFilter === "read"));
+      if (debouncedSearch) params.set("search", debouncedSearch);
+      params.set("sort", sortBy);
+      params.set("page", String(pageNum));
+      params.set("limit", "50");
 
-    const res = await fetch(`/api/articles?${params}`);
-    const data = await res.json();
+      const res = await fetch(`/api/articles?${params}`);
+      if (!res.ok) throw new Error(`Failed to load articles (${res.status})`);
+      const data = await res.json();
 
-    setArticles((prev) => pageNum === 1 ? (data.articles ?? []) : [...prev, ...(data.articles ?? [])]);
-    setTotal(data.total ?? 0);
-    setHasMore((data.articles ?? []).length === 50);
-    setLoading(false);
-    isLoadingMore.current = false;
+      setArticles((prev) => pageNum === 1 ? (data.articles ?? []) : [...prev, ...(data.articles ?? [])]);
+      setTotal(data.total ?? 0);
+      setHasMore((data.articles ?? []).length === 50);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load articles");
+    } finally {
+      setLoading(false);
+      isLoadingMore.current = false;
+    }
   }, [sourceFilter, categoryFilter, readFilter, sortBy, debouncedSearch]);
 
   // Reset to page 1 on filter/search change
@@ -202,6 +210,10 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
           </span>
         )}
       </div>
+
+      {error && (
+        <p className="text-sm text-red-600 dark:text-red-400 px-4 py-2">{error}</p>
+      )}
 
       {/* Table */}
       <div className="rounded-lg border border-(--border) overflow-x-auto" aria-busy={loading}>

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateText, Output } from 'ai';
 import { AI_MODEL } from '@/lib/ai';
+import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 export const maxDuration = 120;
@@ -49,7 +50,7 @@ export async function GET(request: Request): Promise<Response> {
   const articleMap = new Map(articles.map((a) => [a.id, a]));
 
   const articleList = articles
-    .map((a) => `ID: ${a.id} | Source: ${a.source.name} | Published: ${a.publishedAt?.toISOString().slice(0, 10) ?? 'unknown'} | Title: ${a.title}${a.summary ? ` | Summary: ${a.summary}` : ''}`)
+    .map((a) => `ID: ${a.id} | Source: ${a.source.name} | Published: ${a.publishedAt?.toISOString().slice(0, 10) ?? 'unknown'} | Title: ${a.title}${a.summary ? ` | Summary: ${a.summary.slice(0, 300)}` : ''}`)
     .join('\n');
 
   const { output } = await generateText({
@@ -85,11 +86,10 @@ Each article MUST appear in at most one group. For each group, pick the most com
       if (!dupe) return false;
       // Same source: never duplicates
       if (dupe.source.name === winner.source.name) return false;
-      // 48h window: reject if published too far apart
-      if (winner.publishedAt && dupe.publishedAt) {
-        const diffMs = Math.abs(winner.publishedAt.getTime() - dupe.publishedAt.getTime());
-        if (diffMs > 48 * 60 * 60 * 1000) return false;
-      }
+      // 48h window: reject if either date is missing or published too far apart
+      if (!winner.publishedAt || !dupe.publishedAt) return false;
+      const diffMs = Math.abs(winner.publishedAt.getTime() - dupe.publishedAt.getTime());
+      if (diffMs > 48 * 60 * 60 * 1000) return false;
       return true;
     });
 
@@ -109,8 +109,9 @@ Each article MUST appear in at most one group. For each group, pick the most com
           data: { duplicateOf: group.winnerId, importanceScore: 1 },
         });
         marked++;
-      } catch {
-        // Article may have been deleted between query and update
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') continue;
+        throw e;
       }
     }
   }

@@ -7,6 +7,8 @@
 - [feedback_gsd_state_accuracy.md](./feedback_gsd_state_accuracy.md) -- GSD state files must reflect reality
 - [feedback_gsd_phase_numbering.md](./feedback_gsd_phase_numbering.md) -- Use exact phase numbers user specifies, don't auto-assign (other branches may have phases)
 
+- [feedback_mockup_location.md](./feedback_mockup_location.md) -- Mockups in .planning/assets/ with YYYY-MM-DD-HHMM-name format
+
 ## References
 
 - [reference_context7_library_ids.md](./reference_context7_library_ids.md) -- Known Context7 library IDs (skip resolve for these)

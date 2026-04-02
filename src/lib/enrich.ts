@@ -37,6 +37,12 @@ export const ArticleEnrichmentSchema = z.object({
     .describe(
       'True if RSS description is too short or generic for a meaningful summary'
     ),
+  duplicateOf: z
+    .number()
+    .nullable()
+    .describe(
+      'If this article covers the same news event as another article in this batch, set to the articleId of the best-quality version. The best version gets null. Duplicates get importanceScore=1.'
+    ),
 });
 
 const SYSTEM_PROMPT = `You are an analyst briefing tool for an AI-focused frontend developer's news tracker.
@@ -76,10 +82,70 @@ Key distinction: "announcement" is FROM the company. "news" is ABOUT the company
 ## Thin Content
 Set thinContent=true ONLY if the RSS description is fewer than 50 words OR consists entirely of generic boilerplate with no article-specific content.
 
+## Duplicate Detection
+Multiple articles in the batch may cover the SAME news event (e.g., same funding round, same product launch, same research paper).
+- Group articles about the same event.
+- Pick the BEST quality version as the winner (set duplicateOf=null). Prefer TLDR sources when quality is comparable; they are the user's favorite.
+- For all other duplicates: set duplicateOf to the winner's articleId AND set importanceScore=1.
+- Only flag true duplicates (same event/news). Articles on similar topics but different events are NOT duplicates.
+
 ## Output
 Return results for ALL articles in the batch. Include the articleId in each result.`;
 
-export const BATCH_LIMIT = 15;
+export const BATCH_LIMIT = 25;
+
+const SOURCE_SIGNAL_THRESHOLD = 3; // 3+ same-direction votes from a source
+const REASON_SIGNAL_THRESHOLD = 5; // 5+ votes for a reason type
+
+export async function buildCalibrationContext(): Promise<string> {
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const feedback = await prisma.articleFeedback.findMany({
+    where: { createdAt: { gte: thirtyDaysAgo } },
+    include: { source: { select: { name: true } } },
+  });
+
+  if (feedback.length === 0) return '';
+
+  const lines: string[] = [];
+
+  // Source-level signals: 3+ same-direction votes from a source
+  const sourceVotes = new Map<string, { up: number; down: number }>();
+  for (const f of feedback) {
+    const key = f.source.name;
+    const entry = sourceVotes.get(key) ?? { up: 0, down: 0 };
+    if (f.direction === 'up') entry.up++;
+    else entry.down++;
+    sourceVotes.set(key, entry);
+  }
+
+  for (const [sourceName, counts] of sourceVotes) {
+    if (counts.down >= SOURCE_SIGNAL_THRESHOLD) {
+      lines.push(`- User frequently downvotes articles from "${sourceName}". Score these lower unless genuinely significant.`);
+    }
+    if (counts.up >= SOURCE_SIGNAL_THRESHOLD) {
+      lines.push(`- User frequently upvotes articles from "${sourceName}". These tend to be relevant.`);
+    }
+  }
+
+  // Reason-level signals: 5+ votes citing a specific reason
+  const reasonCounts = new Map<string, number>();
+  for (const f of feedback) {
+    const reasons = f.reasons as string[];
+    for (const reason of reasons) {
+      reasonCounts.set(reason, (reasonCounts.get(reason) ?? 0) + 1);
+    }
+  }
+
+  for (const [reason, count] of reasonCounts) {
+    if (count >= REASON_SIGNAL_THRESHOLD) {
+      lines.push(`- User feedback pattern (${count} votes): "${reason}". Adjust scoring to reflect this preference.`);
+    }
+  }
+
+  if (lines.length === 0) return '';
+
+  return `\n\n## User Calibration Signals\nBased on accumulated user feedback, apply these adjustments:\n${lines.join('\n')}`;
+}
 
 export type UnenrichedArticle = {
   id: number;
@@ -88,17 +154,21 @@ export type UnenrichedArticle = {
   source: { name: string };
 };
 
-export async function fetchUnenrichedArticles(): Promise<UnenrichedArticle[]> {
+export async function fetchUnenrichedArticles(batchSize?: number): Promise<UnenrichedArticle[]> {
+  const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
   return prisma.article.findMany({
-    where: { enrichedAt: null },
+    where: {
+      enrichedAt: null,
+      createdAt: { gte: cutoff },
+    },
     select: {
       id: true,
       title: true,
       description: true,
       source: { select: { name: true } },
     },
-    orderBy: { publishedAt: 'asc' },
-    take: BATCH_LIMIT,
+    orderBy: { publishedAt: 'desc' },
+    take: batchSize ?? BATCH_LIMIT,
   });
 }
 
@@ -116,10 +186,11 @@ export type EnrichmentResult = z.infer<typeof ArticleEnrichmentSchema>;
 export async function enrichArticlesBatch(
   articles: UnenrichedArticle[]
 ): Promise<EnrichmentResult[]> {
+  const calibration = await buildCalibrationContext();
   const { output } = await generateText({
     model: AI_MODEL,
     output: Output.array({ element: ArticleEnrichmentSchema }),
-    system: SYSTEM_PROMPT,
+    system: SYSTEM_PROMPT + calibration,
     prompt: buildBatchPrompt(articles),
     maxOutputTokens: 4096,
   });
@@ -144,6 +215,7 @@ export async function saveEnrichmentResults(
           importanceScore: result.importanceScore,
           contentType: result.contentType,
           thinContent: result.thinContent,
+          duplicateOf: result.duplicateOf,
           enrichedAt: new Date(),
         },
       })

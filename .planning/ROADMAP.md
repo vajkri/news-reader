@@ -23,7 +23,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 04.3: Sitemap Ingestion** - Non-RSS source ingestion via sitemap parsing (completed 2026-03-25)
 - [x] **Phase 04.4: Feed Chat Buttons** - "Chat about this" on feed items (completed 2026-03-28)
 - [x] **Phase 04.5: Debug Mode** - Dev-only debug toggle and briefing annotations (completed 2026-03-28)
-- [ ] **Phase 04.6: Enrichment Reliability** - Fix enrichment pipeline for daily article volume
+- [x] **Phase 04.6: Enrichment Reliability** - Fix enrichment pipeline for daily article volume (completed 2026-03-29)
 - [ ] **Phase 5: UX Polish** - Apply ADHD-friendly design consistently across all views
 
 ## Phase Details
@@ -192,13 +192,27 @@ Plans:
 
 ### Phase 04.6: Enrichment pipeline reliability (INSERTED)
 
-**Goal:** Fix enrichment to handle daily article volume reliably: increase batch limits, optimize for manual/local runs, fix ordering to prioritize recent articles, consider removing cron dependency in favor of on-demand enrichment, ensure all articles in briefing window are enriched before briefing renders
-**Requirements**: TBD
+**Goal:** Redesign the enrichment pipeline and briefing model for reliability: increase batch size to 25, flip to newest-first ordering with 48h staleness cutoff, replace Vercel cron with GitHub Actions every-4-hour schedule, rewrite briefing as watermark-based "catch me up" view with new/reviewed sections, add on-demand enrichment from the briefing page, and close the feedback loop with up/down voting that calibrates the enrichment prompt
+**Requirements**: EPR-01, EPR-02, EPR-03, EPR-04, EPR-05, EPR-06, EPR-07, EPR-08
 **Depends on:** Phase 04.5
-**Plans:** 0 plans
+**Success Criteria** (what must be TRUE):
+  1. BATCH_LIMIT is 25 and enrichment processes newest articles first with 48h staleness cutoff
+  2. GitHub Actions workflow runs fetch+enrich every 4 hours; vercel.json has no cron entries
+  3. Briefing page shows articles since last watermark as "new" with a New badge, older articles dimmed as "reviewed"
+  4. Archive mode via DateStepper shows frozen top 15 by importance with an Archive banner
+  5. User can trigger on-demand enrichment from the briefing page via EnrichNow button
+  6. Pending unenriched articles appear in an amber section with "Awaiting enrichment" labels
+  7. Each new article has up/down feedback buttons with reason checkboxes
+  8. Accumulated feedback patterns are injected into the enrichment system prompt for calibration
+**Plans:** 6/6 plans complete
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 04.6 to break down)
+- [x] 04.6-01-PLAN.md — Schema migration (UserPreference + ArticleFeedback), enrichment pipeline fixes (BATCH_LIMIT 25, DESC ordering, 48h staleness)
+- [x] 04.6-02-PLAN.md — GitHub Actions workflow (every 4h fetch+enrich), remove Vercel cron entries
+- [x] 04.6-03-PLAN.md — Watermark library + tests, SectionDivider/CaughtUpState/ArchiveBanner components, briefing page rewrite
+- [x] 04.6-04-PLAN.md — triggerEnrichment server action, StatusBar, EnrichNowButton, PendingSection components
+- [ ] 04.6-05-PLAN.md — Feedback API route + tests, FeedbackButtons component, BriefingCard integration
+- [ ] 04.6-06-PLAN.md — Calibration prompt injection (buildCalibrationContext), wire StatusBar/PendingSection into briefing page
 
 ### Phase 5: UX Polish
 **Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
@@ -227,5 +241,57 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.3 Non-RSS Source Ingestion   | 2/2 | Complete    | 2026-03-25 |
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
-| 04.6 Enrichment Reliability   | 0/TBD | Not started | -          |
+| 04.6 Enrichment Reliability   | 4/6 | Complete    | 2026-03-29 |
 | 5. UX Polish                    | 0/TBD | Not started | -          |
+| 6. AWS Deployment (CDK/ECS/CI)  | 0/TBD | Not started | -          |
+
+### Phase 6: AWS deployment with CDK, ECS, and CI/CD pipeline
+
+**Goal:** Deploy the same Next.js application to AWS as a secondary hosting environment alongside Vercel, using ECS Fargate for compute, CDK (TypeScript) for infrastructure-as-code, and GitHub Actions for CI/CD. The two deployments share the same Neon Postgres database and run simultaneously from the same codebase. This phase exists purely for hands-on AWS learning and platform comparison, not for high availability or failover.
+
+**Motivation:** Build demonstrable AWS experience targeting a specific role that requires: ECS, RDS, IAM, networking, CI/CD pipelines, and IaC. The frontend-lean candidate profile means CDK in TypeScript is the right IaC choice (same language across the stack). Hosting the same app on both Vercel and AWS enables direct UI/DX comparison.
+
+**Depends on:** Phase 5 (UX Polish, so the app being deployed is in its final v1 state)
+
+**Requirements:**
+- AWS-INFRA-01: CDK stack defines VPC with public/private subnets, NAT gateway, and security groups
+- AWS-INFRA-02: ECS Fargate service runs the Next.js app behind an Application Load Balancer (ALB)
+- AWS-INFRA-03: ECR repository stores Docker images built from a multi-stage Dockerfile
+- AWS-INFRA-04: IAM roles follow least-privilege: ECS task role, execution role, GitHub Actions deploy role
+- AWS-INFRA-05: Environment variables (DATABASE_URL, AI API keys) stored in AWS SSM Parameter Store or Secrets Manager, injected into ECS task definition
+- AWS-CICD-01: GitHub Actions workflow builds, tests, pushes Docker image to ECR, and deploys to ECS on push to main
+- AWS-CICD-02: Pipeline stages: lint, test, build Docker image, push to ECR, update ECS service
+- AWS-CICD-03: Vercel deployment continues to work unchanged (vercel.json, Git integration untouched)
+- AWS-CRON-01: EventBridge scheduled rules replace Vercel cron jobs (/api/fetch every 4h, /api/enrich 30min after fetch)
+- AWS-DB-01: Both deployments connect to the same Neon Postgres database (shared corpus)
+- AWS-DOCKER-01: Multi-stage Dockerfile uses Next.js standalone output for minimal image size
+- AWS-DOCKER-02: Dockerfile works for local testing via docker compose before deploying to AWS
+- AWS-NET-01: ALB health check endpoint returns 200 (new /api/health route)
+- AWS-NET-02: HTTPS via ACM certificate on ALB (or HTTP-only for learning MVP, upgrade later)
+
+**Success Criteria** (what must be TRUE):
+  1. `cdk deploy` provisions the full stack: VPC, ECS cluster, Fargate service, ALB, ECR, IAM roles
+  2. The app is reachable at the ALB DNS name (or custom domain) and renders the same UI as Vercel
+  3. GitHub Actions pipeline deploys a new version to ECS automatically on push to main
+  4. Cron jobs (fetch + enrich) run on schedule via EventBridge and process articles into the shared Neon database
+  5. `cdk destroy` tears down all AWS resources cleanly (no orphaned resources)
+  6. Vercel deployment is completely unaffected; both run simultaneously
+
+**Suggested plan breakdown** (to be confirmed during /gsd:plan-phase):
+- Plan 1: Dockerfile (multi-stage, standalone output) + /api/health endpoint + local docker compose verification
+- Plan 2: CDK stack scaffolding (VPC, subnets, security groups, ECR, IAM roles)
+- Plan 3: CDK ECS Fargate service + ALB + health check + environment variable injection from SSM
+- Plan 4: GitHub Actions CI/CD pipeline (lint, test, Docker build, ECR push, ECS deploy)
+- Plan 5: EventBridge scheduled rules for fetch/enrich crons + verification
+- Plan 6: End-to-end verification (both deployments serving same data, crons working on both)
+
+**Nice-to-have extensions** (if time permits, not required for phase completion):
+- RDS Postgres instance alongside Neon (for RDS experience; Prisma connection string swap)
+- CloudWatch container insights + X-Ray tracing (observability)
+- Custom domain via Route 53
+- CDK pipeline (self-mutating pipeline that deploys CDK changes)
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 6 to break down)

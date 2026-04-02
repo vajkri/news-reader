@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: "Phase 04.5 shipped — PR #20"
-stopped_at: Phase 04.5 UAT verified, 5/5 passed
-last_updated: "2026-03-29T07:25:04.763Z"
+status: "Phase 04.6 shipped — PR #21"
+stopped_at: Completed 04.6-06-PLAN.md
+last_updated: "2026-04-02T09:17:54.995Z"
 progress:
-  total_phases: 13
-  completed_phases: 10
-  total_plans: 28
-  completed_plans: 28
+  total_phases: 14
+  completed_phases: 11
+  total_plans: 34
+  completed_plans: 34
 ---
 
 # Project State
@@ -19,11 +19,11 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.6 — enrichment-pipeline-reliability (not planned yet)
+**Current focus:** Phase 04.6 — enrichment-pipeline-reliability
 
 ## Current Position
 
-Phase: 04.6
+Phase: 06
 Plan: Not started
 
 ## Performance Metrics
@@ -57,6 +57,10 @@ Plan: Not started
 
 **Total plans completed:** 24
 **Total phases completed:** 12 (1, 2, 3, 03.1, 03.2, 4, 04.1, 04.3, 04.4, 04.5)
+| Phase 04.6 P02 | 5 | 2 tasks | 2 files |
+| Phase 04.6 P01 | 10 | 2 tasks | 4 files |
+| Phase 04.6 P03 | 4 | 3 tasks | 8 files |
+| Phase 04.6 P06 | 15 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -121,6 +125,15 @@ Recent decisions affecting current work:
 - [Phase 04.4]: Chat route stepCountIs increased from 3 to 4 to accommodate search -> result -> fetch -> summarize flow
 - [Phase 04.5]: DebugToggle uses inner component pattern for rules-of-hooks compliance; React 19 Context value prop
 - [Phase 04.5]: BriefingDebugBox receives computed props from server component; per-card debug JSON uses full BriefingArticle object with no collapse/expand
+- [Phase 04.6]: GitHub Actions replaces Vercel Cron Jobs: every 4h schedule vs once daily, not tied to Vercel plan limits, supports manual dispatch
+- [Phase 04.6]: vars.APP_URL as GitHub repo variable + secrets.CRON_SECRET for GitHub Actions calling Vercel API routes
+- [Phase 04.6]: Migration applied via prisma migrate deploy (non-interactive env); migration SQL hand-authored from schema diff
+- [Phase 04.6]: createdAt used for staleness filter in fetchUnenrichedArticles, not publishedAt; createdAt = row-insert time reflecting when article was fetched
+- [Phase 04.6]: Watermark stored in UserPreference DB table using existing upsert pattern (same as RateLimit)
+- [Phase 04.6]: Archive detection: date param present AND not today via isToday() check
+- [Phase 04.6]: First visit seeds watermark to 24h ago to prevent backlog overwhelm
+- [Phase 04.6]: buildCalibrationContext queries last 30 days, SOURCE_SIGNAL_THRESHOLD=3, REASON_SIGNAL_THRESHOLD=5; empty/below-threshold returns empty string to avoid noise injection
+- [Phase 04.6]: lastEnrichedAt for StatusBar sourced from DB findFirst query on most recently enriched article, not computed from newArticles subset
 
 ### Pending Todos
 
@@ -143,9 +156,10 @@ Recent decisions affecting current work:
 - Phase 04.4 inserted after Phase 04: Chat about this: feed item chat buttons (URGENT)
 - Phase 04.5 inserted after Phase 04: Dev debug mode infrastructure (URGENT)
 - Phase 04.6 inserted after Phase 04.5: Enrichment pipeline reliability (URGENT)
+- Phase 6 added: AWS deployment with CDK, ECS, and CI/CD pipeline (learning-driven, hands-on AWS experience for role targeting ECS/IAM/networking/IaC)
 
 ## Session Continuity
 
-Last session: 2026-03-29T09:00:00.000Z
-Stopped at: Phase 04.5 shipped (PR #20), 04.6 inserted and ready for planning
+Last session: 2026-03-29T16:50:23.703Z
+Stopped at: Completed 04.6-06-PLAN.md
 Resume file: None

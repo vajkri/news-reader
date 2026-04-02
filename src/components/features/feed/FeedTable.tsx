@@ -211,7 +211,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
         )}
       </div>
 
-      {error && (
+      {error && page === 1 && (
         <p className="text-sm text-red-600 dark:text-red-400 px-4 py-2">{error}</p>
       )}
 

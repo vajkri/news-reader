@@ -22,7 +22,7 @@ jobs:
               -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
               "${{ vars.APP_URL }}/api/enrich?single")
             echo "Pass $i: $RESPONSE"
-            ENRICHED=$(echo "$RESPONSE" | grep -o '"enriched":[0-9]*' | grep -o '[0-9]*')
+            ENRICHED=$(echo "$RESPONSE" | jq -r '.enriched // 0')
             if [ -z "$ENRICHED" ] || [ "$ENRICHED" -eq 0 ]; then
               echo "No more articles to enrich."
               break

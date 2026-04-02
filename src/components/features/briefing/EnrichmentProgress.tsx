@@ -96,7 +96,7 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
     const url = `/api/enrich/stream?batch=5&loop=${loop}&token=${tokenResult.token}`;
     const es = new EventSource(url);
 
-    const events = ['batch-start', 'article-enriched', 'batch-complete', 'batch-error', 'done', 'error'] as const;
+    const events = ['batch-start', 'article-enriched', 'batch-complete', 'batch-error', 'done'] as const;
     for (const event of events) {
       es.addEventListener(event, (e: MessageEvent) => {
         try {
@@ -107,16 +107,22 @@ export function EnrichmentProgress({ pendingCount }: EnrichmentProgressProps): R
       });
     }
 
-    es.addEventListener('done', () => {
+    // Server-sent 'error' events carry a message in data; parse it if available
+    es.addEventListener('error', (e: MessageEvent) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.error) setError(data.error as string);
+      } catch {
+        setError('Connection lost');
+      }
       es.close();
       setRunning(false);
       setDone(true);
       router.refresh();
     });
 
-    es.addEventListener('error', () => {
+    es.addEventListener('done', () => {
       es.close();
-      setError('Connection lost');
       setRunning(false);
       setDone(true);
       router.refresh();

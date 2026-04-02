@@ -79,7 +79,7 @@ Set thinContent=true ONLY if the RSS description is fewer than 50 words OR consi
 ## Output
 Return results for ALL articles in the batch. Include the articleId in each result.`;
 
-export const BATCH_LIMIT = 25;
+export const BATCH_LIMIT = 20;
 
 const SOURCE_SIGNAL_THRESHOLD = 3; // 3+ same-direction votes from a source
 const REASON_SIGNAL_THRESHOLD = 5; // 5+ votes for a reason type

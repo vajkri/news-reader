@@ -17,6 +17,14 @@ jobs:
 
       - name: Enrich articles
         run: |
-          curl -f -s \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            "${{ vars.APP_URL }}/api/enrich"
+          for i in $(seq 1 10); do
+            RESPONSE=$(curl -f -s \
+              -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+              "${{ vars.APP_URL }}/api/enrich?single")
+            echo "Pass $i: $RESPONSE"
+            ENRICHED=$(echo "$RESPONSE" | grep -o '"enriched":[0-9]*' | grep -o '[0-9]*')
+            if [ -z "$ENRICHED" ] || [ "$ENRICHED" -eq 0 ]; then
+              echo "No more articles to enrich."
+              break
+            fi
+          done

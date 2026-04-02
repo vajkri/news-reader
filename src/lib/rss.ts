@@ -8,6 +8,7 @@ type CustomItem = {
   "media:thumbnail": unknown;
   "itunes:image": unknown;
   enclosure?: { url?: string; type?: string };
+  "content:encoded"?: string;
 };
 
 const parser = new Parser<Record<string, unknown>, CustomItem>({
@@ -57,8 +58,7 @@ export async function fetchFeed(feedUrl: string): Promise<ParsedArticle[]> {
     return true;
   }).map((item) => {
     const guid = item.guid ?? item.link ?? item.title ?? String(Date.now());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const description = (item as any)["content:encoded"] ?? item.content ?? item.summary ?? null;
+    const description = item["content:encoded"] ?? item.content ?? item.summary ?? null;
     const rawTitle = item.title ?? "Untitled";
     const { title, readTimeMin: titleReadTime } = extractReadTime(rawTitle);
     return {

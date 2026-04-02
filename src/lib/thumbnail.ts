@@ -1,7 +1,17 @@
 import "server-only";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function extractThumbnailFromItem(item: any): string | null {
+interface MediaElement {
+  $?: { url?: string };
+}
+
+interface RssItem {
+  enclosure?: { url?: string };
+  "media:content"?: MediaElement | MediaElement[];
+  "media:thumbnail"?: MediaElement | MediaElement[];
+  "itunes:image"?: { $?: { href?: string } };
+}
+
+export function extractThumbnailFromItem(item: RssItem): string | null {
   // 1. RSS enclosure
   if (item.enclosure?.url) return item.enclosure.url;
   // 2. media:content

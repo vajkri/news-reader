@@ -1,4 +1,4 @@
-import type { ArticleRow, SourceRow } from '@/types';
+import type { ArticleRow, SourceRow, BriefingArticle, TopicGroupData } from '@/types';
 
 // ---------------------------------------------------------------------------
 // Sources
@@ -200,4 +200,76 @@ export const mockArticles: ArticleRow[] = [
   articleRead,
   articleLongTitle,
   articleBeforeWatermark,
+];
+
+// ---------------------------------------------------------------------------
+// Pending articles (unenriched, fetched within 48h)
+// ---------------------------------------------------------------------------
+
+export const mockPendingArticles = [
+  {
+    id: 10,
+    title: 'Google I/O 2026: All the AI announcements',
+    publishedAt: '2026-04-03T07:00:00.000Z',
+    source: { name: 'The Verge AI' },
+  },
+  {
+    id: 11,
+    title: 'Meta releases Llama 4 with 1M context window',
+    publishedAt: '2026-04-03T06:00:00.000Z',
+    source: { name: 'Hacker News' },
+  },
+];
+
+// ---------------------------------------------------------------------------
+// BriefingArticles (ArticleRow + parsedTopics + importanceTier)
+// ---------------------------------------------------------------------------
+
+const briefingBase = (article: ArticleRow): BriefingArticle => ({
+  ...article,
+  parsedTopics: Array.isArray(article.topics) ? (article.topics as string[]) : ['Uncategorized'],
+  importanceTier: !article.importanceScore || article.importanceScore <= 6
+    ? 'notable'
+    : article.importanceScore >= 9
+      ? 'critical'
+      : 'important',
+});
+
+export const mockBriefingArticles: BriefingArticle[] = [
+  briefingBase(articleWithThumbnail),
+  briefingBase(articleEnrichedNoThumbnail),
+  briefingBase(articleLongTitle),
+];
+
+export const mockBriefingArticleCritical: BriefingArticle = briefingBase(articleWithThumbnail); // importanceScore: 9
+
+export const mockBriefingArticleNotable: BriefingArticle = briefingBase(articleBeforeWatermark); // importanceScore: 5
+
+// ---------------------------------------------------------------------------
+// TopicGroupData
+// ---------------------------------------------------------------------------
+
+export const mockTopicGroup: TopicGroupData = {
+  topic: 'model releases',
+  articles: [
+    briefingBase(articleWithThumbnail),
+    briefingBase(articleEnrichedNoThumbnail),
+  ],
+  maxScore: 9,
+};
+
+export const mockTopicGroupSingle: TopicGroupData = {
+  topic: 'developer tools',
+  articles: [briefingBase(articleBeforeWatermark)],
+  maxScore: 5,
+};
+
+export const mockTopicGroups: TopicGroupData[] = [
+  mockTopicGroup,
+  {
+    topic: 'industry moves',
+    articles: [briefingBase(articleLongTitle)],
+    maxScore: 7,
+  },
+  mockTopicGroupSingle,
 ];

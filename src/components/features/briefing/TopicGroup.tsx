@@ -1,27 +1,10 @@
 import type { TopicGroupData } from "@/lib/briefing";
 import { BriefingCard } from "./BriefingCard";
-import {
-  Code2,
-  Cpu,
-  Building2,
-  FlaskConical,
-  Scale,
-  GitBranch,
-  Terminal,
-} from "lucide-react";
-
-const TOPIC_ICONS: Record<string, React.ElementType> = {
-  "developer tools": Code2,
-  "model releases": Cpu,
-  "industry moves": Building2,
-  "research & breakthroughs": FlaskConical,
-  "ai regulation & policy": Scale,
-  "open source": GitBranch,
-  "ai coding tools": Terminal,
-};
+import { TOPIC_ICON_MAP } from "@/components/ui/TopicIcon";
+import { Cpu } from "lucide-react";
 
 function TopicIcon({ topic }: { topic: string }) {
-  const Icon = TOPIC_ICONS[topic.toLowerCase()] ?? Cpu;
+  const Icon = TOPIC_ICON_MAP[topic.toLowerCase()] ?? Cpu;
   return (
     <Icon size={20} className="text-(--muted-foreground)" aria-hidden />
   );

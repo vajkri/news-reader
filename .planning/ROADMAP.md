@@ -234,7 +234,7 @@ Plans:
 - [x] 05-01-PLAN.md -- UI primitives (SourceAvatar, TopicIcon), responsive nav (NavLinks + HamburgerMenu), feed watermark API
 - [x] 05-02-PLAN.md -- Feed overhaul: fallback visuals, NEW badge, mobile stacked list, responsive toolbar
 - [x] 05-03-PLAN.md -- Sources visual refresh, chat mobile threshold, typography audit, dark mode pass
-- [ ] 05-04-PLAN.md -- Briefing mobile polish, all-states audit, holistic visual verification checkpoint
+- [x] 05-04-PLAN.md -- Briefing mobile polish, all-states audit, holistic visual verification checkpoint
 
 ## Progress
 

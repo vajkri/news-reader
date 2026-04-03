@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-04-03T10:02:40.872Z"
+stopped_at: "Checkpoint: Task 3 visual verification in 05-04-PLAN.md"
+last_updated: "2026-04-03T10:16:02.972Z"
 progress:
   total_phases: 14
-  completed_phases: 12
+  completed_phases: 13
   total_plans: 40
-  completed_plans: 38
+  completed_plans: 40
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 05 (ux-polish) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 
 ## Performance Metrics
 
@@ -65,6 +65,7 @@ Plan: 3 of 4
 | Phase 04.2 P02 | 5 | 1 tasks | 3 files |
 | Phase 05-ux-polish P01 | 12 | 3 tasks | 9 files |
 | Phase 05-ux-polish P02 | 5 | 2 tasks | 5 files |
+| Phase 05-ux-polish P04 | 13 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -145,6 +146,9 @@ Recent decisions affecting current work:
 - [Phase 05-ux-polish]: NavLinks is a single client component rendering both desktop nav links and hamburger trigger
 - [Phase 05-ux-polish]: feed-watermark API uses prisma.userPreference upsert pattern (key: feed_watermark, distinct from briefing_watermark)
 - [Phase 05-ux-polish]: highlightMatch exported from columns.tsx for reuse in FeedMobileList; TOPIC_ICON_MAP imported directly in FeedMobileList for 32px icon wrapper; GET feed-watermark completes before POST via .finally() chaining
+- [Phase 05-ux-polish]: BriefingCard uses pl-4 sm:pl-6 for mobile breathing room; DateStepper buttons get 44px touch targets via min-h/w-[44px] sm:min-h-0 sm:min-w-0 pattern
+- [Phase 05-ux-polish]: SourceList alert() replaced with inline role=alert error state using --destructive token
+- [Phase 05-ux-polish]: focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) added to plain anchor links in NavLinks, columns.tsx, FeedMobileList
 
 ### Pending Todos
 
@@ -171,6 +175,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-03T10:02:40.867Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-04-03T10:16:02.968Z
+Stopped at: Checkpoint: Task 3 visual verification in 05-04-PLAN.md
 Resume file: None

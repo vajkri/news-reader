@@ -7,14 +7,18 @@ import Image from "next/image";
 import { Circle, CircleCheck, Clock, ExternalLink, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SourceAvatar } from "@/components/ui/SourceAvatar";
+import { TopicIcon } from "@/components/ui/TopicIcon";
+import { parseTopics } from "@/lib/briefing";
 import { ArticleRow } from "@/types";
 
 interface ColumnsOptions {
   onToggleRead: (id: number, isRead: boolean) => void;
   searchQuery?: string;
+  feedWatermark?: string | null;
 }
 
-function highlightMatch(text: string, query: string): React.ReactNode {
+export function highlightMatch(text: string, query: string): React.ReactNode {
   if (!query) return text;
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
   if (idx === -1) return text;
@@ -29,32 +33,39 @@ function highlightMatch(text: string, query: string): React.ReactNode {
   );
 }
 
-export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): ColumnDef<ArticleRow>[] {
+export function buildColumns({ onToggleRead, searchQuery, feedWatermark }: ColumnsOptions): ColumnDef<ArticleRow>[] {
   return [
     {
       id: "thumbnail",
       header: "",
       size: 56,
       cell: ({ row }) => {
-        const { thumbnail, title } = row.original;
-        if (!thumbnail) {
+        const { thumbnail, title, topics } = row.original;
+        const sourceName = row.original.source.name;
+
+        // Real thumbnail
+        if (thumbnail) {
           return (
-            <div className="h-10 w-10 flex-shrink-0 rounded bg-(--muted) flex items-center justify-center">
-              <span className="text-(--muted-foreground) text-xs">—</span>
+            <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded">
+              <Image
+                src={thumbnail}
+                alt={title}
+                fill
+                className="object-cover"
+                unoptimized
+              />
             </div>
           );
         }
-        return (
-          <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded">
-            <Image
-              src={thumbnail}
-              alt={title}
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
-        );
+
+        // Enriched article: show topic icon
+        const parsedTopics = parseTopics(topics);
+        if (parsedTopics[0] && parsedTopics[0] !== "Uncategorized") {
+          return <TopicIcon topic={parsedTopics[0]} size={16} />;
+        }
+
+        // Unenriched: show source initial
+        return <SourceAvatar sourceName={sourceName} size="md" />;
       },
     },
     {
@@ -62,17 +73,19 @@ export function buildColumns({ onToggleRead, searchQuery }: ColumnsOptions): Col
       header: "Title",
       cell: ({ row }) => {
         const { title, link, isRead } = row.original;
+        const isNew = feedWatermark && !isRead && new Date(row.original.createdAt) > new Date(feedWatermark);
         return (
           <a
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-start gap-1 text-base font-medium hover:underline group ${
+            className={`flex items-center gap-1.5 text-sm font-medium hover:underline group ${
               isRead ? "text-(--muted-foreground)" : "text-(--foreground)"
             }`}
           >
             <span className="line-clamp-2">{highlightMatch(title, searchQuery ?? "")}</span>
-            <ExternalLink className="mt-0.5 h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-60 transition-opacity" />
+            {isNew && <Badge variant="secondary" className="text-xs shrink-0 ml-1.5">New</Badge>}
+            <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
           </a>
         );
       },

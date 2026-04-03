@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/components/ui/button';
-import { EnrichNowButton } from '../EnrichNowButton';
+import { EnrichNowButton } from '@/components/features/briefing/EnrichNowButton';
 import { Check, X, Minus, Plus, Loader2 } from 'lucide-react';
-import type { SimArticle } from '../__mocks__/briefing-data';
-import { ENRICHMENT_ARTICLES, AI_OUTPUTS } from '../__mocks__/briefing-data';
+import type { SimArticle } from '@/components/features/briefing/__mocks__/briefing-data';
+import { ENRICHMENT_ARTICLES, AI_OUTPUTS } from '@/components/features/briefing/__mocks__/briefing-data';
 
 const meta = {
-  title: 'Flows/Briefing',
+  title: 'Features/Briefing/Flows',
   component: EnrichNowButton,
   parameters: {
     layout: 'padded',

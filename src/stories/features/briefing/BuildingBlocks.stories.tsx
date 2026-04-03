@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SectionDivider } from '../SectionDivider';
-import { CaughtUpState } from '../CaughtUpState';
-import { ArchiveBanner } from '../ArchiveBanner';
-import { PendingSection } from '../PendingSection';
-import { ONE_HOUR_AGO, YESTERDAY, MOCK_PENDING } from '../__mocks__/briefing-data';
+import { SectionDivider } from '@/components/features/briefing/SectionDivider';
+import { CaughtUpState } from '@/components/features/briefing/CaughtUpState';
+import { ArchiveBanner } from '@/components/features/briefing/ArchiveBanner';
+import { PendingSection } from '@/components/features/briefing/PendingSection';
+import { ONE_HOUR_AGO, YESTERDAY, MOCK_PENDING } from '@/components/features/briefing/__mocks__/briefing-data';
 
 const meta = {
-  title: 'Components/Briefing/Building Blocks',
+  title: 'Features/Briefing/Building Blocks',
   parameters: { layout: 'padded' },
   decorators: [(Story: React.ComponentType) => <div style={{ maxWidth: 800, margin: '0 auto' }}><Story /></div>],
 } satisfies Meta;

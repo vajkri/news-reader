@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TriageCard } from '../TriageCard';
-import { MOCK_TRIAGE } from '../__mocks__/briefing-data';
+import { TriageCard } from '@/components/features/briefing/TriageCard';
+import { MOCK_TRIAGE } from '@/components/features/briefing/__mocks__/briefing-data';
 
 const meta = {
-  title: 'Components/Briefing/TriageCard',
+  title: 'Features/Briefing/TriageCard',
   component: TriageCard,
   parameters: {
     layout: 'padded',

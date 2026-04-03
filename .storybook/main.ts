@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(ts|tsx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-themes'],
   framework: {
     name: '@storybook/nextjs',

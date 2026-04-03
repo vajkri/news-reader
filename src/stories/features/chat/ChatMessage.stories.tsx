@@ -1,11 +1,11 @@
 import { useReducer, useEffect, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ChatMessage } from './ChatMessage';
-import { ChatInput } from './ChatInput';
-import type { ChatMessageProps } from './ChatMessage';
+import { ChatMessage } from '@/components/features/chat/ChatMessage';
+import { ChatInput } from '@/components/features/chat/ChatInput';
+import type { ChatMessageProps } from '@/components/features/chat/ChatMessage';
 
 const meta = {
-  title: 'Components/Chat/ChatMessage',
+  title: 'Features/Chat/ChatMessage',
   component: ChatMessage,
   parameters: {
     layout: 'padded',

@@ -72,8 +72,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### UX / Design
 
-- [ ] **UX-01**: All views redesigned with ADHD-friendly scannable layout (cards, visual hierarchy, no text walls)
-- [ ] **UX-02**: Responsive design verified for mobile use
+- [x] **UX-01**: All views redesigned with ADHD-friendly scannable layout (cards, visual hierarchy, no text walls)
+- [x] **UX-02**: Responsive design verified for mobile use
 
 ## v2 Requirements
 
@@ -157,8 +157,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EPR-06 | Phase 04.6 | Pending |
 | EPR-07 | Phase 04.6 | Pending |
 | EPR-08 | Phase 04.6 | Complete |
-| UX-01 | Phase 5 | Pending |
-| UX-02 | Phase 5 | Pending |
+| UX-01 | Phase 5 | Complete |
+| UX-02 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 41 total

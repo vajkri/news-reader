@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-03T09:03:14.480Z"
+status: Ready to execute
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-04-03T09:53:55.800Z"
 progress:
   total_phases: 14
   completed_phases: 12
-  total_plans: 36
-  completed_plans: 36
+  total_plans: 40
+  completed_plans: 37
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.2 — code-optimization-via-agent-skills-clean-up-without-changing-behavior
+**Current focus:** Phase 05 — ux-polish
 
 ## Current Position
 
-Phase: 04.3
-Plan: Not started
+Phase: 05 (ux-polish) — EXECUTING
+Plan: 2 of 4
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Plan: Not started
 | Phase 04.6 P06 | 15 | 2 tasks | 3 files |
 | Phase 04.2 P01 | 5 | 3 tasks | 5 files |
 | Phase 04.2 P02 | 5 | 1 tasks | 3 files |
+| Phase 05-ux-polish P01 | 12 | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -139,6 +140,9 @@ Recent decisions affecting current work:
 - [Phase 04.2]: RssItem interface added to thumbnail.ts to keep the module self-contained; content:encoded added to CustomItem without customFields registration
 - [Phase 04.2]: FeedTable error state rendered as inline paragraph with no toast imports: minimal, sufficient
 - [Phase 04.2]: optimizePackageImports used for lucide-react only in next.config.ts experimental block; no component import changes needed
+- [Phase 05-ux-polish]: TOPIC_ICON_MAP exported from TopicIcon.tsx so TopicGroup can use bare icon without duplicating the map
+- [Phase 05-ux-polish]: NavLinks is a single client component rendering both desktop nav links and hamburger trigger
+- [Phase 05-ux-polish]: feed-watermark API uses prisma.userPreference upsert pattern (key: feed_watermark, distinct from briefing_watermark)
 
 ### Pending Todos
 
@@ -165,6 +169,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-03T09:03:14.470Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-ux-polish/05-CONTEXT.md
+Last session: 2026-04-03T09:53:55.796Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None

@@ -123,3 +123,15 @@ export const NetworkError: Story = {
     </PageShell>
   ),
 };
+
+export const Mobile: Story = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile375' },
+  },
+  render: () => (
+    <PageShell>
+      <SourceForm onAdded={noop} />
+      <SourceList sources={sampleSources} onDeleted={noop} />
+    </PageShell>
+  ),
+};

@@ -43,13 +43,13 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
           )}
         >
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-[0.8125rem] font-medium text-(--muted-foreground)">
+            <span className="text-sm font-medium text-(--muted-foreground)">
               {article.source.name}
             </span>
             {article.publishedAt && (
               <>
                 <span className="w-[3px] h-[3px] rounded-full bg-(--muted-foreground)" />
-                <span className="text-[0.8125rem] text-(--muted-foreground)">
+                <span className="text-sm text-(--muted-foreground)">
                   {formatDistanceToNow(new Date(article.publishedAt), {
                     addSuffix: true,
                   })}
@@ -89,7 +89,7 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
           <Button
             variant="ghost"
             size="sm"
-            className="text-(--muted-foreground) hover:text-(--foreground) gap-1.5 text-[0.8125rem]"
+            className="text-(--muted-foreground) hover:text-(--foreground) gap-1.5 text-sm"
             onClick={(e) => {
               e.stopPropagation();
               window.dispatchEvent(

@@ -194,7 +194,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       />
 
       {/* Status bar */}
-      <div className="flex items-center gap-3 text-xs text-(--muted-foreground) pb-2" aria-live="polite">
+      <div className="flex items-center gap-3 text-sm text-(--muted-foreground) pb-2" aria-live="polite">
         {loading ? (
           <span>Loading...</span>
         ) : debouncedSearch ? (

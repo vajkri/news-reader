@@ -286,7 +286,7 @@ function EnrichmentTriageFlow() {
       {phase === 'approved' && (
         <div className="text-center py-8">
           <p className="text-sm text-green-500 font-semibold">{approvedCount} article{approvedCount !== 1 ? 's' : ''} approved and added to briefing</p>
-          <p className="text-xs text-(--muted-foreground) mt-1">Articles now appear in the "New" section</p>
+          <p className="text-xs text-(--muted-foreground) mt-1">Articles now appear in the &quot;New&quot; section</p>
         </div>
       )}
     </div>

@@ -102,6 +102,14 @@ Dark mode audit is required (D-11): verify `--card: #0f0f12` elevation, `--borde
 
 ---
 
+## Visual Hierarchy
+
+### Feed desktop focal point
+
+Primary visual anchor on feed desktop: article title cell (`text-sm font-medium`, `text-(--foreground)`). `SourceAvatar` / `TopicIcon` serves as secondary pull — the colored circle or icon draws the eye to each row's left edge, then the title carries reading focus across the row. Metadata cells (source name, published time, badges) are tertiary and use `text-(--muted-foreground)` to recede.
+
+---
+
 ## Component Inventory
 
 ### New components this phase
@@ -206,7 +214,7 @@ No em dashes per `.claude/rules/no-em-dashes.md`.
 | Sources empty state | "No sources added yet. Add your first RSS feed to start fetching articles." |
 | Sources delete confirmation | "Delete source": "This will remove the source and all its articles. This cannot be undone." |
 | Sources delete confirm button | "Delete source" |
-| Sources delete cancel button | "Cancel" |
+| Sources delete cancel button | "Keep source" |
 | Mobile nav close button | "Close navigation" (aria-label only) |
 | Hamburger menu trigger | "Open navigation" (aria-label only) |
 | Chat panel toggle (FAB) | aria-label: "Open chat" / "Close chat" |

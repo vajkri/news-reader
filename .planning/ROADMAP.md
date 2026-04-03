@@ -228,12 +228,12 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. All views (article list, article detail, briefing, chat) use card-based layouts with clear visual hierarchy and no dense text blocks
   2. The application is usable on a mobile device -- all core views render correctly at 375px width without horizontal scrolling
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
 - [x] 05-01-PLAN.md -- UI primitives (SourceAvatar, TopicIcon), responsive nav (NavLinks + HamburgerMenu), feed watermark API
 - [x] 05-02-PLAN.md -- Feed overhaul: fallback visuals, NEW badge, mobile stacked list, responsive toolbar
-- [ ] 05-03-PLAN.md -- Sources visual refresh, chat mobile threshold, typography audit, dark mode pass
+- [x] 05-03-PLAN.md -- Sources visual refresh, chat mobile threshold, typography audit, dark mode pass
 - [ ] 05-04-PLAN.md -- Briefing mobile polish, all-states audit, holistic visual verification checkpoint
 
 ## Progress

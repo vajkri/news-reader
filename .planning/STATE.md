@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-04-03T09:53:55.800Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-04-03T10:02:40.872Z"
 progress:
   total_phases: 14
   completed_phases: 12
   total_plans: 40
-  completed_plans: 37
+  completed_plans: 38
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 05 (ux-polish) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Plan: 2 of 4
 | Phase 04.2 P01 | 5 | 3 tasks | 5 files |
 | Phase 04.2 P02 | 5 | 1 tasks | 3 files |
 | Phase 05-ux-polish P01 | 12 | 3 tasks | 9 files |
+| Phase 05-ux-polish P02 | 5 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -143,6 +144,7 @@ Recent decisions affecting current work:
 - [Phase 05-ux-polish]: TOPIC_ICON_MAP exported from TopicIcon.tsx so TopicGroup can use bare icon without duplicating the map
 - [Phase 05-ux-polish]: NavLinks is a single client component rendering both desktop nav links and hamburger trigger
 - [Phase 05-ux-polish]: feed-watermark API uses prisma.userPreference upsert pattern (key: feed_watermark, distinct from briefing_watermark)
+- [Phase 05-ux-polish]: highlightMatch exported from columns.tsx for reuse in FeedMobileList; TOPIC_ICON_MAP imported directly in FeedMobileList for 32px icon wrapper; GET feed-watermark completes before POST via .finally() chaining
 
 ### Pending Todos
 
@@ -169,6 +171,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-03T09:53:55.796Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-04-03T10:02:40.867Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None

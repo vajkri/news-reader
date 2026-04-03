@@ -222,18 +222,24 @@ Plans:
 - [ ] 04.6-06-PLAN.md — Calibration prompt injection (buildCalibrationContext), wire StatusBar/PendingSection into briefing page
 
 ### Phase 5: UX Polish
-**Goal**: Every page in the application uses a consistent ADHD-friendly design — cards, visual hierarchy, bite-sized information — that works on both desktop and mobile
+**Goal**: Every page in the application uses a consistent ADHD-friendly design -- cards, visual hierarchy, bite-sized information -- that works on both desktop and mobile
 **Depends on**: Phase 4
 **Requirements**: UX-01, UX-02
 **Success Criteria** (what must be TRUE):
   1. All views (article list, article detail, briefing, chat) use card-based layouts with clear visual hierarchy and no dense text blocks
-  2. The application is usable on a mobile device — all core views render correctly at 375px width without horizontal scrolling
-**Plans**: TBD
+  2. The application is usable on a mobile device -- all core views render correctly at 375px width without horizontal scrolling
+**Plans:** 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md -- UI primitives (SourceAvatar, TopicIcon), responsive nav (NavLinks + HamburgerMenu), feed watermark API
+- [ ] 05-02-PLAN.md -- Feed overhaul: fallback visuals, NEW badge, mobile stacked list, responsive toolbar
+- [ ] 05-03-PLAN.md -- Sources visual refresh, chat mobile threshold, typography audit, dark mode pass
+- [ ] 05-04-PLAN.md -- Briefing mobile polish, all-states audit, holistic visual verification checkpoint
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -249,7 +255,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 04.4 Feed Chat Buttons          | 2/2 | Complete    | 2026-03-28 |
 | 04.5 Dev Debug Mode             | 2/2 | Complete    | 2026-03-28 |
 | 04.6 Enrichment Reliability   | 4/6 | Complete    | 2026-03-29 |
-| 5. UX Polish                    | 0/TBD | Not started | -          |
+| 5. UX Polish                    | 0/4 | In progress | -          |
 | 6. AWS Deployment (CDK/ECS/CI)  | 0/TBD | Not started | -          |
 
 ### Phase 6: AWS deployment with CDK, ECS, and CI/CD pipeline

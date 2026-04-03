@@ -66,7 +66,7 @@ export const UnknownFallback: Story = {
 
 // --- All topics at a glance ---
 
-export const AllTopics: Story = {
+export const AllTopics: StoryObj = {
   name: 'All Topics',
   render: () => (
     <div className="flex flex-wrap gap-4">

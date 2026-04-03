@@ -23,7 +23,7 @@ export const Default: Story = {
  * To see validation errors: submit the form without filling in any fields.
  * SourceForm validates client-side on submit, so the story uses the real component.
  */
-export const WithValidationError: Story = {
+export const WithValidationError: StoryObj = {
   name: 'With validation error',
   render: () => (
     <div>
@@ -35,7 +35,7 @@ export const WithValidationError: Story = {
   ),
 };
 
-export const Mobile: Story = {
+export const Mobile: StoryObj = {
   name: 'Mobile stacked layout',
   parameters: {
     viewport: { defaultViewport: 'mobile375' },

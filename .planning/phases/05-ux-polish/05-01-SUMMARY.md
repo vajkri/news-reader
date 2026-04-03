@@ -107,6 +107,10 @@ None - plan executed exactly as written.
 
 Pre-existing lint errors in `Flows.stories.tsx` (react/no-unescaped-entities) and `enrich.test.ts` (@typescript-eslint/no-unused-vars) — out of scope, not caused by this plan's changes. All changed files pass lint with zero errors.
 
+## Self-Check: PASSED
+
+All 9 files confirmed on disk. All 3 task commits (c7b4df5, 61d2f8a, d38c900) confirmed in git log.
+
 ## Known Stubs
 
 None.

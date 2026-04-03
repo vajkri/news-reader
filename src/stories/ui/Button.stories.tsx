@@ -55,7 +55,7 @@ export const Disabled: Story = {
 
 // --- All variants at a glance ---
 
-export const AllVariants: Story = {
+export const AllVariants: StoryObj = {
   name: 'All Variants',
   render: () => (
     <div className="flex flex-wrap gap-3 items-center">

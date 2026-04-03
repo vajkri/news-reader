@@ -54,7 +54,7 @@ export const NewArticles: Story = {
   },
 };
 
-export const AllGroups: Story = {
+export const AllGroups: StoryObj = {
   name: 'All topic groups',
   render: () => (
     <div className="space-y-16">

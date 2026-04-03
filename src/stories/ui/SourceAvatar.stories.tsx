@@ -35,7 +35,7 @@ export const Small: Story = {
 
 // --- Deterministic color mapping (all palette slots) ---
 
-export const ColorPalette: Story = {
+export const ColorPalette: StoryObj = {
   name: 'Color Palette (all slots)',
   render: () => (
     <div className="flex flex-col gap-4">
@@ -65,7 +65,7 @@ export const ColorPalette: Story = {
 
 // --- Sizes side by side ---
 
-export const BothSizes: Story = {
+export const BothSizes: StoryObj = {
   name: 'Both Sizes',
   render: () => (
     <div className="flex items-center gap-6">
@@ -83,7 +83,7 @@ export const BothSizes: Story = {
 
 // --- From fixture data ---
 
-export const FromFixtures: Story = {
+export const FromFixtures: StoryObj = {
   name: 'From Fixture Sources',
   render: () => (
     <div className="flex flex-wrap gap-3 items-center">

@@ -18,7 +18,7 @@ export const Default: Story = {
   },
 };
 
-export const WithOptions: Story = {
+export const WithOptions: StoryObj = {
   name: 'With Options',
   render: () => (
     <Select placeholder="All categories">
@@ -30,7 +30,7 @@ export const WithOptions: Story = {
   ),
 };
 
-export const WithSelectedValue: Story = {
+export const WithSelectedValue: StoryObj = {
   name: 'With Selected Value',
   render: () => (
     <Select defaultValue="news">
@@ -42,7 +42,7 @@ export const WithSelectedValue: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Disabled: StoryObj = {
   render: () => (
     <Select disabled placeholder="Disabled">
       <option value="news">News</option>
@@ -52,7 +52,7 @@ export const Disabled: Story = {
 
 // --- All states at a glance ---
 
-export const AllStates: Story = {
+export const AllStates: StoryObj = {
   name: 'All States',
   render: () => (
     <div className="flex flex-col gap-3">

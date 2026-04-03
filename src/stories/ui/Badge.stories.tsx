@@ -46,7 +46,7 @@ export const Notable: Story = {
 
 // --- All variants at a glance ---
 
-export const AllVariants: Story = {
+export const AllVariants: StoryObj = {
   name: 'All Variants',
   render: () => (
     <div className="flex flex-wrap gap-2 items-center">
@@ -62,7 +62,7 @@ export const AllVariants: Story = {
 
 // --- Importance tier context ---
 
-export const ImportanceTiers: Story = {
+export const ImportanceTiers: StoryObj = {
   name: 'Importance Tiers (in context)',
   render: () => (
     <div className="flex flex-col gap-2">

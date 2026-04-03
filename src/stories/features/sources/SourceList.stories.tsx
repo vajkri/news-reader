@@ -58,7 +58,7 @@ function DeleteConfirmationDemo() {
   );
 }
 
-export const DeleteConfirmation: Story = {
+export const DeleteConfirmation: StoryObj = {
   name: 'Delete confirmation active',
   render: () => <DeleteConfirmationDemo />,
 };

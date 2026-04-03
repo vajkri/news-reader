@@ -134,7 +134,7 @@ export function ChatPanel({
   // Detect narrow viewport for full-width mode + initial mobile dock detection
   useEffect(() => {
     const checkWidth = (): void => {
-      setIsNarrowViewport(window.innerWidth <= 430);
+      setIsNarrowViewport(window.innerWidth < 640);
       // Set mobile bottom dock on first mount only
       if (!initialDockRef.current) {
         initialDockRef.current = true;

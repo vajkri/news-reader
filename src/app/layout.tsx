@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Link from "next/link";
+import { NavLinks } from "@/components/features/layout";
 import { ChatWrapper } from "@/components/features/chat";
 import { DebugProvider } from "@/contexts/debug";
 import { DebugToggle } from "@/components/features/debug";
@@ -32,26 +32,7 @@ export default function RootLayout({
             <div className="section-container h-12 flex items-center justify-between">
               <div className="flex items-center gap-6">
                 <span className="font-semibold text-sm tracking-tight">News Reader</span>
-                <nav aria-label="Main navigation" className="flex items-center gap-4">
-                  <Link
-                    href="/"
-                    className="text-sm text-(--muted-foreground) hover:text-(--foreground) transition-colors"
-                  >
-                    Feed
-                  </Link>
-                  <Link
-                    href="/briefing"
-                    className="text-sm text-(--muted-foreground) hover:text-(--foreground) transition-colors"
-                  >
-                    Briefing
-                  </Link>
-                  <Link
-                    href="/sources"
-                    className="text-sm text-(--muted-foreground) hover:text-(--foreground) transition-colors"
-                  >
-                    Sources
-                  </Link>
-                </nav>
+                <NavLinks />
               </div>
             </div>
           </header>

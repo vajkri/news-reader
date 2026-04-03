@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Phase complete — ready for verification
-stopped_at: Completed 05-05-PLAN.md
-last_updated: "2026-04-03T11:59:34.256Z"
+stopped_at: Completed 05-06-PLAN.md
+last_updated: "2026-04-03T12:12:05.715Z"
 progress:
   total_phases: 14
-  completed_phases: 12
+  completed_phases: 13
   total_plans: 42
-  completed_plans: 41
+  completed_plans: 42
 ---
 
 # Project State
@@ -67,6 +67,7 @@ Plan: 4 of 4
 | Phase 05-ux-polish P02 | 5 | 2 tasks | 5 files |
 | Phase 05-ux-polish P04 | 13 | 2 tasks | 11 files |
 | Phase 05-ux-polish P05 | 15 | 3 tasks | 11 files |
+| Phase 05-ux-polish P06 | 30 | 3 tasks | 17 files |
 
 ## Accumulated Context
 
@@ -151,6 +152,8 @@ Recent decisions affecting current work:
 - [Phase 05-ux-polish]: SourceList alert() replaced with inline role=alert error state using --destructive token
 - [Phase 05-ux-polish]: focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) added to plain anchor links in NavLinks, columns.tsx, FeedMobileList
 - [Phase 05-ux-polish]: Storybook v10: withThemeByClassName for dark mode (not withThemeByDataAttribute); standard Preview type not definePreview (internal in v10)
+- [Phase 05-ux-polish]: Page stories compose client components with fixture data rather than importing Server Component pages to avoid Prisma dependency in Storybook
+- [Phase 05-ux-polish]: Mock fetch decorator uses named function with displayName to satisfy react/display-name ESLint rule in story decorators
 
 ### Pending Todos
 
@@ -177,6 +180,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-03T11:59:34.251Z
-Stopped at: Completed 05-05-PLAN.md
+Last session: 2026-04-03T12:12:05.710Z
+Stopped at: Completed 05-06-PLAN.md
 Resume file: None

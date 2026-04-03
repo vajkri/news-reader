@@ -11,10 +11,12 @@ interface SourceListProps {
   sources: SourceRow[];
   onDeleted: (id: number) => void;
   error?: string | null;
+  onDeleteError?: (message: string) => void;
 }
 
-export function SourceList({ sources, onDeleted, error }: SourceListProps) {
+export function SourceList({ sources, onDeleted, error, onDeleteError }: SourceListProps) {
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   if (error) {
     return (
@@ -33,9 +35,12 @@ export function SourceList({ sources, onDeleted, error }: SourceListProps) {
   }
 
   const handleDelete = async (id: number) => {
+    setDeleteError(null);
     const response = await fetch(`/api/sources/${id}`, { method: "DELETE" });
     if (!response.ok) {
-      alert("Failed to delete source. Please try again.");
+      const msg = "Failed to delete source. Please try again.";
+      setDeleteError(msg);
+      onDeleteError?.(msg);
       return;
     }
     onDeleted(id);
@@ -43,6 +48,12 @@ export function SourceList({ sources, onDeleted, error }: SourceListProps) {
   };
 
   return (
+    <div className="space-y-3">
+    {deleteError && (
+      <p role="alert" className="text-sm text-(--destructive)">
+        {deleteError}
+      </p>
+    )}
     <div className="rounded-lg border border-(--border) overflow-hidden overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
@@ -104,6 +115,7 @@ export function SourceList({ sources, onDeleted, error }: SourceListProps) {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }

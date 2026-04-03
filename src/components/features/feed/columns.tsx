@@ -79,7 +79,7 @@ export function buildColumns({ onToggleRead, searchQuery, feedWatermark }: Colum
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-1.5 text-sm font-medium hover:underline group ${
+            className={`flex items-center gap-1.5 text-sm font-medium hover:underline group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) rounded-sm ${
               isRead ? "text-(--muted-foreground)" : "text-(--foreground)"
             }`}
           >

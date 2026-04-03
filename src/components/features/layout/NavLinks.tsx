@@ -29,8 +29,8 @@ export function NavLinks(): React.ReactElement {
               aria-current={isActive ? "page" : undefined}
               className={
                 isActive
-                  ? "text-sm font-semibold text-(--foreground)"
-                  : "text-sm text-(--muted-foreground) hover:text-(--foreground) transition-colors"
+                  ? "text-sm font-semibold text-(--foreground) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) rounded-sm"
+                  : "text-sm text-(--muted-foreground) hover:text-(--foreground) transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) rounded-sm"
               }
             >
               {label}

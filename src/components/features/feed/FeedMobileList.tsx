@@ -77,7 +77,7 @@ export function FeedMobileList({
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium text-(--foreground) line-clamp-2 hover:underline"
+                  className="text-sm font-medium text-(--foreground) line-clamp-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) rounded-sm"
                 >
                   {highlightMatch(title, searchQuery ?? "")}
                   {isNew && (

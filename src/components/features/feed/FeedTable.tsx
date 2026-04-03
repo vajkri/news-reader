@@ -227,7 +227,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       </div>
 
       {error && page === 1 && (
-        <p className="text-sm text-red-600 dark:text-red-400 px-4 py-2">{error}</p>
+        <p className="text-sm text-(--destructive) px-4 py-2">{error}</p>
       )}
 
       {/* Desktop table (hidden on mobile) */}
@@ -360,7 +360,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       {/* Infinite scroll sentinel or pagination error */}
       {error && !loading && page > 1 ? (
         <div className="flex items-center justify-center gap-2 px-4 py-3">
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm text-(--destructive)">{error}</p>
           <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => loadPage(page)}>
             Retry
           </Button>

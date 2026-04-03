@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: "Checkpoint: Task 3 visual verification in 05-04-PLAN.md"
-last_updated: "2026-04-03T10:16:02.972Z"
+status: Phase complete — ready for verification
+stopped_at: Completed 05-05-PLAN.md
+last_updated: "2026-04-03T11:59:34.256Z"
 progress:
   total_phases: 14
-  completed_phases: 13
-  total_plans: 40
-  completed_plans: 40
+  completed_phases: 12
+  total_plans: 42
+  completed_plans: 41
 ---
 
 # Project State
@@ -66,6 +66,7 @@ Plan: 4 of 4
 | Phase 05-ux-polish P01 | 12 | 3 tasks | 9 files |
 | Phase 05-ux-polish P02 | 5 | 2 tasks | 5 files |
 | Phase 05-ux-polish P04 | 13 | 2 tasks | 11 files |
+| Phase 05-ux-polish P05 | 15 | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -149,6 +150,7 @@ Recent decisions affecting current work:
 - [Phase 05-ux-polish]: BriefingCard uses pl-4 sm:pl-6 for mobile breathing room; DateStepper buttons get 44px touch targets via min-h/w-[44px] sm:min-h-0 sm:min-w-0 pattern
 - [Phase 05-ux-polish]: SourceList alert() replaced with inline role=alert error state using --destructive token
 - [Phase 05-ux-polish]: focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) added to plain anchor links in NavLinks, columns.tsx, FeedMobileList
+- [Phase 05-ux-polish]: Storybook v10: withThemeByClassName for dark mode (not withThemeByDataAttribute); standard Preview type not definePreview (internal in v10)
 
 ### Pending Todos
 
@@ -175,6 +177,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-03T10:16:02.968Z
-Stopped at: Checkpoint: Task 3 visual verification in 05-04-PLAN.md
+Last session: 2026-04-03T11:59:34.251Z
+Stopped at: Completed 05-05-PLAN.md
 Resume file: None

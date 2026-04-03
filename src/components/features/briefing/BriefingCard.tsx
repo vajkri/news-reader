@@ -38,11 +38,11 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
       >
         <div
           className={cn(
-            "py-5 pr-5 pl-6 border-l-[3.5px]",
+            "py-5 pr-5 pl-4 sm:pl-6 border-l-[3.5px]",
             TIER_BORDER[article.importanceTier] ?? "border-l-transparent",
           )}
         >
-          <div className="flex items-center gap-2 mb-1.5">
+          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
             <span className="text-sm font-medium text-(--muted-foreground)">
               {article.source.name}
             </span>
@@ -58,8 +58,8 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
             )}
           </div>
 
-          <div className="flex items-start gap-2 mt-1">
-            <h3 className="text-lg font-semibold text-(--foreground) leading-[1.4] tracking-[-0.01em]">
+          <div className="flex items-start gap-2 mt-1 flex-wrap">
+            <h3 className="text-lg font-semibold text-(--foreground) leading-[1.4] tracking-[-0.01em] min-w-0">
               {article.title}
             </h3>
             {isNew && (
@@ -85,7 +85,7 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
           )}
         </div>
       </a>
-      <div className="px-6 pb-3 pt-0 flex items-center justify-between">
+      <div className="px-4 sm:px-6 pb-3 pt-0 flex items-center justify-between flex-wrap gap-2">
           <Button
             variant="ghost"
             size="sm"

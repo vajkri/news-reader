@@ -57,7 +57,7 @@ export default async function BriefingPage({
 
     return (
       <div className="reading-container py-6">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
           <h1 className="text-lg font-semibold text-(--foreground)">
             Daily Briefing
           </h1>

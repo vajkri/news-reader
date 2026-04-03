@@ -19,26 +19,20 @@ export const Default: Story = {
   name: 'Empty form',
 };
 
+/**
+ * To see validation errors: submit the form without filling in any fields.
+ * SourceForm validates client-side on submit, so the story uses the real component.
+ */
 export const WithValidationError: Story = {
   name: 'With validation error',
-  render: () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const React = require('react') as typeof import('react');
-    const { SourceForm: SF } = require('@/components/features/sources/SourceForm') as typeof import('@/components/features/sources/SourceForm');
-    const [submitted, setSubmitted] = React.useState(false);
-
-    if (!submitted) {
-      return (
-        <div>
-          <p className="text-sm text-(--muted-foreground) mb-4">
-            Submit the form without filling in the fields to see the validation error.
-          </p>
-          <SF onAdded={() => {}} />
-        </div>
-      );
-    }
-    return <SF onAdded={() => {}} />;
-  },
+  render: () => (
+    <div>
+      <p className="text-sm text-(--muted-foreground) mb-4">
+        Submit the form without filling in the fields to see the validation error.
+      </p>
+      <SourceForm onAdded={() => {}} />
+    </div>
+  ),
 };
 
 export const Mobile: Story = {

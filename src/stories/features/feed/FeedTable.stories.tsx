@@ -4,8 +4,7 @@ import { mockSources, mockArticles, mockWatermark } from '@/stories/fixtures';
 
 /**
  * FeedTable fetches articles from /api/articles and /api/feed-watermark internally.
- * We mock those fetch calls via the `fetch` parameter using Storybook's mock fetch support,
- * or simply let the component render with a mock fetch stub via a decorator.
+ * We mock the fetch calls via decorators so stories render without real API calls.
  */
 
 const mockArticlesResponse = {
@@ -15,31 +14,53 @@ const mockArticlesResponse = {
 
 const mockWatermarkResponse = { watermark: mockWatermark };
 
+type FetchDecorator = (Story: React.ComponentType) => React.ReactElement;
+
+function makeFetchResponse(
+  articlesPayload: typeof mockArticlesResponse,
+  watermarkPayload: typeof mockWatermarkResponse | null,
+) {
+  return async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+    const url = typeof input === 'string' ? input : input.toString();
+    if (url.includes('/api/feed-watermark')) {
+      if (init?.method === 'POST') {
+        return new Response(JSON.stringify({ watermark: mockWatermark }), { status: 200 });
+      }
+      if (watermarkPayload === null) {
+        return new Response(null, { status: 404 });
+      }
+      return new Response(JSON.stringify(watermarkPayload), { status: 200 });
+    }
+    if (url.includes('/api/articles')) {
+      return new Response(JSON.stringify(articlesPayload), { status: 200 });
+    }
+    return window.fetch(input, init);
+  };
+}
+
 function withMockFetch(
   articlesPayload: typeof mockArticlesResponse,
   watermarkPayload: typeof mockWatermarkResponse | null = mockWatermarkResponse,
-) {
-  return (Story: React.ComponentType) => {
-    // Override global fetch within this story
-    const originalFetch = window.fetch;
-    window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
-      const url = typeof input === 'string' ? input : input.toString();
-      if (url.includes('/api/feed-watermark')) {
-        if (init?.method === 'POST') {
-          return new Response(JSON.stringify({ watermark: mockWatermark }), { status: 200 });
-        }
-        if (watermarkPayload === null) {
-          return new Response(null, { status: 404 });
-        }
-        return new Response(JSON.stringify(watermarkPayload), { status: 200 });
-      }
-      if (url.includes('/api/articles')) {
-        return new Response(JSON.stringify(articlesPayload), { status: 200 });
-      }
-      return originalFetch(input, init);
-    };
+): FetchDecorator {
+  function MockFetchDecorator(Story: React.ComponentType): React.ReactElement {
+    // eslint-disable-next-line react-hooks/immutability
+    window.fetch = makeFetchResponse(articlesPayload, watermarkPayload);
     return <Story />;
+  }
+  MockFetchDecorator.displayName = 'MockFetchDecorator';
+  return MockFetchDecorator;
+}
+
+function LoadingDecorator(Story: React.ComponentType): React.ReactElement {
+  // eslint-disable-next-line react-hooks/immutability
+  window.fetch = async (input: RequestInfo | URL) => {
+    const url = typeof input === 'string' ? input : input.toString();
+    if (url.includes('/api/feed-watermark') || url.includes('/api/articles')) {
+      return new Promise<Response>(() => {}); // hang forever to show skeleton
+    }
+    return fetch(input);
   };
+  return <Story />;
 }
 
 const meta = {
@@ -65,9 +86,7 @@ export const Empty: Story = {
   args: {
     sources: mockSources,
   },
-  decorators: [
-    withMockFetch({ articles: [], total: 0 }),
-  ],
+  decorators: [withMockFetch({ articles: [], total: 0 })],
 };
 
 export const NoSources: Story = {
@@ -75,9 +94,7 @@ export const NoSources: Story = {
   args: {
     sources: [],
   },
-  decorators: [
-    withMockFetch({ articles: [], total: 0 }),
-  ],
+  decorators: [withMockFetch({ articles: [], total: 0 })],
 };
 
 export const WithSearchResults: Story = {
@@ -92,17 +109,5 @@ export const WithSearchResults: Story = {
 
 export const Loading: Story = {
   name: 'Loading skeleton',
-  decorators: [
-    (Story) => {
-      // Never resolve so loading state persists
-      window.fetch = async (input: RequestInfo | URL) => {
-        const url = typeof input === 'string' ? input : input.toString();
-        if (url.includes('/api/feed-watermark') || url.includes('/api/articles')) {
-          return new Promise(() => {}); // hang forever to show skeleton
-        }
-        return fetch(input);
-      };
-      return <Story />;
-    },
-  ],
+  decorators: [LoadingDecorator],
 };

@@ -402,20 +402,20 @@ export function ChatPanel({
 
         {articleContext && (
           <div className="border-l-4 border-(--border) bg-(--card) rounded-[0.625rem] p-3 mx-0 mt-0 mb-4">
-            <span className="text-[0.8125rem] font-semibold uppercase text-(--muted-foreground) tracking-wide">
+            <span className="text-sm font-semibold uppercase text-(--muted-foreground) tracking-wide">
               Chatting about
             </span>
             <p className="text-sm font-semibold text-(--foreground) line-clamp-2 mt-1">
               {articleContext.title}
             </p>
             <div className="flex items-center gap-1.5 mt-1">
-              <span className="text-[0.8125rem] text-(--muted-foreground)">
+              <span className="text-sm text-(--muted-foreground)">
                 {articleContext.source}
               </span>
               {articleContext.publishedAt && (
                 <>
                   <span className="w-[3px] h-[3px] rounded-full bg-(--muted-foreground)" />
-                  <span className="text-[0.8125rem] text-(--muted-foreground)">
+                  <span className="text-sm text-(--muted-foreground)">
                     {formatDistanceToNow(
                       new Date(articleContext.publishedAt),
                       { addSuffix: true }

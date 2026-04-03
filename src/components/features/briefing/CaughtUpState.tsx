@@ -10,7 +10,7 @@ export function CaughtUpState({ lastVisit }: CaughtUpStateProps): React.ReactEle
   return (
     <div className="text-center py-12">
       <CheckCircle size={32} className="text-(--muted-foreground) mx-auto mb-3" aria-hidden="true" />
-      <p className="text-base font-semibold text-(--foreground)">
+      <p className="text-lg font-semibold text-(--foreground)">
         You&apos;re all caught up
       </p>
       <p className="text-sm text-(--muted-foreground) mt-1">

@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/components/ui/button';
 import { EnrichNowButton } from '@/components/features/briefing/EnrichNowButton';
 import { Check, X, Minus, Plus, Loader2 } from 'lucide-react';
-import type { SimArticle } from '@/components/features/briefing/__mocks__/briefing-data';
-import { ENRICHMENT_ARTICLES, AI_OUTPUTS } from '@/components/features/briefing/__mocks__/briefing-data';
+import type { SimArticle } from '@/stories/fixtures';
+import { enrichmentArticles, aiOutputs } from '@/stories/fixtures';
 
 const meta = {
   title: 'Features/Briefing/Flows',
@@ -54,7 +54,7 @@ interface TriageItem {
 function EnrichmentTriageFlow() {
   const [phase, setPhase] = useState<Phase>('ready');
   const [articles, setArticles] = useState<SimArticle[]>(
-    ENRICHMENT_ARTICLES.map((a) => ({ ...a })),
+    enrichmentArticles.map((a) => ({ ...a })),
   );
   const [triageItems, setTriageItems] = useState<TriageItem[]>([]);
   const [approvedCount, setApprovedCount] = useState(0);
@@ -70,7 +70,7 @@ function EnrichmentTriageFlow() {
   function startEnrichment() {
     setPhase('enriching');
     setApprovedCount(0);
-    const fresh = ENRICHMENT_ARTICLES.map((a) => ({ ...a }));
+    const fresh = enrichmentArticles.map((a) => ({ ...a }));
     setArticles(fresh);
     processNextArticle(0, fresh);
   }
@@ -79,7 +79,7 @@ function EnrichmentTriageFlow() {
     if (index >= state.length) {
       // Enrichment done: transition to triage
       const items: TriageItem[] = state.map((a) => {
-        const ai = AI_OUTPUTS[a.id];
+        const ai = aiOutputs[a.id];
         return {
           id: a.id,
           title: a.title,
@@ -97,7 +97,7 @@ function EnrichmentTriageFlow() {
     const updated = [...state];
     updated[index] = { ...updated[index], status: 'analyzing', progress: 0 };
     setArticles([...updated]);
-    const aiData = AI_OUTPUTS[updated[index].id];
+    const aiData = aiOutputs[updated[index].id];
     const fullText = aiData?.summary ?? '';
     let charIndex = 0;
     intervalRef.current = setInterval(() => {
@@ -145,7 +145,7 @@ function EnrichmentTriageFlow() {
 
   function reset() {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    setArticles(ENRICHMENT_ARTICLES.map((a) => ({ ...a })));
+    setArticles(enrichmentArticles.map((a) => ({ ...a })));
     setTriageItems([]);
     setApprovedCount(0);
     setPhase('ready');
@@ -214,7 +214,7 @@ function EnrichmentTriageFlow() {
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-(--foreground) truncate flex-1">{article.title}</p>
                   {article.status === 'done' && article.tier && (
-                    <span className={`text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border shrink-0 ${TIER_COLORS[article.tier] ?? ''}`}>
+                    <span className={`text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border shrink-0 ${TIER_COLORS[article.tier] ?? ''}`}>
                       {article.score}/10
                     </span>
                   )}

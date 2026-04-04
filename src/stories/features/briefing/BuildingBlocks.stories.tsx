@@ -3,7 +3,7 @@ import { SectionDivider } from '@/components/features/briefing/SectionDivider';
 import { CaughtUpState } from '@/components/features/briefing/CaughtUpState';
 import { ArchiveBanner } from '@/components/features/briefing/ArchiveBanner';
 import { PendingSection } from '@/components/features/briefing/PendingSection';
-import { ONE_HOUR_AGO, YESTERDAY, MOCK_PENDING } from '@/components/features/briefing/__mocks__/briefing-data';
+import { ONE_HOUR_AGO, YESTERDAY, mockPendingBriefing } from '@/stories/fixtures';
 
 const meta = {
   title: 'Features/Briefing/Building Blocks',
@@ -36,5 +36,5 @@ export const Archive: Story = {
 
 export const Pending: Story = {
   name: 'PendingSection',
-  render: () => <PendingSection articles={MOCK_PENDING} />,
+  render: () => <PendingSection articles={mockPendingBriefing} />,
 };

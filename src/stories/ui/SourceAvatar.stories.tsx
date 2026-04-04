@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SourceAvatar } from '@/components/ui/SourceAvatar';
-import { mockSources } from '../fixtures';
+import { mockSources } from '@/stories/fixtures';
 
 const meta = {
   title: 'UI/SourceAvatar',

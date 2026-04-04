@@ -273,3 +273,80 @@ export const mockTopicGroups: TopicGroupData[] = [
   },
   mockTopicGroupSingle,
 ];
+
+// ---------------------------------------------------------------------------
+// Relative time anchors
+// ---------------------------------------------------------------------------
+
+export const NOW = new Date();
+export const ONE_HOUR_AGO = new Date(NOW.getTime() - 60 * 60 * 1000);
+export const YESTERDAY = new Date(NOW.getTime() - 24 * 60 * 60 * 1000);
+
+// ---------------------------------------------------------------------------
+// Triage mock data
+// ---------------------------------------------------------------------------
+
+export const mockTriage = [
+  {
+    id: 30,
+    title: 'Anthropic releases Claude 5 with extended thinking',
+    summary: 'Claude 5 introduces extended thinking with visible chain-of-thought reasoning, enabling more transparent and accurate responses for complex tasks.',
+    importanceScore: 9,
+    source: { name: 'TechCrunch' },
+  },
+  {
+    id: 31,
+    title: 'Deno 5.0 drops Node.js compatibility layer',
+    summary: 'Deno 5.0 removes the Node.js compatibility layer in favor of native APIs, reducing binary size by 40% and improving cold start times.',
+    importanceScore: 7,
+    source: { name: 'Hacker News' },
+  },
+  {
+    id: 32,
+    title: 'Microsoft acquires Figma rival Penpot',
+    summary: 'Microsoft acquires open-source design tool Penpot for $400M, signaling renewed competition with Figma after the failed Adobe deal.',
+    importanceScore: 8,
+    source: { name: 'The Verge' },
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Pending articles (for BuildingBlocks PendingSection story)
+// ---------------------------------------------------------------------------
+
+export const mockPendingBriefing = [
+  { id: 20, title: 'Anthropic releases Claude 5 with extended thinking', publishedAt: ONE_HOUR_AGO.toISOString(), source: { name: 'TechCrunch' } },
+  { id: 21, title: 'Deno 5.0 drops Node.js compatibility layer', publishedAt: ONE_HOUR_AGO.toISOString(), source: { name: 'Hacker News' } },
+  { id: 22, title: 'Microsoft acquires Figma rival Penpot', publishedAt: ONE_HOUR_AGO.toISOString(), source: { name: 'The Verge' } },
+];
+
+// ---------------------------------------------------------------------------
+// Enrichment simulation data (for Flows story)
+// ---------------------------------------------------------------------------
+
+export interface SimArticle {
+  id: number;
+  title: string;
+  source: string;
+  status: 'pending' | 'analyzing' | 'scoring' | 'done';
+  aiOutput: string;
+  score: number | null;
+  tier: string | null;
+  progress: number;
+}
+
+export const enrichmentArticles: SimArticle[] = [
+  { id: 100, title: 'Anthropic releases Claude 5 with extended thinking', source: 'TechCrunch', status: 'pending', aiOutput: '', score: null, tier: null, progress: 0 },
+  { id: 101, title: 'Deno 5.0 drops Node.js compatibility layer', source: 'Hacker News', status: 'pending', aiOutput: '', score: null, tier: null, progress: 0 },
+  { id: 102, title: 'Microsoft acquires Figma rival Penpot', source: 'The Verge', status: 'pending', aiOutput: '', score: null, tier: null, progress: 0 },
+  { id: 103, title: 'Show HN: Zero-latency database branching for Postgres', source: 'Hacker News', status: 'pending', aiOutput: '', score: null, tier: null, progress: 0 },
+  { id: 104, title: 'WebGPU adoption hits 80% across modern browsers', source: 'Web.dev', status: 'pending', aiOutput: '', score: null, tier: null, progress: 0 },
+];
+
+export const aiOutputs: Record<number, { summary: string; score: number; tier: string }> = {
+  100: { summary: 'Claude 5 introduces extended thinking with visible chain-of-thought reasoning, enabling more transparent and accurate responses for complex tasks.', score: 9, tier: 'critical' },
+  101: { summary: 'Deno 5.0 removes the Node.js compatibility layer in favor of native APIs, reducing binary size by 40% and improving cold start times.', score: 7, tier: 'important' },
+  102: { summary: 'Microsoft acquires open-source design tool Penpot for $400M, signaling renewed competition with Figma after the failed Adobe deal.', score: 8, tier: 'important' },
+  103: { summary: 'A new Postgres extension enables copy-on-write database branching in under 50ms, making preview environments instant for CI/CD pipelines.', score: 7, tier: 'important' },
+  104: { summary: 'WebGPU now ships in all major browsers including Safari, enabling GPU-accelerated ML inference and real-time 3D rendering on the web.', score: 6, tier: 'notable' },
+};

@@ -24,6 +24,12 @@ const preview: Preview = {
       },
     },
     layout: 'padded',
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/',
+      },
+    },
   },
 };
 

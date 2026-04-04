@@ -79,6 +79,10 @@
     grid-template-columns: 1fr;
   }
 
+  .app-content > main {
+    min-width: 0;
+  }
+
   /* Embedded chat layout for desktop */
   html[data-chat-embedded="true"] .app-content {
     grid-template-columns: 1fr var(--chat-panel-width, 420px);

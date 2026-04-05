@@ -104,11 +104,10 @@ Each article MUST appear in at most one group. For each group, pick the most com
   for (const group of validatedGroups) {
     for (const dupeId of group.duplicateIds) {
       try {
-        // Re-point orphans then mark dupe (sequential; $transaction unsupported in HTTP mode)
-        await prisma.article.updateMany({
-          where: { duplicateOf: dupeId },
-          data: { duplicateOf: group.winnerId },
-        });
+        // Re-point orphans then mark dupe
+        // Use raw SQL because updateMany requires an implicit transaction,
+        // which PrismaNeonHTTP does not support.
+        await prisma.$executeRaw`UPDATE "Article" SET "duplicateOf" = ${group.winnerId} WHERE "duplicateOf" = ${dupeId}`;
         await prisma.article.update({
           where: { id: dupeId },
           data: { duplicateOf: group.winnerId, importanceScore: 1 },

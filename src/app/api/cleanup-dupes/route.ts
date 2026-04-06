@@ -53,9 +53,10 @@ export async function GET(request: Request): Promise<Response> {
     .map((a) => `ID: ${a.id} | Source: ${a.source.name} | Published: ${a.publishedAt?.toISOString().slice(0, 10) ?? 'unknown'} | Title: ${a.title}${a.summary ? ` | Summary: ${a.summary.slice(0, 300)}` : ''}`)
     .join('\n');
 
-  const { output } = await generateText({
+  const { output, text } = await generateText({
     model: AI_MODEL,
     output: Output.object({ schema: DuplicateDetectionSchema }),
+    maxOutputTokens: 4096,
     system: `You identify duplicate news articles. Two articles are duplicates ONLY when they describe the identical real-world event with matching key facts: same company, same action, same figures, same date.
 
 <not_duplicates>
@@ -64,12 +65,23 @@ export async function GET(request: Request): Promise<Response> {
 - Overlapping keywords without matching facts: NOT duplicates.
 </not_duplicates>
 
-Each article MUST appear in at most one group. For each group, pick the most comprehensive article as winner. Prefer TLDR sources when quality is comparable. Return ONLY groups where you are certain.`,
-    prompt: `Identify duplicate groups. Be strict; false positives are worse than missed duplicates.\n\n${articleList}`,
+Each article MUST appear in at most one group. For each group, pick the most comprehensive article as winner. Prefer TLDR sources when quality is comparable. Return ONLY groups where you are certain.
+
+Respond ONLY with valid JSON matching the schema. No markdown fences, no explanation.`,
+    prompt: `Identify duplicate groups among these ${articles.length} articles. Be strict; false positives are worse than missed duplicates.\n\n${articleList}`,
   });
 
-  if (!output || output.groups.length === 0) {
-    return NextResponse.json({ duplicatesFound: 0 });
+  if (!output) {
+    return NextResponse.json({
+      duplicatesFound: 0,
+      error: 'AI output failed to parse',
+      rawLength: text?.length ?? 0,
+      rawPreview: text?.slice(0, 200) ?? null,
+    });
+  }
+
+  if (output.groups.length === 0) {
+    return NextResponse.json({ duplicatesFound: 0, articlesCompared: articles.length });
   }
 
   // Code-level validation: enforce hard constraints the AI may violate

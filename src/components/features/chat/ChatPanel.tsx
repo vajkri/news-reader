@@ -135,11 +135,12 @@ export function ChatPanel({
   useEffect(() => {
     const checkWidth = (): void => {
       setIsNarrowViewport(window.innerWidth < 640);
-      // Set mobile bottom dock on first mount only
+      // Set mobile bottom dock + max height on first mount only
       if (!initialDockRef.current) {
         initialDockRef.current = true;
         if (window.innerWidth < 768) {
           setDockPosition('bottom');
+          setPanelHeight(60);
         }
       }
     };
@@ -205,37 +206,53 @@ export function ChatPanel({
     }
   }, [messages]);
 
-  // Resize handling
+  // Resize handling (mouse + touch)
   useEffect(() => {
     if (!isResizing) return;
 
     document.body.style.userSelect = 'none';
 
-    const handleMouseMove = (e: MouseEvent): void => {
+    const getCoords = (e: MouseEvent | TouchEvent): { x: number; y: number } => {
+      if ('touches' in e) {
+        const touch = e.touches[0];
+        return { x: touch.clientX, y: touch.clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    };
+
+    const handleMove = (e: MouseEvent | TouchEvent): void => {
+      const { x, y } = getCoords(e);
       if (dockPosition === 'side') {
-        const newWidth = Math.max(280, Math.min(800, window.innerWidth - e.clientX));
+        const newWidth = Math.max(280, Math.min(800, window.innerWidth - x));
         setPanelWidth(newWidth);
         // Sync CSS variable immediately so grid column resizes without lag
         if (isEmbedded) {
           document.documentElement.style.setProperty('--chat-panel-width', `${newWidth}px`);
         }
       } else {
-        const newHeightPx = window.innerHeight - e.clientY;
+        const newHeightPx = window.innerHeight - y;
         const newHeightDvh = (newHeightPx / window.innerHeight) * 100;
         setPanelHeight(Math.max(15, Math.min(60, newHeightDvh)));
       }
+      if ('touches' in e) e.preventDefault();
     };
 
-    const handleMouseUp = (): void => {
+    const handleEnd = (): void => {
       setIsResizing(false);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleEnd);
+    document.addEventListener('touchmove', handleMove, { passive: false });
+    document.addEventListener('touchend', handleEnd);
+    document.addEventListener('touchcancel', handleEnd);
     return () => {
       document.body.style.userSelect = '';
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseup', handleEnd);
+      document.removeEventListener('touchmove', handleMove);
+      document.removeEventListener('touchend', handleEnd);
+      document.removeEventListener('touchcancel', handleEnd);
     };
   }, [isResizing, dockPosition, isEmbedded]);
 
@@ -320,17 +337,23 @@ export function ChatPanel({
       )}
       style={panelStyle}
     >
-      {/* Resize handle (hidden on narrow viewports where panel is full-width) */}
+      {/* Resize handle */}
       {dockPosition === 'side' && !isNarrowViewport ? (
         <div
           className="absolute left-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-(--border) transition-colors"
           onMouseDown={() => setIsResizing(true)}
+          onTouchStart={() => setIsResizing(true)}
         />
       ) : dockPosition === 'bottom' ? (
         <div
-          className="absolute top-0 left-0 right-0 h-1 cursor-row-resize hover:bg-(--border) transition-colors"
+          className="absolute top-0 left-0 right-0 h-5 flex items-center justify-center cursor-row-resize touch-none hover:bg-(--muted) transition-colors"
           onMouseDown={() => setIsResizing(true)}
-        />
+          onTouchStart={() => setIsResizing(true)}
+          aria-label="Resize chat panel"
+          role="separator"
+        >
+          <div className="w-10 h-1 rounded-full bg-(--border)" />
+        </div>
       ) : null}
 
       {/* Header */}

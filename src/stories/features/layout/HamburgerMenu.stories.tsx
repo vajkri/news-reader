@@ -35,19 +35,3 @@ export const Open: Story = {
     pathname: '/',
   },
 };
-
-export const OpenBriefingActive: Story = {
-  name: 'Open (Briefing active)',
-  args: {
-    isOpen: true,
-    pathname: '/briefing',
-  },
-};
-
-export const OpenSourcesActive: Story = {
-  name: 'Open (Sources active)',
-  args: {
-    isOpen: true,
-    pathname: '/sources',
-  },
-};

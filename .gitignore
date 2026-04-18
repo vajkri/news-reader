@@ -55,6 +55,7 @@ next-env.d.ts
 .env*.local
 .superpowers/
 .planning/assets/
+.planning/review-loop/
 .playwright/
 .playwright-cli/
 

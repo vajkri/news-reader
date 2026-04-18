@@ -24,6 +24,14 @@
   --debug-inactive: #ef4444;
   --chat-user-bg: #e4e4e7;
   --chat-user-fg: #18181b;
+  --badge-critical-bg: #fee2e2;
+  --badge-critical-fg: #991b1b;
+  --badge-important-bg: #fef3c7;
+  --badge-important-fg: #92400e;
+  --badge-notable-bg: #dbeafe;
+  --badge-notable-fg: #1e40af;
+  --badge-new-bg: #dcfce7;
+  --badge-new-fg: #166534;
 }
 
 @theme inline {
@@ -53,6 +61,14 @@
     --debug-inactive: #f87171;
     --chat-user-bg: #27272a;
     --chat-user-fg: #e4e4e7;
+    --badge-critical-bg: rgba(153, 27, 27, 0.3);
+    --badge-critical-fg: #fca5a5;
+    --badge-important-bg: rgba(146, 64, 14, 0.3);
+    --badge-important-fg: #fcd34d;
+    --badge-notable-bg: rgba(30, 64, 175, 0.3);
+    --badge-notable-fg: #93c5fd;
+    --badge-new-bg: rgba(22, 101, 52, 0.3);
+    --badge-new-fg: #4ade80;
   }
 }
 

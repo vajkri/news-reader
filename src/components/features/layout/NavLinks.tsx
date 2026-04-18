@@ -19,6 +19,15 @@ export function NavLinks(): React.ReactElement {
 
   return (
     <>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="sm:hidden -order-1"
+        onClick={() => setIsOpen(true)}
+        aria-label="Open navigation"
+      >
+        <Menu size={18} />
+      </Button>
       <nav aria-label="Main navigation" className="hidden sm:flex items-center gap-4">
         {NAV_ITEMS.map(({ href, label }) => {
           const isActive = pathname === href;
@@ -38,15 +47,6 @@ export function NavLinks(): React.ReactElement {
           );
         })}
       </nav>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="sm:hidden"
-        onClick={() => setIsOpen(true)}
-        aria-label="Open navigation"
-      >
-        <Menu size={18} />
-      </Button>
       <HamburgerMenu
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

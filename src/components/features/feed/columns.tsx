@@ -84,7 +84,7 @@ export function buildColumns({ onToggleRead, searchQuery, feedWatermark }: Colum
             }`}
           >
             <span className="line-clamp-2">{highlightMatch(title, searchQuery ?? "")}</span>
-            {isNew && <Badge variant="secondary" className="text-xs shrink-0 ml-1.5">New</Badge>}
+            {isNew && <Badge variant="new" className="text-xs shrink-0 ml-1.5">New</Badge>}
             <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
           </a>
         );

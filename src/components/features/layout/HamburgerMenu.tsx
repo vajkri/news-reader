@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,7 +37,7 @@ export function HamburgerMenu({
 
   if (!isOpen) return <></>;
 
-  return (
+  const content = (
     <>
       <div
         className="fixed inset-0 bg-black/40 z-40"
@@ -47,7 +48,7 @@ export function HamburgerMenu({
         role="dialog"
         aria-modal="true"
         aria-label="Navigation"
-        className={`fixed top-0 left-0 h-full w-72 z-50 bg-(--background) border-r border-(--border) transform transition-transform duration-200 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed top-0 left-0 h-dvh w-72 z-50 bg-(--card) border-r border-(--border) shadow-2xl transform transition-transform duration-200 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <Button
           ref={closeButtonRef}
@@ -82,4 +83,7 @@ export function HamburgerMenu({
       </div>
     </>
   );
+
+  if (typeof document === "undefined") return content;
+  return createPortal(content, document.body);
 }

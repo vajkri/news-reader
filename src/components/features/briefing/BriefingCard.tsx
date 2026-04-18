@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { useDebug } from "@/contexts/debug";
 import { FeedbackButtons } from "./FeedbackButtons";
 
@@ -25,7 +26,7 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
   const parts = splitSummary(article.summary);
 
   return (
-    <article className="rounded-[0.625rem] border border-(--border) bg-(--card) overflow-hidden">
+    <article className="rounded-[0.625rem] border border-(--border) bg-(--card)">
       <a
         href={article.link}
         target="_blank"
@@ -33,7 +34,7 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
         className={cn(
           "block",
           "hover:bg-[color-mix(in_srgb,var(--muted)_50%,transparent)] transition-colors",
-          "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-(--primary) focus-visible:outline-none",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary)",
         )}
       >
         <div
@@ -63,12 +64,7 @@ export function BriefingCard({ article, isNew }: BriefingCardProps): React.React
               {article.title}
             </h3>
             {isNew && (
-              <span
-                aria-label="New article"
-                className="text-xs font-bold uppercase tracking-[0.5px] text-green-500 bg-[rgba(34,197,94,0.1)] px-1.5 py-0.5 rounded-[3px] shrink-0 mt-1"
-              >
-                New
-              </span>
+              <Badge variant="new" className="text-xs shrink-0 mt-1">New</Badge>
             )}
           </div>
 

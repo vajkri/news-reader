@@ -81,7 +81,7 @@ export function FeedMobileList({
                 >
                   {highlightMatch(title, searchQuery ?? "")}
                   {isNew && (
-                    <Badge variant="secondary" className="text-xs shrink-0 ml-1.5 align-middle">
+                    <Badge variant="new" className="text-xs shrink-0 ml-1.5 align-middle">
                       New
                     </Badge>
                   )}

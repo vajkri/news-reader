@@ -10,7 +10,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'outline', 'critical', 'important', 'notable'],
+      options: ['default', 'secondary', 'outline', 'critical', 'important', 'notable', 'new'],
     },
   },
 } satisfies Meta<typeof Badge>;
@@ -44,6 +44,10 @@ export const Notable: Story = {
   args: { variant: 'notable', children: 'Notable' },
 };
 
+export const New: Story = {
+  args: { variant: 'new', children: 'New' },
+};
+
 // --- All variants at a glance ---
 
 export const AllVariants: StoryObj = {
@@ -56,6 +60,7 @@ export const AllVariants: StoryObj = {
       <Badge variant="critical">Critical</Badge>
       <Badge variant="important">Important</Badge>
       <Badge variant="notable">Notable</Badge>
+      <Badge variant="new">New</Badge>
     </div>
   ),
 };

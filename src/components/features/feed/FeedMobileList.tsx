@@ -112,7 +112,7 @@ export function FeedMobileList({
               <Button
                 variant="ghost"
                 size="sm"
-                className="gap-1.5 text-xs min-h-[44px] text-(--muted-foreground) hover:text-(--foreground)"
+                className="gap-1.5 text-xs min-h-11 text-(--muted-foreground) hover:text-(--foreground)"
                 onClick={() => onToggleRead(id, !isRead)}
               >
                 {isRead ? (
@@ -125,7 +125,7 @@ export function FeedMobileList({
               <Button
                 variant="ghost"
                 size="sm"
-                className="gap-1.5 text-xs min-h-[44px] text-(--muted-foreground) hover:text-(--foreground)"
+                className="gap-1.5 text-xs min-h-11 text-(--muted-foreground) hover:text-(--foreground)"
                 onClick={() => {
                   window.dispatchEvent(
                     new CustomEvent("chat-about-this", {

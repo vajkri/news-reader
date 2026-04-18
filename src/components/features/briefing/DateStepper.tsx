@@ -36,7 +36,7 @@ export function DateStepper() {
         size="icon"
         onClick={() => goTo(subDays(currentDate, 1))}
         aria-label="Previous day"
-        className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0"
+        className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0"
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
@@ -52,7 +52,7 @@ export function DateStepper() {
         onClick={() => goTo(addDays(currentDate, 1))}
         disabled={isToday(currentDate)}
         aria-label="Next day"
-        className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0"
+        className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0"
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

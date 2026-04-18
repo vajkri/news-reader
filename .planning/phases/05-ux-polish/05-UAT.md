@@ -1,14 +1,20 @@
 ---
-status: complete
+status: testing
 phase: 05-ux-polish
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md, 05-04-SUMMARY.md, 05-05-SUMMARY.md, 05-06-SUMMARY.md]
-started: 2026-04-04T10:00:00Z
-updated: 2026-04-04T06:40:00Z
+started: 2026-04-05T08:00:00Z
+updated: 2026-04-08T10:00:00Z
 ---
 
 ## Current Test
 
-[testing complete]
+number: 19-21
+name: Sources/Chat Stories, Layout Stories, Page Stories
+expected: |
+  19. SourceList: default/empty/error/delete-confirm. SourceForm: empty/validation. ChatPanel: closed/open/article/mobile.
+  20. NavLinks: each route active. HamburgerMenu: closed/open.
+  21. Pages/Feed and Pages/Sources render with mock data without errors.
+awaiting: user response
 
 ## Tests
 
@@ -17,7 +23,7 @@ expected: On the feed page, enriched articles show a colored topic icon in the t
 result: pass
 
 ### 2. Feed NEW Badges
-expected: Articles added since your last visit show a blue "NEW" badge next to the title. On a second visit, those badges disappear (watermark updated).
+expected: Articles added since your last visit show a "NEW" badge next to the title. On a second visit (or page reload), those badges disappear (watermark updated).
 result: pass
 
 ### 3. Feed Mobile View
@@ -25,11 +31,11 @@ expected: Below 640px width: table is replaced by a stacked card list with sourc
 result: pass
 
 ### 4. Navigation Active State
-expected: The current page's nav link appears bold and uses foreground color. Other nav links appear at normal weight.
+expected: The current page's nav link appears bold and uses foreground color. Other nav links appear at normal weight and muted color. Check on Feed, Briefing, and Sources pages.
 result: pass
 
 ### 5. Hamburger Menu (Mobile)
-expected: Below 640px: a hamburger icon replaces desktop nav links. Tapping it opens a full-height slide-in drawer with nav links. Pressing Escape closes it.
+expected: Below 640px: a hamburger icon replaces desktop nav links. Tapping it opens a slide-in drawer with nav links. Pressing Escape closes it.
 result: pass
 
 ### 6. Sources Page Visual Refresh
@@ -41,7 +47,7 @@ expected: Below 640px: URL column is hidden from the table. Add-source form inpu
 result: pass
 
 ### 8. Chat Panel Mobile
-expected: Below 640px: the chat panel expands to full viewport width. Resize handle is hidden.
+expected: Below 640px: the chat panel expands to full viewport width. Resize handle is hidden on mobile.
 result: pass
 
 ### 9. Briefing Mobile Polish
@@ -62,8 +68,7 @@ result: pass
 
 ### 13. Storybook Dark Mode Toggle
 expected: Toggling dark mode in Storybook toolbar applies the `dark` class to the preview. Components switch to dark color tokens (dark backgrounds, light text). Toggling back restores light mode.
-result: skipped
-reason: Requires interactive Storybook toolbar interaction; code-level config verified (withThemeByClassName with light/dark themes)
+result: pass
 
 ### 14. UI Primitive Stories: Button and Badge
 expected: Button stories show all 4 variants (default, outline, ghost, destructive) and sizes (sm, default, lg, icon). Badge stories show all 6 variants (default, secondary, outline, critical, important, notable).
@@ -75,23 +80,33 @@ result: pass
 
 ### 16. Feed Feature Stories
 expected: FeedTable story renders a populated table with mock articles. FeedMobileList story shows stacked cards with NEW badges and search highlighting. FeedToolbar story shows filter controls.
-result: pass
+result: issue
+reported: "broken image at http://localhost:6006/?path=/story/features-feed-feedtable--default. Dark should be the default theme."
+severity: major
 
 ### 17. Briefing Feature Stories
 expected: BriefingCard stories show all 3 importance tiers (critical, important, notable). DateStepper stories show today and archive dates. StatusBar stories cover morning, evening, caught-up, and pending enrichment states.
-result: pass
+result: issue
+reported: "Page stories should not be duplicating markup EVER. Should use page components with mock data instead (e.g. from src/app/page.tsx). Different states should be simulated by passing different mock data."
+severity: major
 
-### 18. Briefing Page Stories (5 D-16 States)
-expected: Pages/Briefing in Storybook shows 5 composition stories: morning visit (new articles), evening visit (mixed), caught up, archive, and pending enrichment. Each renders without errors.
-result: pass
+### 18. Briefing Page Stories (5 States)
+expected: Pages/Briefing in Storybook shows 5 composition stories: morning visit, evening visit, caught up, archive, and pending enrichment. Each renders without errors.
+result: issue
+reported: "Page stories should not be duplicating markup EVER. Should use page components with mock data instead (e.g. from src/app/page.tsx). Different states should be simulated by passing different mock data."
+severity: major
 
 ### 19. Sources and Chat Feature Stories
 expected: SourceList stories show default, empty, error, and delete confirmation states. SourceForm stories show empty form and validation error. ChatPanel stories show closed, open, with article context, and mobile states.
-result: pass
+result: issue
+reported: "cannot resize chat on mobile. default height of chat on mobile should be what the current max height is."
+severity: major
 
 ### 20. Layout Feature Stories
 expected: NavLinks stories show each route (feed, briefing, sources) as the active page. HamburgerMenu stories show closed and open states.
-result: pass
+result: issue
+reported: "unnecessary stories: HamburgerMenu--open-briefing-active, HamburgerMenu--open-sources-active, NavLinks--feed-active, NavLinks--sources-active"
+severity: minor
 
 ### 21. Feed and Sources Page Stories
 expected: Pages/Feed story renders the full feed page composition with mock data. Pages/Sources story renders with source list and form. Both render without errors.
@@ -100,12 +115,58 @@ result: pass
 ## Summary
 
 total: 21
-passed: 20
-issues: 0
+passed: 16
+issues: 5
 pending: 0
-skipped: 1
+skipped: 0
 blocked: 0
 
 ## Gaps
 
-[none -- all issues fixed during pre-UAT]
+- truth: "Enriched articles show colored topic icon; unenriched show colored circle with source initial"
+  status: failed
+  reason: "User reported: Initials should be multi-letter (min 2, max 3). Avatar colors too vivid; icons need white bg with colored icons for balance."
+  severity: cosmetic
+  test: 1
+  artifacts: []
+  missing: []
+
+- truth: "FeedTable story renders a populated table with mock articles"
+  status: failed
+  reason: "User reported: broken image at FeedTable--default story. Dark should be the default theme."
+  severity: major
+  test: 16
+  artifacts: []
+  missing: []
+
+- truth: "BriefingCard stories show all 3 importance tiers. DateStepper, StatusBar cover all states."
+  status: failed
+  reason: "User reported: Page stories should not be duplicating markup. Should use page components with mock data instead."
+  severity: major
+  test: 17
+  artifacts: []
+  missing: []
+
+- truth: "Pages/Briefing shows 5 composition stories rendering without errors"
+  status: failed
+  reason: "User reported: Page stories should not be duplicating markup EVER. Should use actual page components from src/app/ with mock data. Different states simulated by passing different mock data."
+  severity: major
+  test: 18
+  artifacts: []
+  missing: []
+
+- truth: "ChatPanel mobile states show closed, open, with article context, mobile variants"
+  status: failed
+  reason: "User reported: cannot resize chat on mobile. Default height of chat on mobile should be what the current max height is."
+  severity: major
+  test: 19
+  artifacts: []
+  missing: []
+
+- truth: "NavLinks stories show each route as active; HamburgerMenu shows closed/open"
+  status: failed
+  reason: "User reported: unnecessary stories: HamburgerMenu--open-briefing-active, HamburgerMenu--open-sources-active, NavLinks--feed-active, NavLinks--sources-active. Remove duplicate per-route active stories."
+  severity: minor
+  test: 20
+  artifacts: []
+  missing: []

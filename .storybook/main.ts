@@ -5,7 +5,8 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(ts|tsx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx)'],
+  addons: [],
   framework: {
     name: '@storybook/nextjs',
     options: {},
@@ -13,6 +14,7 @@ const config: StorybookConfig = {
   features: {
     experimentalRSC: true,
   },
+  staticDirs: ['../public'],
   webpackFinal: async (config) => {
     config.resolve = config.resolve || {};
     const srcDir = path.resolve(__dirname, '../src');

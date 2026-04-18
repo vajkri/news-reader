@@ -57,3 +57,6 @@ next-env.d.ts
 .planning/assets/
 .playwright/
 .playwright-cli/
+
+# storybook
+storybook-static/

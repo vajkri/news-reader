@@ -36,11 +36,15 @@ export function DateStepper() {
         size="icon"
         onClick={() => goTo(subDays(currentDate, 1))}
         aria-label="Previous day"
+        className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0"
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
-      <span className="text-sm font-semibold min-w-[120px] text-center text-(--foreground)">
-        {isToday(currentDate) ? "Today" : format(currentDate, "MMM d, yyyy")}
+      <span className="text-sm font-semibold min-w-[80px] sm:min-w-[120px] text-center text-(--foreground)">
+        {isToday(currentDate)
+          ? "Today"
+          : <><span className="sm:hidden">{format(currentDate, "MMM d")}</span><span className="hidden sm:inline">{format(currentDate, "MMM d, yyyy")}</span></>
+        }
       </span>
       <Button
         variant="outline"
@@ -48,6 +52,7 @@ export function DateStepper() {
         onClick={() => goTo(addDays(currentDate, 1))}
         disabled={isToday(currentDate)}
         aria-label="Next day"
+        className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0"
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

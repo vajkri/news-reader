@@ -20,7 +20,7 @@ export function StatusBar({
     : 'Never';
 
   return (
-    <div className="flex items-center justify-between py-2 px-4 mb-6 rounded-(--radius) bg-(--muted) border border-(--border)">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-2 px-4 mb-6 rounded-(--radius) bg-(--muted) border border-(--border)">
       <div className="flex flex-col gap-0.5 text-sm">
         <span>
           <span

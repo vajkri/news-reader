@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Completed 04.2-01-PLAN.md and 04.2-02-PLAN.md
-last_updated: "2026-04-02T16:55:08.208Z"
+status: Phase 5 shipped — PR #29
+stopped_at: Completed 05-06-PLAN.md
+last_updated: "2026-04-18T10:00:00.000Z"
 progress:
   total_phases: 14
-  completed_phases: 12
-  total_plans: 36
-  completed_plans: 36
+  completed_phases: 13
+  total_plans: 42
+  completed_plans: 42
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Surface only what matters from the AI news firehose, so users can stay informed without stress
-**Current focus:** Phase 04.2 — code-optimization-via-agent-skills-clean-up-without-changing-behavior
+**Current focus:** Phase 05 — ux-polish
 
 ## Current Position
 
-Phase: 04.3
-Plan: Not started
+Phase: 05 (ux-polish) — EXECUTING
+Plan: 4 of 4
 
 ## Performance Metrics
 
@@ -63,6 +63,11 @@ Plan: Not started
 | Phase 04.6 P06 | 15 | 2 tasks | 3 files |
 | Phase 04.2 P01 | 5 | 3 tasks | 5 files |
 | Phase 04.2 P02 | 5 | 1 tasks | 3 files |
+| Phase 05-ux-polish P01 | 12 | 3 tasks | 9 files |
+| Phase 05-ux-polish P02 | 5 | 2 tasks | 5 files |
+| Phase 05-ux-polish P04 | 13 | 2 tasks | 11 files |
+| Phase 05-ux-polish P05 | 15 | 3 tasks | 11 files |
+| Phase 05-ux-polish P06 | 30 | 3 tasks | 17 files |
 
 ## Accumulated Context
 
@@ -139,6 +144,16 @@ Recent decisions affecting current work:
 - [Phase 04.2]: RssItem interface added to thumbnail.ts to keep the module self-contained; content:encoded added to CustomItem without customFields registration
 - [Phase 04.2]: FeedTable error state rendered as inline paragraph with no toast imports: minimal, sufficient
 - [Phase 04.2]: optimizePackageImports used for lucide-react only in next.config.ts experimental block; no component import changes needed
+- [Phase 05-ux-polish]: TOPIC_ICON_MAP exported from TopicIcon.tsx so TopicGroup can use bare icon without duplicating the map
+- [Phase 05-ux-polish]: NavLinks is a single client component rendering both desktop nav links and hamburger trigger
+- [Phase 05-ux-polish]: feed-watermark API uses prisma.userPreference upsert pattern (key: feed_watermark, distinct from briefing_watermark)
+- [Phase 05-ux-polish]: highlightMatch exported from columns.tsx for reuse in FeedMobileList; TOPIC_ICON_MAP imported directly in FeedMobileList for 32px icon wrapper; GET feed-watermark completes before POST via .finally() chaining
+- [Phase 05-ux-polish]: BriefingCard uses pl-4 sm:pl-6 for mobile breathing room; DateStepper buttons get 44px touch targets via min-h/w-[44px] sm:min-h-0 sm:min-w-0 pattern
+- [Phase 05-ux-polish]: SourceList alert() replaced with inline role=alert error state using --destructive token
+- [Phase 05-ux-polish]: focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--primary) added to plain anchor links in NavLinks, columns.tsx, FeedMobileList
+- [Phase 05-ux-polish]: Storybook v10: withThemeByClassName for dark mode (not withThemeByDataAttribute); standard Preview type not definePreview (internal in v10)
+- [Phase 05-ux-polish]: Page stories compose client components with fixture data rather than importing Server Component pages to avoid Prisma dependency in Storybook
+- [Phase 05-ux-polish]: Mock fetch decorator uses named function with displayName to satisfy react/display-name ESLint rule in story decorators
 
 ### Pending Todos
 
@@ -165,6 +180,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-02T16:47:20.435Z
-Stopped at: Completed 04.2-01-PLAN.md and 04.2-02-PLAN.md
+Last session: 2026-04-03T12:12:05.710Z
+Stopped at: Completed 05-06-PLAN.md
 Resume file: None

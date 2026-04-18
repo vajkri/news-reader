@@ -55,29 +55,29 @@ export function SourceForm({ onAdded }: SourceFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <h2 className="text-lg font-semibold">Add RSS source</h2>
+      <h2 className="text-base font-semibold">Add RSS source</h2>
       <div className="flex flex-wrap gap-2">
         <Input
           placeholder="Name (e.g. Hacker News)"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="min-w-0 flex-1 basis-36"
+          className="w-full sm:flex-1 sm:basis-36"
         />
         <Input
           placeholder="RSS feed URL"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           type="url"
-          className="min-w-0 flex-[2] basis-48"
+          className="w-full sm:flex-[2] sm:basis-48"
         />
         <Input
           placeholder="Category (optional)"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="min-w-0 flex-1 basis-32"
+          className="w-full sm:flex-1 sm:basis-32"
         />
-        <Button type="submit" disabled={loading}>
-          {loading ? "Adding…" : "Add source"}
+        <Button type="submit" disabled={loading} className="w-full sm:w-auto">
+          {loading ? "Adding..." : "Add source"}
         </Button>
       </div>
       {error && <p className="text-sm text-(--destructive)">{error}</p>}

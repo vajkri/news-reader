@@ -1,11 +1,12 @@
 import { useReducer, useEffect, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ChatMessage } from './ChatMessage';
-import { ChatInput } from './ChatInput';
-import type { ChatMessageProps } from './ChatMessage';
+import { ChatMessage } from '@/components/features/chat/ChatMessage';
+import { ChatInput } from '@/components/features/chat/ChatInput';
+import { Button } from '@/components/ui/button';
+import type { ChatMessageProps } from '@/components/features/chat/ChatMessage';
 
 const meta = {
-  title: 'Components/Chat/ChatMessage',
+  title: 'Features/Chat/ChatMessage',
   component: ChatMessage,
   parameters: {
     layout: 'padded',
@@ -312,13 +313,12 @@ function ChatFlowSimulation(): React.ReactElement {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2 mb-4">
-        {/* Disclosure controls, not action buttons */}
-        <button
+        <Button
           onClick={handleClick}
-          className="px-3 py-1.5 text-sm font-medium rounded-lg bg-(--primary) text-(--primary-foreground) hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:outline-none"
+          size="sm"
         >
           {phase === 'idle' ? 'Send message' : 'Reset'}
-        </button>
+        </Button>
         <span className="flex items-center text-xs text-(--muted-foreground) font-mono">
           {phase}
         </span>

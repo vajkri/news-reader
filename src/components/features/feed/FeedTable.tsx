@@ -10,6 +10,7 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import { FeedToolbar } from "./FeedToolbar";
+import { FeedMobileList } from "./FeedMobileList";
 import { buildColumns } from "./columns";
 import { ArticleRow, SourceRow } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
   const [isFetching, setIsFetching] = useState(false);
   const [fetchResult, setFetchResult] = useState<FetchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [feedWatermark, setFeedWatermark] = useState<string | null>(null);
 
   // Filters
   const [sourceFilter, setSourceFilter] = useState("");
@@ -51,6 +53,19 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
     const timer = setTimeout(() => setDebouncedSearch(searchQuery), 300);
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  // Fetch watermark on mount: GET current value for badge display, then POST to update to now
+  useEffect(() => {
+    fetch("/api/feed-watermark")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { watermark: string } | null) => {
+        if (data?.watermark) setFeedWatermark(data.watermark);
+      })
+      .catch(() => {})
+      .finally(() => {
+        fetch("/api/feed-watermark", { method: "POST" }).catch(() => {});
+      });
+  }, []);
 
   const loadPage = useCallback(async (pageNum: number) => {
     if (pageNum === 1) setLoading(true);
@@ -144,8 +159,8 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
   }, []);
 
   const columns = useMemo(
-    () => buildColumns({ onToggleRead: handleToggleRead, searchQuery: debouncedSearch }),
-    [handleToggleRead, debouncedSearch]
+    () => buildColumns({ onToggleRead: handleToggleRead, searchQuery: debouncedSearch, feedWatermark }),
+    [handleToggleRead, debouncedSearch, feedWatermark]
   );
 
   const table = useReactTable({
@@ -179,7 +194,7 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       />
 
       {/* Status bar */}
-      <div className="flex items-center gap-3 text-xs text-(--muted-foreground) pb-2" aria-live="polite">
+      <div className="flex items-center gap-3 text-sm text-(--muted-foreground) pb-2" aria-live="polite">
         {loading ? (
           <span>Loading...</span>
         ) : debouncedSearch ? (
@@ -212,118 +227,140 @@ export function FeedTable({ sources }: { sources: SourceRow[] }) {
       </div>
 
       {error && page === 1 && (
-        <p className="text-sm text-red-600 dark:text-red-400 px-4 py-2">{error}</p>
+        <p className="text-sm text-(--destructive) px-4 py-2">{error}</p>
       )}
 
-      {/* Table */}
-      <div className="rounded-lg border border-(--border) overflow-x-auto" aria-busy={loading}>
-        <table className="w-full text-sm">
-          <caption className="sr-only">Article feed</caption>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr
-                key={headerGroup.id}
-                className="border-b border-(--border) bg-(--muted)"
-              >
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    style={{ width: header.getSize() !== 150 ? header.getSize() : undefined }}
-                    className="px-3 py-2.5 text-left text-xs font-medium text-(--muted-foreground) uppercase tracking-wide whitespace-nowrap"
+      {/* Desktop table (hidden on mobile) */}
+      <div className="hidden sm:block">
+        <div className="rounded-lg border border-(--border) overflow-x-auto" aria-busy={loading}>
+          <table className="w-full text-sm">
+            <caption className="sr-only">Article feed</caption>
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr
+                  key={headerGroup.id}
+                  className="border-b border-(--border) bg-(--muted)"
+                >
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      style={{ width: header.getSize() !== 150 ? header.getSize() : undefined }}
+                      className="px-3 py-2.5 text-left text-xs font-medium text-(--muted-foreground) uppercase tracking-wide whitespace-nowrap"
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {loading ? (
+                // Skeleton rows — padding and column widths match loaded rows
+                Array.from({ length: 8 }).map((_, i) => (
+                  <tr key={i} className="border-b border-(--border) animate-pulse">
+                    <td className="px-3 py-2.5" style={{ width: 56 }}>
+                      <div className="h-10 w-10 rounded bg-(--muted)" />
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <div className="h-4 w-3/4 rounded bg-(--muted) mb-1.5" />
+                      <div className="h-3 w-1/2 rounded bg-(--muted)" />
+                    </td>
+                    <td className="px-3 py-2.5" style={{ width: 100 }}>
+                      <div className="h-4 w-20 rounded bg-(--muted)" />
+                    </td>
+                    <td className="px-3 py-2.5" style={{ width: 100 }}>
+                      <div className="h-5 w-16 rounded-full bg-(--muted)" />
+                    </td>
+                    <td className="px-3 py-2.5" style={{ width: 80 }}>
+                      <div className="h-4 w-12 rounded bg-(--muted)" />
+                    </td>
+                    <td className="px-3 py-2.5" style={{ width: 90 }}>
+                      <div className="h-4 w-16 rounded bg-(--muted)" />
+                    </td>
+                    <td className="px-3 py-2.5" style={{ width: 190 }}>
+                      <div className="flex items-center gap-1.5">
+                        <div className="h-7 w-20 rounded-md bg-(--muted)" />
+                        <div className="h-7 w-14 rounded-md bg-(--muted)" />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : table.getRowModel().rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={columns.length}
+                    className="px-3 py-16 text-center text-(--muted-foreground)"
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {loading ? (
-              // Skeleton rows — padding and column widths match loaded rows
-              Array.from({ length: 8 }).map((_, i) => (
-                <tr key={i} className="border-b border-(--border) animate-pulse">
-                  <td className="px-3 py-2.5" style={{ width: 56 }}>
-                    <div className="h-10 w-10 rounded bg-(--muted)" />
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <div className="h-4 w-3/4 rounded bg-(--muted) mb-1.5" />
-                    <div className="h-3 w-1/2 rounded bg-(--muted)" />
-                  </td>
-                  <td className="px-3 py-2.5" style={{ width: 100 }}>
-                    <div className="h-4 w-20 rounded bg-(--muted)" />
-                  </td>
-                  <td className="px-3 py-2.5" style={{ width: 100 }}>
-                    <div className="h-5 w-16 rounded-full bg-(--muted)" />
-                  </td>
-                  <td className="px-3 py-2.5" style={{ width: 80 }}>
-                    <div className="h-4 w-12 rounded bg-(--muted)" />
-                  </td>
-                  <td className="px-3 py-2.5" style={{ width: 90 }}>
-                    <div className="h-4 w-16 rounded bg-(--muted)" />
-                  </td>
-                  <td className="px-3 py-2.5" style={{ width: 190 }}>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-7 w-20 rounded-md bg-(--muted)" />
-                      <div className="h-7 w-14 rounded-md bg-(--muted)" />
+                    <div className="flex flex-col items-center gap-1">
+                      {debouncedSearch ? (
+                        <>
+                          <span className="font-medium">No articles found</span>
+                          <span className="text-xs">Try a different keyword or clear the search.</span>
+                        </>
+                      ) : sources.length === 0 ? (
+                        <>
+                          <span className="font-medium">No articles yet</span>
+                          <span className="text-xs">Add a source to start collecting articles.</span>
+                        </>
+                      ) : (
+                        <span>No articles match your filters.</span>
+                      )}
                     </div>
                   </td>
                 </tr>
-              ))
-            ) : table.getRowModel().rows.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={columns.length}
-                  className="px-3 py-16 text-center text-(--muted-foreground)"
-                >
-                  <div className="flex flex-col items-center gap-1">
-                    {debouncedSearch ? (
-                      <>
-                        <span className="font-medium">No articles found</span>
-                        <span className="text-xs">Try a different keyword or clear the search.</span>
-                      </>
-                    ) : sources.length === 0 ? (
-                      <>
-                        <span className="font-medium">No articles yet</span>
-                        <span className="text-xs">Add a source to start collecting articles.</span>
-                      </>
-                    ) : (
-                      <span>No articles match your filters.</span>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className={`border-b border-(--border) transition-colors hover:bg-[color-mix(in_srgb,var(--muted)_40%,transparent)] ${
-                    row.original.isRead ? "opacity-60" : ""
-                  }`}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="px-3 py-2.5 align-middle"
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className={`border-b border-(--border) transition-colors hover:bg-[color-mix(in_srgb,var(--muted)_40%,transparent)] ${
+                      row.original.isRead ? "opacity-60" : ""
+                    }`}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="px-3 py-2.5 align-middle"
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Mobile list (shown below sm breakpoint) */}
+      <div className="block sm:hidden">
+        {loading ? (
+          <div className="animate-pulse">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="py-3 px-4 border-b border-(--border)">
+                <div className="h-20 rounded bg-(--muted)" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <FeedMobileList
+            articles={articles}
+            onToggleRead={handleToggleRead}
+            searchQuery={debouncedSearch}
+            feedWatermark={feedWatermark}
+          />
+        )}
       </div>
 
       {/* Infinite scroll sentinel or pagination error */}
       {error && !loading && page > 1 ? (
         <div className="flex items-center justify-center gap-2 px-4 py-3">
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm text-(--destructive)">{error}</p>
           <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => loadPage(page)}>
             Retry
           </Button>

@@ -62,7 +62,7 @@ export function FeedToolbar({
   return (
     <div className="flex flex-wrap items-center gap-2 py-3">
       {/* Read filter tabs */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 w-full sm:w-auto">
         {(["all", "unread", "read"] as const).map((val) => (
           <Button
             key={val}
@@ -81,7 +81,7 @@ export function FeedToolbar({
         value={sourceFilter}
         onChange={(e) => onSourceChange(e.target.value)}
         placeholder="All sources"
-        className="w-40"
+        className="w-full sm:w-40"
       >
         {sources.map((s) => (
           <option key={s.id} value={String(s.id)}>
@@ -95,7 +95,7 @@ export function FeedToolbar({
           value={categoryFilter}
           onChange={(e) => onCategoryChange(e.target.value)}
           placeholder="All categories"
-          className="w-40"
+          className="w-full sm:w-40"
         >
           {categories.map((c) => (
             <option key={c} value={c}>
@@ -108,14 +108,14 @@ export function FeedToolbar({
       <Select
         value={sortBy}
         onChange={(e) => onSortChange(e.target.value as "date" | "readTime")}
-        className="w-36"
+        className="w-full sm:w-36"
       >
         <option value="date">Newest first</option>
         <option value="readTime">Read time</option>
       </Select>
 
       {/* Search input */}
-      <div className="relative">
+      <div className="relative w-full sm:w-auto">
         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-(--muted-foreground)" />
         <Input
           ref={searchInputRef}
@@ -124,17 +124,17 @@ export function FeedToolbar({
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search articles..."
           aria-label="Search articles"
-          className="w-48 pl-8 focus-visible:w-64 transition-all"
+          className="w-full sm:w-48 pl-8 sm:focus-visible:w-64 transition-all"
         />
       </div>
 
-      <div className="ml-auto">
+      <div className="w-full sm:w-auto sm:ml-auto">
         <Button
           variant="outline"
           size="sm"
           onClick={onFetch}
           disabled={isFetching}
-          className="gap-1.5"
+          className="gap-1.5 w-full sm:w-auto"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
           {isFetching ? "Fetching..." : "Fetch latest"}

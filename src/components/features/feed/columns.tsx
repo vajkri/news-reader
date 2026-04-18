@@ -133,7 +133,7 @@ export function buildColumns({ onToggleRead, searchQuery, feedWatermark }: Colum
       size: 100,
       cell: ({ getValue }) => {
         const val = getValue() as string | null;
-        if (!val) return <span className="text-xs text-(--muted-foreground)">—</span>;
+        if (!val) return <span className="text-xs text-(--muted-foreground)">Unknown</span>;
         try {
           return (
             <span className="text-xs text-(--muted-foreground) whitespace-nowrap">

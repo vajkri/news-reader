@@ -35,12 +35,10 @@ export function HamburgerMenu({
     }
   }, [isOpen, onClose]);
 
-  if (!isOpen) return <></>;
-
   const content = (
     <>
       <div
-        className="fixed inset-0 bg-black/40 z-40"
+        className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -48,7 +46,9 @@ export function HamburgerMenu({
         role="dialog"
         aria-modal="true"
         aria-label="Navigation"
-        className={`fixed top-0 left-0 h-dvh w-72 z-50 bg-(--card) border-r border-(--border) shadow-2xl transform transition-transform duration-200 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        aria-hidden={!isOpen}
+        inert={!isOpen}
+        className={`fixed top-0 left-0 h-dvh w-72 z-50 bg-(--card) border-r border-(--border) shadow-2xl transform transition-transform duration-200 ${isOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"}`}
       >
         <Button
           ref={closeButtonRef}

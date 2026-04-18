@@ -56,7 +56,7 @@ const articleWithThumbnail: ArticleRow = {
   title: 'Introducing Claude 4: Extended Thinking and Multimodal Reasoning',
   link: 'https://anthropic.com/news/claude-4',
   description: 'Claude 4 brings extended thinking, improved multimodal reasoning, and a new 200K context window.',
-  thumbnail: 'https://www.anthropic.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F4zrzovbb%2Fwebsite%2Fplaceholder.png&w=3840&q=75',
+  thumbnail: null,
   publishedAt: '2026-04-03T08:00:00.000Z',
   readTimeMin: 5,
   isRead: false,

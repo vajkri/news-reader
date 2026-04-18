@@ -1,19 +1,8 @@
-import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { parseISO, isValid, isToday, format } from "date-fns";
 import { groupArticlesByTopic } from "@/lib/briefing";
 import type { ArticleRow } from "@/types";
-import {
-  TopicGroup,
-  DateStepper,
-  BriefingDebugBox,
-  SectionDivider,
-  CaughtUpState,
-  ArchiveBanner,
-  StatusBar,
-  PendingSection,
-  TriageSection,
-} from "@/components/features/briefing";
+import { BriefingPageContent } from "@/components/features/briefing";
 import { getWatermark, updateWatermark } from "@/lib/watermark";
 
 export const dynamic = 'force-dynamic';
@@ -56,35 +45,11 @@ export default async function BriefingPage({
     const topicGroups = groupArticlesByTopic(serialized);
 
     return (
-      <div className="reading-container py-6">
-        <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
-          <h1 className="text-lg font-semibold text-(--foreground)">
-            Daily Briefing
-          </h1>
-          <Suspense fallback={<div className="h-8 w-[120px]" />}>
-            <DateStepper />
-          </Suspense>
-        </div>
-
-        <ArchiveBanner date={selectedDate} />
-
-        {topicGroups.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-sm font-semibold text-(--foreground)">
-              No briefing for this day
-            </p>
-            <p className="text-base text-(--muted-foreground) mt-1">
-              No enriched articles were published on this date.
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-16">
-            {topicGroups.map((group) => (
-              <TopicGroup key={group.topic} group={group} />
-            ))}
-          </div>
-        )}
-      </div>
+      <BriefingPageContent
+        isArchiveMode
+        archiveDate={selectedDate}
+        topicGroups={topicGroups}
+      />
     );
   }
 
@@ -184,75 +149,24 @@ export default async function BriefingPage({
   const watermarkLabel = format(watermark, 'h:mm a');
 
   return (
-    <div className="reading-container py-6">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-lg font-semibold text-(--foreground)">
-          Daily Briefing
-        </h1>
-        <Suspense fallback={<div className="h-8 w-[120px]" />}>
-          <DateStepper />
-        </Suspense>
-      </div>
-
-      <BriefingDebugBox
-        windowStart={todayStart.toISOString()}
-        windowEnd={todayEnd.toISOString()}
-        articleCount={newArticles.length + reviewedArticles.length}
-        latestEnrichedAt={lastEnrichedAt}
-        totalInWindow={totalEnriched}
-        unenrichedInWindow={devPendingCount}
-        lowScoreInWindow={0}
-      />
-
-      <StatusBar
-        newCount={newArticles.length}
-        lastVisit={watermark}
-        lastEnrichedAt={lastEnrichedAt}
-        pendingCount={pendingArticles.length}
-      />
-
-      <TriageSection
-        key={triageArticles.map((a) => a.id).join(',')}
-        articles={JSON.parse(JSON.stringify(triageArticles))}
-      />
-
-      <PendingSection articles={JSON.parse(JSON.stringify(pendingArticles))} />
-
-      {newArticles.length === 0 ? (
-        <>
-          <CaughtUpState lastVisit={watermark.toISOString()} />
-          {reviewedTopicGroups.length > 0 && (
-            <>
-              <SectionDivider label="Already reviewed" variant="reviewed" />
-              <div className="space-y-16 text-(--muted-foreground)">
-                {reviewedTopicGroups.map((group) => (
-                  <TopicGroup key={group.topic} group={group} />
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <SectionDivider label={`New since ${watermarkLabel}`} variant="new" />
-          <div className="space-y-16">
-            {newTopicGroups.map((group) => (
-              <TopicGroup key={group.topic} group={group} isNew />
-            ))}
-          </div>
-
-          {reviewedTopicGroups.length > 0 && (
-            <>
-              <SectionDivider label="Already reviewed" variant="reviewed" />
-              <div className="space-y-16 text-(--muted-foreground)">
-                {reviewedTopicGroups.map((group) => (
-                  <TopicGroup key={group.topic} group={group} />
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <BriefingPageContent
+      isArchiveMode={false}
+      watermark={watermark}
+      watermarkLabel={watermarkLabel}
+      newTopicGroups={newTopicGroups}
+      reviewedTopicGroups={reviewedTopicGroups}
+      pendingArticles={JSON.parse(JSON.stringify(pendingArticles))}
+      triageArticles={JSON.parse(JSON.stringify(triageArticles))}
+      lastEnrichedAt={lastEnrichedAt}
+      debug={process.env.NODE_ENV === 'development' ? {
+        windowStart: todayStart.toISOString(),
+        windowEnd: todayEnd.toISOString(),
+        articleCount: newArticles.length + reviewedArticles.length,
+        latestEnrichedAt: lastEnrichedAt,
+        totalInWindow: totalEnriched,
+        unenrichedInWindow: devPendingCount,
+        lowScoreInWindow: 0,
+      } : undefined}
+    />
   );
 }

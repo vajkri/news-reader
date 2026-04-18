@@ -1,73 +1,71 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SourceList } from '@/components/features/sources/SourceList';
-import { SourceForm } from '@/components/features/sources/SourceForm';
+import SourcesPage from '@/app/sources/page';
 import { mockSources } from '@/stories/fixtures';
 
 /**
- * Page-level Sources composition stories.
+ * Page-level Sources stories.
  *
- * The actual Sources page is a Server Component that fetches from Prisma.
- * We compose SourceForm + SourceList with fixture data to recreate
- * meaningful page states.
+ * Uses the actual SourcesPage client component from src/app/sources/page.tsx
+ * with mock fetch to provide fixture data.
  */
 
-interface SourcesPageCompositionProps {
-  sources: typeof mockSources;
-  error?: string;
-}
+type FetchDecorator = (Story: React.ComponentType) => React.ReactElement;
 
-function SourcesPageComposition({
-  sources,
-  error,
-}: SourcesPageCompositionProps) {
-  return (
-    <div className="section-container py-6">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-(--foreground)">RSS Sources</h1>
-        <p className="text-sm text-(--muted-foreground)">
-          Manage the RSS feeds your reader pulls from.
-        </p>
-      </div>
-      <div className="mb-8">
-        <h2 className="text-base font-semibold text-(--foreground) mb-3">
-          Add RSS source
-        </h2>
-        <SourceForm onAdded={() => {}} />
-      </div>
-      <SourceList sources={sources} onDeleted={() => {}} error={error} />
-    </div>
-  );
+function withMockSourcesFetch(
+  sources: typeof mockSources,
+  shouldError = false,
+): FetchDecorator {
+  function MockFetchDecorator(Story: React.ComponentType): React.ReactElement {
+    // eslint-disable-next-line react-hooks/immutability
+    window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = typeof input === 'string' ? input : input.toString();
+      if (url.includes('/api/sources')) {
+        if (init?.method === 'DELETE') {
+          return new Response(null, { status: 200 });
+        }
+        if (init?.method === 'POST') {
+          return new Response(JSON.stringify({ id: 99, name: 'New Source', url: 'https://example.com/feed', category: null, createdAt: new Date().toISOString(), _count: { articles: 0 } }), { status: 201 });
+        }
+        if (shouldError) {
+          return new Response(null, { status: 503, statusText: 'Service Unavailable' });
+        }
+        return new Response(JSON.stringify(sources), { status: 200 });
+      }
+      return window.fetch(input, init);
+    };
+    return <Story />;
+  }
+  MockFetchDecorator.displayName = 'MockFetchDecorator';
+  return MockFetchDecorator;
 }
 
 const meta = {
   title: 'Pages/Sources',
-  component: SourcesPageComposition,
+  component: SourcesPage,
   parameters: {
     layout: 'fullscreen',
+    nextjs: {
+      navigation: {
+        pathname: '/sources',
+      },
+    },
   },
-} satisfies Meta<typeof SourcesPageComposition>;
+} satisfies Meta<typeof SourcesPage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   name: 'Default with sources',
-  args: {
-    sources: mockSources,
-  },
+  decorators: [withMockSourcesFetch(mockSources)],
 };
 
 export const Empty: Story = {
   name: 'No sources',
-  args: {
-    sources: [],
-  },
+  decorators: [withMockSourcesFetch([])],
 };
 
 export const WithError: Story = {
   name: 'With load error',
-  args: {
-    sources: [],
-    error: 'Failed to load sources (503)',
-  },
+  decorators: [withMockSourcesFetch([], true)],
 };

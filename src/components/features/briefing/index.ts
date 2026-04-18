@@ -12,3 +12,5 @@ export { FeedbackButtons } from "./FeedbackButtons";
 export { TriageCard } from "./TriageCard";
 export { TriageSection } from "./TriageSection";
 export { EnrichmentProgress } from "./EnrichmentProgress";
+export { BriefingPageContent } from "./BriefingPageContent";
+export type { BriefingPageContentProps } from "./BriefingPageContent";
